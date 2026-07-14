@@ -15,17 +15,16 @@ const NAV_LINKS = [
     label: "Tour Packages", to: "/tours",
     sub: [
       { label: "All Packages",        to: "/tours"           },
-      { label: "Mountains",           to: "/tours?cat=mountains" },
-      { label: "Beach Getaways",      to: "/tours?cat=beach" },
-      { label: "Heritage & Culture",  to: "/tours?cat=heritage" },
-      { label: "Customize My Trip",   to: "/inquiry"     },
+      { label: "Spiritual Tours",     to: "/tours?cat=spiritual" },
+      { label: "Mountain Retreats",   to: "/tours?cat=mountains" },
+      { label: "Customised Package",  to: "/inquiry"     },
     ],
   },
   { label: "Vehicle Rentals", to: "/vehicles"      },
-  { label: "Weddings",        to: "/weddings"      },
+  { label: "Wedding Travel",  to: "/weddings"      },
   { label: "Destinations",    to: "/destinations"  },
-  { label: "About",           to: "/about"         },
-  { label: "Contact",         to: "/contact"       },
+  { label: "About Us",        to: "/about"         },
+  { label: "Contact Us",      to: "/contact"       },
 ];
 
 export function Navbar() {
