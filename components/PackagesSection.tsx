@@ -11,7 +11,7 @@ import { SectionHeader } from "@/components/ui/SectionHeader";
 const GOLD = "#C9A84C";
 const DARK = "#1A2B1C";
 
-const PKG_FILTERS = ["All", "Mountains", "Beach", "Heritage", "Wildlife"];
+const PKG_FILTERS = ["All", "Spiritual", "Mountains"];
 
 function CountUp({ to, suffix = "" }: { to: number; suffix?: string }) {
   const [val, setVal] = useState(0);
@@ -43,8 +43,8 @@ export function PackagesSection() {
 
   const filteredPkgs =
     pkgFilter === "All"
-      ? PACKAGES.slice(0, 4)
-      : PACKAGES.filter((p) => p.category === pkgFilter.toLowerCase()).slice(0, 4);
+      ? PACKAGES.slice(0, 8)
+      : PACKAGES.filter((p) => p.category === pkgFilter.toLowerCase()).slice(0, 8);
 
   return (
     <div>

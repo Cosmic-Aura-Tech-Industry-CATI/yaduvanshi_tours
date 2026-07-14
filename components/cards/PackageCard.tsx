@@ -79,9 +79,11 @@ export function PackageCard({ pkg, index = 0 }: PackageCardProps) {
 
         <div className="flex items-center justify-between pt-2.5 border-t border-gray-100 mt-auto">
           <div>
-            <div className="text-[10px] text-gray-400 uppercase tracking-wider">Per person</div>
+            <div className="text-[10px] text-gray-400 uppercase tracking-wider">
+              {pkg.slug === "char-dham-yatra" ? "Tempo (17-seat)" : "Per Vehicle"}
+            </div>
             <div className="font-mono font-semibold text-sm" style={{ color: GOLD }}>
-              ₹{pkg.pricePerPerson.toLocaleString("en-IN")}
+              ₹{pkg.packagePrice.toLocaleString("en-IN")}
             </div>
           </div>
           <Link
