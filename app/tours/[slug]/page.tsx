@@ -2,10 +2,8 @@
 
 import { useState, use } from "react";
 import { PACKAGES } from "@/data/packages";
-import { VEHICLES } from "@/data/vehicles";
 import { notFound, useRouter } from "next/navigation";
-import { MapPin, Clock, Users, ArrowRight, ShieldCheck, HelpCircle, Star, Calendar, Car } from "lucide-react";
-import { motion } from "motion/react";
+import { Clock, Users, ArrowRight, ShieldCheck, HelpCircle, Star, Car } from "lucide-react";
 
 const GOLD = "#C9A84C";
 const DARK = "#1A2B1C";
@@ -109,7 +107,7 @@ export default function TourDetailPage({ params }: TourDetailPageProps) {
               ].map((tab) => (
                 <button
                   key={tab.id}
-                  onClick={() => setActiveTab(tab.id as any)}
+                  onClick={() => setActiveTab(tab.id as "itinerary" | "highlights" | "inclusions" | "faqs")}
                   className={`flex-1 text-center py-3 px-4 text-xs font-bold transition-all border-b-2 whitespace-nowrap cursor-pointer ${
                     activeTab === tab.id
                       ? "text-[#C9A84C] border-[#C9A84C]"
@@ -162,7 +160,7 @@ export default function TourDetailPage({ params }: TourDetailPageProps) {
               {activeTab === "inclusions" && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <h4 className="font-display font-bold text-gray-800 text-xs uppercase tracking-wider mb-3">What's Included</h4>
+                    <h4 className="font-display font-bold text-gray-800 text-xs uppercase tracking-wider mb-3">What&apos;s Included</h4>
                     <ul className="space-y-2.5">
                       {pkg.inclusions.map((i, idx) => (
                         <li key={idx} className="flex gap-2 items-start text-gray-600 text-xs leading-relaxed">

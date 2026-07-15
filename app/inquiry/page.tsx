@@ -4,7 +4,7 @@ import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { PACKAGES } from "@/data/packages";
 import { VEHICLES } from "@/data/vehicles";
-import { CheckCircle2, ArrowLeft, ArrowRight, ClipboardSignature, Compass, Calendar, Users, Contact } from "lucide-react";
+import { CheckCircle2, ArrowLeft, ArrowRight, ClipboardSignature, Compass, Calendar, Contact } from "lucide-react";
 
 const GOLD = "#C9A84C";
 const DARK = "#1A2B1C";
@@ -37,6 +37,8 @@ function InquiryForm() {
     const qVeh = searchParams.get("vehicle");
     const qRental = searchParams.get("rental");
 
+    // Sync form with URL search params (functional update avoids stale closure)
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setFormData((prev) => ({
       ...prev,
       type: qType || prev.type,

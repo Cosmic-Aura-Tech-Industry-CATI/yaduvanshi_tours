@@ -1,116 +1,235 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion } from "motion/react";
-import { ChevronLeft, ChevronRight, MapPin, Star } from "lucide-react";
+import { Star, Quote } from "lucide-react";
 import { REVIEWS } from "@/data/reviews";
-import { SectionHeader } from "@/components/ui/SectionHeader";
 
 const GOLD = "#C9A84C";
+const DARK = "#1A2B1C";
+const DARKER = "#131F14";
 
-const IMG = (id: string, w: number, h: number) =>
-  `https://images.unsplash.com/${id}?w=${w}&h=${h}&fit=crop&auto=format&q=85`;
+const AVATAR_URL = (id: string) =>
+  `https://images.unsplash.com/${id}?w=80&h=80&fit=crop&auto=format&q=80`;
 
-export function TestimonialsSection() {
-  const [testIdx, setTestIdx] = useState(0);
+/* Duplicate for seamless looping */
+const ROW_A = [...REVIEWS, ...REVIEWS];
+const ROW_B = [...REVIEWS.slice(4), ...REVIEWS.slice(0, 4), ...REVIEWS.slice(4), ...REVIEWS.slice(0, 4)];
 
+/* ── Card ──────────────────────────────────────────────────────── */
+function TestiCard({ review }: { review: (typeof REVIEWS)[0] }) {
+  return (
+    <div
+      className="flex-shrink-0 w-72 sm:w-80 rounded-2xl p-5 flex flex-col gap-4 mx-3 select-none"
+      style={{
+        background: "rgba(255,255,255,0.04)",
+        border: `1px solid ${GOLD}20`,
+        backdropFilter: "blur(8px)",
+      }}
+    >
+      {/* Quote icon */}
+      <Quote size={22} style={{ color: `${GOLD}70` }} className="-mb-1 flex-shrink-0" />
+
+      {/* Stars */}
+      <div className="flex items-center gap-0.5">
+        {[...Array(5)].map((_, i) => (
+          <Star
+            key={i}
+            size={12}
+            className={i < review.rating ? "fill-current" : "opacity-20"}
+            style={{ color: GOLD }}
+          />
+        ))}
+      </div>
+
+      {/* Quote text */}
+      <p className="text-white/72 text-xs leading-relaxed font-sans line-clamp-4 flex-1">
+        &ldquo;{review.quote}&rdquo;
+      </p>
+
+      {/* Divider */}
+      <div className="h-px" style={{ background: `linear-gradient(to right, ${GOLD}30, transparent)` }} />
+
+      {/* Author */}
+      <div className="flex items-center gap-3">
+        <img
+          src={AVATAR_URL(review.avatarId)}
+          alt={review.name}
+          className="w-9 h-9 rounded-full object-cover flex-shrink-0"
+          style={{ border: `1.5px solid ${GOLD}40` }}
+        />
+        <div className="min-w-0">
+          <div className="text-white text-xs font-semibold font-display truncate">{review.name}</div>
+          <div className="text-white/40 text-[10px] font-mono truncate">{review.location}</div>
+        </div>
+        <div
+          className="ml-auto text-[9px] font-mono px-2 py-0.5 rounded-full flex-shrink-0"
+          style={{ background: `${GOLD}18`, color: GOLD }}
+        >
+          {(review.packageOrVehicle || "Tour").split(" ").slice(0, 2).join(" ")}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ── Marquee Row ───────────────────────────────────────────────── */
+function MarqueeRow({
+  reviews,
+  direction = 1,
+  speed = 35,
+}: {
+  reviews: (typeof REVIEWS);
+  direction?: 1 | -1;
+  speed?: number;
+}) {
+  const [paused, setPaused] = useState(false);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [trackWidth, setTrackWidth] = useState(0);
+
+  /* Measure half-width for seamless reset */
   useEffect(() => {
-    const t = setInterval(() => setTestIdx((p) => (p + 1) % REVIEWS.length), 7000);
-    return () => clearInterval(t);
+    if (trackRef.current) {
+      setTrackWidth(trackRef.current.scrollWidth / 2);
+    }
   }, []);
 
+  const duration = trackWidth > 0 ? trackWidth / speed : 60;
+
   return (
-    <section className="py-20 px-6 lg:px-12 bg-[#FAFAF8] relative overflow-hidden">
-      {/* Quote decoration */}
-      <div
-        className="absolute top-8 left-8 font-display text-[160px] leading-none select-none pointer-events-none"
-        style={{ color: `${GOLD}12` }}
+    <div
+      className="overflow-hidden w-full py-2"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
+      <motion.div
+        ref={trackRef}
+        className="flex"
+        animate={{ x: direction === 1 ? [-trackWidth, 0] : [0, -trackWidth] }}
+        transition={{
+          repeat: Infinity,
+          repeatType: "loop",
+          duration,
+          ease: "linear",
+        }}
+        style={{ animationPlayState: paused ? "paused" : "running" }}
+        /* Framer Motion doesn't use animationPlayState directly — pause via animate */
+        {...(paused && { animate: { x: direction === 1 ? [-trackWidth, 0] : [0, -trackWidth] } })}
       >
-        &ldquo;
-      </div>
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-12">
-          <SectionHeader script="Happy Travelers" heading="What Our Travelers Say" center />
-        </div>
-        <div className="relative">
-          <button
-            onClick={() => setTestIdx((p) => (p - 1 + REVIEWS.length) % REVIEWS.length)}
-            className="absolute -left-3 lg:-left-6 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white border border-gray-200 shadow-md flex items-center justify-center hover:border-[#C9A84C] hover:text-[#C9A84C] transition-all cursor-pointer"
-          >
-            <ChevronLeft size={17} />
-          </button>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 px-4">
-            {[0, 1, 2].map((off) => {
-              const t = REVIEWS[(testIdx + off) % REVIEWS.length];
-              return (
-                <motion.div
-                  key={`${testIdx}-${off}`}
-                  initial={{ opacity: 0, y: 14 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: off * 0.08 }}
-                  className="bg-white rounded-xl p-6 border border-gray-100 relative"
-                >
-                  <div
-                    className="absolute top-4 right-5 font-display text-5xl leading-none select-none"
-                    style={{ color: `${GOLD}25` }}
-                  >
-                    &ldquo;
-                  </div>
-                  <div className="flex items-center gap-3 mb-4">
-                    <div
-                      className="w-11 h-11 rounded-full overflow-hidden bg-gray-200 flex-shrink-0 border-2"
-                      style={{ borderColor: `${GOLD}50` }}
-                    >
-                      <img
-                        src={IMG(t.avatarId, 56, 56)}
-                        alt={t.name}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                    <div>
-                      <div className="font-semibold text-gray-900 text-sm">{t.name}</div>
-                      <div className="text-gray-400 text-xs flex items-center gap-0.5 mt-0.5">
-                        <MapPin size={9} /> {t.location}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex gap-0.5 mb-3">
-                    {Array.from({ length: 5 }).map((_, i) => (
-                      <Star
-                        key={i}
-                        size={12}
-                        className={
-                          i < t.rating ? "fill-amber-400 text-amber-400" : "fill-gray-200 text-gray-200"
-                        }
-                      />
-                    ))}
-                  </div>
-                  <p className="text-gray-600 text-sm leading-relaxed">&ldquo;{t.quote}&rdquo;</p>
-                </motion.div>
-              );
-            })}
+        {reviews.map((rev, i) => (
+          <TestiCard key={`${rev.id}-${i}`} review={rev} />
+        ))}
+      </motion.div>
+    </div>
+  );
+}
+
+/* ── Section ───────────────────────────────────────────────────── */
+export function TestimonialsSection() {
+  const [paused, setPaused] = useState(false);
+
+  /* Animate rows via CSS for smoother performance */
+  return (
+    <section
+      className="py-20 overflow-hidden"
+      style={{ background: DARKER }}
+    >
+      {/* Section header */}
+      <div className="max-w-7xl mx-auto px-6 lg:px-12 mb-12 text-center">
+        <motion.p
+          className="font-script text-2xl mb-2"
+          style={{ color: GOLD }}
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+        >
+          What Our Guests Say
+        </motion.p>
+        <motion.h2
+          className="font-display text-3xl md:text-4xl font-bold text-white"
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.1 }}
+        >
+          Stories from the Road
+        </motion.h2>
+        <motion.div
+          className="flex items-center justify-center gap-2 mt-4"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.2 }}
+        >
+          <div className="flex items-center gap-0.5">
+            {[...Array(5)].map((_, i) => (
+              <Star key={i} size={14} className="fill-current" style={{ color: GOLD }} />
+            ))}
           </div>
-          <button
-            onClick={() => setTestIdx((p) => (p + 1) % REVIEWS.length)}
-            className="absolute -right-3 lg:-right-6 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white border border-gray-200 shadow-md flex items-center justify-center hover:border-[#C9A84C] hover:text-[#C9A84C] transition-all cursor-pointer"
-          >
-            <ChevronRight size={17} />
-          </button>
-        </div>
-        <div className="flex justify-center gap-2 mt-8">
-          {REVIEWS.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => setTestIdx(i)}
-              className="h-1.5 rounded-full transition-all cursor-pointer"
-              style={{
-                width: i === testIdx ? 24 : 6,
-                background: i === testIdx ? GOLD : "#d1d5db",
-              }}
-            />
+          <span className="text-white/50 text-xs font-mono">4.9 / 5 · 500+ happy travellers</span>
+        </motion.div>
+      </div>
+
+      {/* Row 1 — scrolls right to left */}
+      <div
+        className="relative"
+        onMouseEnter={() => setPaused(true)}
+        onMouseLeave={() => setPaused(false)}
+        style={{ maskImage: "linear-gradient(to right, transparent, black 8%, black 92%, transparent)" }}
+      >
+        <div
+          className="flex"
+          style={{
+            animation: `marquee-ltr ${ROW_A.length * 4.5}s linear infinite`,
+            animationPlayState: paused ? "paused" : "running",
+          }}
+        >
+          {ROW_A.map((rev, i) => (
+            <TestiCard key={`a-${rev.id}-${i}`} review={rev} />
           ))}
         </div>
       </div>
+
+      {/* Row 2 — scrolls left to right (reversed) */}
+      <div
+        className="relative mt-4"
+        onMouseEnter={() => setPaused(true)}
+        onMouseLeave={() => setPaused(false)}
+        style={{ maskImage: "linear-gradient(to right, transparent, black 8%, black 92%, transparent)" }}
+      >
+        <div
+          className="flex"
+          style={{
+            animation: `marquee-rtl ${ROW_B.length * 4.5}s linear infinite`,
+            animationPlayState: paused ? "paused" : "running",
+          }}
+        >
+          {ROW_B.map((rev, i) => (
+            <TestiCard key={`b-${rev.id}-${i}`} review={rev} />
+          ))}
+        </div>
+      </div>
+
+      {/* Bottom stat badges */}
+      <motion.div
+        className="flex flex-wrap items-center justify-center gap-8 mt-14 px-6"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.3 }}
+      >
+        {[
+          { num: "500+", label: "Happy Travellers" },
+          { num: "4.9★", label: "Average Rating" },
+          { num: "15+", label: "Years Experience" },
+          { num: "100%", label: "Verified Reviews" },
+        ].map((s) => (
+          <div key={s.label} className="text-center">
+            <div className="font-display font-bold text-2xl text-white">{s.num}</div>
+            <div className="text-white/40 text-xs font-mono mt-0.5">{s.label}</div>
+          </div>
+        ))}
+      </motion.div>
     </section>
   );
 }

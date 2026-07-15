@@ -1,10 +1,7 @@
 "use client";
 
-import { CheckCircle2, Shield, Calendar, Users, Award, Star } from "lucide-react";
+import { Shield, Users, Award, Star } from "lucide-react";
 import { REVIEWS } from "@/data/reviews";
-
-const GOLD = "#C9A84C";
-const DARK = "#1A2B1C";
 
 export default function AboutPage() {
   return (
@@ -105,7 +102,7 @@ export default function AboutPage() {
                   ))}
                 </div>
                 <p className="text-gray-600 text-xs italic font-sans leading-relaxed">
-                  "{rev.quote}"
+                  &ldquo;{rev.quote}&rdquo;
                 </p>
               </div>
               <div className="mt-4 pt-3 border-t border-gray-50 flex items-center justify-between text-[10px] font-mono text-gray-400">

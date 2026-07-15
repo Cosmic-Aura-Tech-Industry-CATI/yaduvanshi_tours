@@ -1,50 +1,16 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
-import { motion, useInView, useScroll, useTransform } from "motion/react";
-import { ArrowRight, Play } from "lucide-react";
+import { motion, useScroll, useTransform, useSpring, AnimatePresence } from "motion/react";
+import { ArrowRight, Play, ChevronDown } from "lucide-react";
 import { DESTINATIONS } from "@/data/destinations";
 
 const GOLD = "#C9A84C";
 const DARK = "#1A2B1C";
-const DARKER = "#131F14";
 
 const IMG = (id: string, w: number, h: number) =>
   `https://images.unsplash.com/${id}?w=${w}&h=${h}&fit=crop&auto=format&q=85`;
-
-const HERO_SCENES = [
-  {
-    img: "photo-1524492412937-b28074a5d7da",
-    label: "Rajasthan",
-    kenBurns: {
-      initial: { scale: 1.0, x: "0%", y: "0%" },
-      animate: { scale: 1.10, x: "-3%", y: "-2%" },
-    },
-    grade: "linear-gradient(160deg,rgba(180,120,30,0.25) 0%,rgba(0,0,0,0) 60%)",
-  },
-  {
-    img: "photo-1602216056096-3b40cc0c9944",
-    label: "Kerala",
-    kenBurns: {
-      initial: { scale: 1.08, x: "2%", y: "2%" },
-      animate: { scale: 1.0, x: "0%", y: "-1%" },
-    },
-    grade: "linear-gradient(180deg,rgba(10,40,20,0.30) 0%,rgba(0,0,0,0) 55%)",
-  },
-  {
-    img: "photo-1506905925346-21bda4d32df4",
-    label: "Himalayas",
-    kenBurns: {
-      initial: { scale: 1.0, x: "0%", y: "1%" },
-      animate: { scale: 1.10, x: "0%", y: "-2%" },
-    },
-    grade: "linear-gradient(200deg,rgba(10,20,60,0.28) 0%,rgba(0,0,0,0) 55%)",
-  },
-];
-
-const SCENE_DURATION = 6000;
-const FADE_DURATION = 1500;
 
 const DEST_THUMBS = DESTINATIONS.slice(0, 5);
 
@@ -54,29 +20,38 @@ const AVATAR_IDS = [
   "photo-1438761681033-6461ffad8d80",
 ];
 
-const TRUST_BADGES = [
-  { emoji: "🏷️", text: "Best Price Guarantee" },
-  { emoji: "👥", text: "10,000+ Happy Travelers" },
-  { emoji: "🕐", text: "24/7 Customer Support" },
-  { emoji: "✨", text: "Customised Tours" },
+const TRUST_STATS = [
+  { value: "10,000+", label: "Happy Travelers", emoji: "✈️" },
+  { value: "40+", label: "Destinations", emoji: "🗺️" },
+  { value: "15+", label: "Years Experience", emoji: "🏆" },
+  { value: "24/7", label: "Support", emoji: "🛡️" },
 ];
+
 
 function CountUp({ to, suffix = "" }: { to: number; suffix?: string }) {
   const [val, setVal] = useState(0);
   const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true });
+  const started = useRef(false);
 
   useEffect(() => {
-    if (!inView) return;
-    let cur = 0;
-    const step = to / 60;
-    const t = setInterval(() => {
-      cur = Math.min(cur + step, to);
-      setVal(Math.floor(cur));
-      if (cur >= to) clearInterval(t);
-    }, 20);
-    return () => clearInterval(t);
-  }, [inView, to]);
+    const obs = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting && !started.current) {
+          started.current = true;
+          let cur = 0;
+          const step = to / 60;
+          const t = setInterval(() => {
+            cur = Math.min(cur + step, to);
+            setVal(Math.floor(cur));
+            if (cur >= to) clearInterval(t);
+          }, 20);
+        }
+      },
+      { threshold: 0.5 }
+    );
+    if (ref.current) obs.observe(ref.current);
+    return () => obs.disconnect();
+  }, [to]);
 
   return (
     <span ref={ref}>
@@ -87,16 +62,84 @@ function CountUp({ to, suffix = "" }: { to: number; suffix?: string }) {
 }
 
 export function Hero() {
-  const [sceneIdx, setSceneIdx] = useState(0);
   const [activeThumb, setActiveThumb] = useState(0);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const [mouse, setMouse] = useState({ x: 0, y: 0 });
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
 
-  const { scrollY } = useScroll();
-  const bgY = useTransform(scrollY, [0, 700], [0, 160]);
+  interface Particle {
+    id: number;
+    size: number;
+    x: number;
+    y: number;
+    duration: number;
+    delay: number;
+    opacity: number;
+  }
+  const [particles, setParticles] = useState<Particle[]>([]);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    const t = setInterval(() => setSceneIdx((p) => (p + 1) % HERO_SCENES.length), SCENE_DURATION);
-    return () => clearInterval(t);
+    setMounted(true);
+    setParticles(
+      Array.from({ length: 14 }, (_, i) => ({
+        id: i,
+        size: Math.random() * 3 + 1.5,
+        x: Math.random() * 100,
+        y: Math.random() * 100,
+        duration: Math.random() * 12 + 8,
+        delay: Math.random() * 6,
+        opacity: Math.random() * 0.35 + 0.1,
+      }))
+    );
   }, []);
+
+
+  const { scrollY } = useScroll();
+  const rawBgY = useTransform(scrollY, [0, 800], [0, 180]);
+  const bgY = useSpring(rawBgY, { stiffness: 80, damping: 25 });
+  const contentY = useTransform(scrollY, [0, 600], [0, 60]);
+  const opacity = useTransform(scrollY, [0, 400], [1, 0]);
+
+  const mouseX = useSpring(0, { stiffness: 60, damping: 20 });
+  const mouseY = useSpring(0, { stiffness: 60, damping: 20 });
+  const taglineX = useTransform(mouseX, (v) => v * -1.5);
+
+  const handleMouseMove = useCallback((e: MouseEvent) => {
+    const rect = sectionRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    const cx = rect.width / 2;
+    const cy = rect.height / 2;
+    mouseX.set(((e.clientX - rect.left - cx) / cx) * 10);
+    mouseY.set(((e.clientY - rect.top - cy) / cy) * 6);
+    setMouse({
+      x: (e.clientX - rect.left - cx) / cx,
+      y: (e.clientY - rect.top - cy) / cy,
+    });
+  }, [mouseX, mouseY]);
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    el.addEventListener("mousemove", handleMouseMove as EventListener);
+    return () => el.removeEventListener("mousemove", handleMouseMove as EventListener);
+  }, [handleMouseMove]);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setPrefersReducedMotion(mq.matches);
+    const fn = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
+    mq.addEventListener("change", fn);
+    return () => mq.removeEventListener("change", fn);
+  }, []);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    if (prefersReducedMotion) video.pause();
+    else video.play().catch(() => {});
+  }, [prefersReducedMotion]);
 
   useEffect(() => {
     const t = setInterval(() => setActiveThumb((p) => (p + 1) % DEST_THUMBS.length), 3200);
@@ -107,221 +150,261 @@ export function Hero() {
   const line2 = ["India", "with", "Us"];
 
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden">
+    <section ref={sectionRef} className="relative min-h-screen flex items-center overflow-hidden select-none">
+
+      {/* ── Video + parallax bg ── */}
       <motion.div className="absolute inset-0" style={{ y: bgY }}>
-        {HERO_SCENES.map((scene, i) => (
-          <motion.div
-            key={scene.label}
-            className="absolute inset-0"
-            animate={{ opacity: i === sceneIdx ? 1 : 0 }}
-            transition={{ duration: FADE_DURATION / 1000, ease: "easeInOut" }}
-            style={{ zIndex: i === sceneIdx ? 2 : 1 }}
-          >
-            <motion.div
-              className="absolute inset-0"
-              initial={scene.kenBurns.initial}
-              animate={i === sceneIdx ? scene.kenBurns.animate : scene.kenBurns.initial}
-              transition={{ duration: SCENE_DURATION / 1000, ease: "linear" }}
-            >
-              <img
-                src={IMG(scene.img, 1920, 1080)}
-                alt={scene.label}
-                className="absolute inset-0 w-full h-full object-cover"
-              />
-            </motion.div>
-            <div className="absolute inset-0" style={{ background: scene.grade }} />
-          </motion.div>
-        ))}
-        <div
-          className="absolute inset-0 z-[3]"
-          style={{
-            background:
-              "linear-gradient(to bottom,rgba(0,0,0,0.48) 0%,rgba(0,0,0,0.08) 38%,rgba(0,0,0,0.72) 100%)",
-          }}
-        />
-        <div
-          className="absolute inset-0 z-[3]"
-          style={{
-            background:
-              "linear-gradient(to right,rgba(0,0,0,0.62) 0%,rgba(0,0,0,0.18) 55%,transparent 100%)",
-          }}
-        />
-        {/* Scene indicator */}
-        <div className="absolute bottom-24 left-8 z-10 hidden lg:flex items-center gap-2">
-          {HERO_SCENES.map((s, i) => (
-            <motion.div
-              key={s.label}
-              animate={{
-                width: i === sceneIdx ? 32 : 6,
-                opacity: i === sceneIdx ? 1 : 0.38,
-              }}
-              transition={{ duration: 0.4 }}
-              className="h-[2px] rounded-full"
-              style={{ background: GOLD }}
-            />
-          ))}
-          <motion.span
-            key={sceneIdx}
-            initial={{ opacity: 0, y: 4 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-            className="text-[10px] tracking-[0.18em] uppercase font-mono ml-1"
-            style={{ color: "rgba(255,255,255,0.55)" }}
-          >
-            {HERO_SCENES[sceneIdx].label}
-          </motion.span>
-        </div>
+        <video
+          ref={videoRef}
+          autoPlay={!prefersReducedMotion}
+          muted loop playsInline preload="auto"
+          poster="/images/hero-poster.webp"
+          className="absolute inset-0 w-full h-full object-cover z-0"
+        >
+          <source src="/videos/hero-video.mp4" type="video/mp4" />
+        </video>
+
+        {/* Cinematic overlays */}
+        <div className="absolute inset-0 z-[2]"
+          style={{ background: "linear-gradient(to bottom,rgba(0,0,0,0.55) 0%,rgba(0,0,0,0.05) 35%,rgba(0,0,0,0.75) 100%)" }} />
+        <div className="absolute inset-0 z-[2]"
+          style={{ background: "linear-gradient(to right,rgba(0,0,0,0.68) 0%,rgba(0,0,0,0.15) 60%,transparent 100%)" }} />
+
+        {/* Ambient gold glow — bottom left */}
+        <div className="absolute bottom-0 left-0 z-[3] pointer-events-none"
+          style={{ width: 600, height: 400, background: `radial-gradient(ellipse at bottom left, ${GOLD}18, transparent 70%)` }} />
       </motion.div>
 
-      {/* Thumbnail rail */}
-      <div className="absolute right-6 top-1/2 -translate-y-1/2 z-10 hidden xl:flex flex-col gap-3">
+      {/* ── Floating Particles ── */}
+      {mounted && !prefersReducedMotion && particles.map((p) => (
+        <motion.div
+          key={p.id}
+          className="absolute rounded-full pointer-events-none z-[4]"
+          style={{
+            width: p.size, height: p.size,
+            left: `${p.x}%`, top: `${p.y}%`,
+            background: GOLD, opacity: p.opacity,
+          }}
+          animate={{
+            y: [0, -30, 0],
+            x: [0, mouse.x * 6, 0],
+            opacity: [p.opacity, p.opacity * 2, p.opacity],
+          }}
+          transition={{ duration: p.duration, delay: p.delay, repeat: Infinity, ease: "easeInOut" }}
+        />
+      ))}
+
+      {/* ── Destination Thumbnails Rail (right side) ── */}
+      <div className="absolute right-5 xl:right-8 top-1/2 -translate-y-1/2 z-10 hidden xl:flex flex-col gap-3">
         {DEST_THUMBS.map((d, i) => (
           <motion.button
             key={d.name}
             onClick={() => setActiveThumb(i)}
-            initial={{ opacity: 0, x: 24 }}
+            initial={{ opacity: 0, x: 28 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 1.2 + i * 0.12 }}
-            className="rounded-full overflow-hidden flex-shrink-0"
+            transition={{ delay: 1.3 + i * 0.1 }}
+            whileHover={{ scale: 1.12 }}
+            className="relative rounded-full overflow-hidden flex-shrink-0 cursor-pointer"
             style={{
-              width: 56,
-              height: 56,
-              border: `2px solid ${i === activeThumb ? GOLD : "rgba(255,255,255,0.25)"}`,
-              transform: i === activeThumb ? "scale(1.12)" : "scale(1)",
-              transition: "all 0.3s",
+              width: 52, height: 52,
+              border: `2.5px solid ${i === activeThumb ? GOLD : "rgba(255,255,255,0.22)"}`,
+              boxShadow: i === activeThumb ? `0 0 16px ${GOLD}60` : "none",
+              transition: "border-color 0.3s, box-shadow 0.3s",
             }}
           >
             <img src={IMG(d.image, 60, 60)} alt={d.name} className="w-full h-full object-cover" />
+            {i === activeThumb && (
+              <div className="absolute inset-0 rounded-full"
+                style={{ background: `${GOLD}22` }} />
+            )}
           </motion.button>
         ))}
       </div>
 
-      {/* Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12 pt-40 pb-32 w-full">
+      {/* ── Main Content ── */}
+      <motion.div
+        className="relative z-10 max-w-7xl mx-auto px-6 lg:px-14 pt-40 pb-36 w-full"
+        style={{ y: contentY, opacity }}
+      >
+        {/* Script tagline */}
         <motion.p
-          className="font-script text-2xl mb-1"
-          style={{ color: GOLD }}
-          initial={{ opacity: 0, y: 10 }}
+          className="font-script text-2xl md:text-3xl mb-2 drop-shadow-sm"
+          style={{ color: GOLD, x: taglineX }}
+          initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
+          transition={{ duration: 0.8 }}
         >
           Explore, Dream, Discover.
         </motion.p>
-        <h1 className="font-display font-bold leading-[1.05] mt-2 mb-4">
-          <div className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl text-white">
+
+        {/* Headline */}
+        <h1 className="font-display font-bold leading-[1.04] mt-2 mb-5">
+          <div className="text-4xl sm:text-5xl lg:text-6xl xl:text-[5.2rem] text-white drop-shadow-lg">
             {line1.map((w, i) => (
               <motion.span
                 key={w}
                 className="inline-block mr-[0.2em]"
-                initial={{ opacity: 0, y: 32, filter: "blur(5px)" }}
+                initial={{ opacity: 0, y: 38, filter: "blur(8px)" }}
                 animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                transition={{ delay: 0.25 + i * 0.08, duration: 0.7 }}
+                transition={{ delay: 0.28 + i * 0.1, duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
               >
                 {w}
               </motion.span>
             ))}
           </div>
-          <div className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl" style={{ color: GOLD }}>
+          <div
+            className="text-4xl sm:text-5xl lg:text-6xl xl:text-[5.2rem] drop-shadow-lg"
+            style={{ color: GOLD }}
+          >
             {line2.map((w, i) => (
               <motion.span
                 key={w}
                 className="inline-block mr-[0.2em]"
-                initial={{ opacity: 0, y: 32 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.41 + i * 0.08, duration: 0.7 }}
+                initial={{ opacity: 0, y: 38, filter: "blur(8px)" }}
+                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                transition={{ delay: 0.52 + i * 0.1, duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
               >
                 {w}
               </motion.span>
             ))}
           </div>
         </h1>
+
+        {/* Subheading */}
         <motion.p
-          className="text-white/70 text-base md:text-lg leading-relaxed max-w-md mb-8"
-          initial={{ opacity: 0, y: 18 }}
+          className="text-white/70 text-base md:text-lg leading-relaxed max-w-lg mb-8"
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.85, duration: 0.6 }}
+          transition={{ delay: 0.95, duration: 0.65 }}
         >
-          Unforgettable journeys through India's most iconic destinations. Luxury, comfort &amp;
-          memories — all in one trip.
+          Unforgettable journeys through India&apos;s most iconic destinations — luxury, comfort &amp; memories crafted just for you.
         </motion.p>
+
+        {/* CTA Buttons */}
         <motion.div
           className="flex flex-col sm:flex-row gap-4 mb-10"
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.0, duration: 0.6 }}
+          transition={{ delay: 1.1, duration: 0.6 }}
         >
           <Link
             href="/tours"
-            className="flex items-center justify-center gap-2 px-7 py-3.5 font-semibold rounded-sm text-sm hover:brightness-90 active:scale-[0.96] transition-all"
+            className="group relative flex items-center justify-center gap-2 px-8 py-4 font-semibold rounded-sm text-sm overflow-hidden transition-all duration-300"
             style={{ background: GOLD, color: DARK }}
           >
-            Discover Packages <ArrowRight size={15} />
+            <span className="absolute inset-0 bg-white/0 group-hover:bg-white/10 transition-colors duration-300 rounded-sm" />
+            <span className="relative flex items-center gap-2">
+              Explore Packages
+              <motion.span
+                animate={{ x: [0, 3, 0] }}
+                transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
+              >
+                <ArrowRight size={15} />
+              </motion.span>
+            </span>
           </Link>
+
           <Link
             href="/inquiry"
-            className="flex items-center justify-center gap-2 px-7 py-3.5 border border-white/35 text-white text-sm rounded-sm hover:border-white/65 hover:bg-white/10 active:scale-[0.96] transition-all"
+            className="group flex items-center justify-center gap-2 px-8 py-4 border text-white text-sm rounded-sm transition-all duration-300 hover:bg-white/10"
+            style={{ borderColor: "rgba(255,255,255,0.35)" }}
           >
-            <Play size={13} className="fill-current" /> Plan My Trip
+            <Play size={13} className="fill-current" />
+            Plan My Trip
           </Link>
         </motion.div>
+
+        {/* Trust Stats — floating glass pills */}
         <motion.div
-          className="flex flex-wrap gap-5 mb-10"
+          className="flex flex-wrap gap-3 mb-10"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 1.25, duration: 0.7 }}
+          transition={{ delay: 1.35, duration: 0.8 }}
         >
-          {TRUST_BADGES.map((b) => (
-            <div key={b.text} className="flex items-center gap-2">
-              <span className="text-base">{b.emoji}</span>
-              <span className="text-white/75 text-xs font-medium">{b.text}</span>
-            </div>
+          {TRUST_STATS.map((s, i) => (
+            <motion.div
+              key={s.label}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.4 + i * 0.1 }}
+              className="flex items-center gap-2.5 px-4 py-2.5 rounded-xl backdrop-blur-md"
+              style={{
+                background: "rgba(255,255,255,0.09)",
+                border: "1px solid rgba(255,255,255,0.18)",
+              }}
+            >
+              <span className="text-sm">{s.emoji}</span>
+              <div>
+                <div className="text-white font-bold text-sm leading-none font-mono">{s.value}</div>
+                <div className="text-white/50 text-[10px] mt-0.5">{s.label}</div>
+              </div>
+            </motion.div>
           ))}
         </motion.div>
+
+        {/* Social proof pill */}
         <motion.div
-          className="inline-flex items-center gap-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl px-4 py-3"
+          className="inline-flex items-center gap-3 rounded-xl px-4 py-3 backdrop-blur-md"
+          style={{
+            background: "rgba(255,255,255,0.09)",
+            border: "1px solid rgba(255,255,255,0.18)",
+          }}
           initial={{ opacity: 0, scale: 0.88 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 1.5 }}
+          transition={{ delay: 1.7, type: "spring", stiffness: 200 }}
         >
-          <div className="flex -space-x-2">
+          <div className="flex -space-x-2.5">
             {AVATAR_IDS.map((src, i) => (
-              <div key={i} className="w-8 h-8 rounded-full border-2 border-white/40 overflow-hidden">
-                <img src={IMG(src, 40, 40)} alt="Traveler" className="w-full h-full object-cover" />
+              <div key={i} className="w-9 h-9 rounded-full border-2 border-white/40 overflow-hidden">
+                <img src={IMG(src, 44, 44)} alt="Traveler" className="w-full h-full object-cover" />
               </div>
             ))}
           </div>
           <div>
-            <div className="text-white font-bold text-sm font-mono">
-              <CountUp to={10000} suffix="+" />
-            </div>
-            <div className="text-white/55 text-xs">Happy Travelers</div>
+            <div className="text-white font-bold text-sm font-mono">10,000+</div>
+            <div className="text-white/50 text-xs">Happy Travelers</div>
+          </div>
+          <div className="flex gap-0.5 ml-1">
+            {[...Array(5)].map((_, i) => (
+              <svg key={i} className="w-3 h-3 fill-amber-400" viewBox="0 0 20 20">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+              </svg>
+            ))}
           </div>
         </motion.div>
-      </div>
-      {/* Scroll cue */}
+      </motion.div>
+
+      {/* ── Scroll indicator ── */}
       <motion.div
-        className="absolute bottom-28 left-1/2 -translate-x-1/2 z-20"
+        className="absolute bottom-24 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-1.5"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 2, duration: 0.7 }}
+        transition={{ delay: 2.2, duration: 0.8 }}
       >
+        <span className="text-white/35 text-[9px] tracking-[0.25em] uppercase font-mono">Scroll</span>
         <motion.div
-          className="w-px h-10 mx-auto bg-gradient-to-b from-white/50 to-transparent"
+          animate={{ y: [0, 8, 0] }}
+          transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <ChevronDown size={18} className="text-white/40" />
+        </motion.div>
+        <motion.div
+          style={{ height: 32, originY: "top", width: 1, background: "linear-gradient(to bottom, rgba(255,255,255,0.4), transparent)" }}
           animate={{ scaleY: [0, 1, 0] }}
-          style={{ originY: "top" }}
           transition={{ duration: 1.8, repeat: Infinity }}
         />
       </motion.div>
-      {/* Wave divider */}
+
+      {/* ── Wave divider ── */}
       <div className="absolute bottom-0 inset-x-0 z-20">
-        <svg viewBox="0 0 1440 80" className="w-full" preserveAspectRatio="none">
+        <svg viewBox="0 0 1440 72" className="w-full" preserveAspectRatio="none">
           <motion.path
-            fill="#FAFAF8"
+            fill="#1A2B1C"
             animate={{
               d: [
-                "M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z",
-                "M0,46 C360,74 1080,6 1440,34 L1440,80 L0,80 Z",
-                "M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z",
+                "M0,36 C360,72 1080,0 1440,36 L1440,72 L0,72 Z",
+                "M0,42 C360,68 1080,4 1440,30 L1440,72 L0,72 Z",
+                "M0,36 C360,72 1080,0 1440,36 L1440,72 L0,72 Z",
               ],
             }}
             transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}

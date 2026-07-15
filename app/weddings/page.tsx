@@ -12,37 +12,37 @@ const WEDDING_FLEET = [
     name: "Mercedes-Benz E-Class",
     category: "Luxury Flagship",
     tagline: "Ultimate luxury and styling for the bride & groom's grand exit.",
-    image: "photo-1555215695-3004980ad54e",
+    image: "/weddings/wedding-car.webp",
   },
   {
     name: "Audi A6 Sedan",
     category: "Luxury Elite",
     tagline: "Sophisticated styling and panoramic comfort for VIP entries.",
-    image: "photo-1494976388531-d1058494cdd8",
+    image: "/weddings/wedding-convoy.webp",
   },
   {
     name: "Toyota Fortuner",
     category: "Command SUV",
     tagline: "Unmatched road presence for the groom's baraat leading caravan.",
-    image: "photo-1533473359331-0135ef1b58bf",
+    image: "/vehicles/toyota-fortuner.webp",
   },
   {
     name: "Honda City (Sunroof)",
     category: "Executive Sedan",
     tagline: "Premium comfort and sunroof capture moments for the bride's arrival.",
-    image: "photo-1583121274602-3e2820c69888",
+    image: "/weddings/wedding-couple.webp",
   },
   {
     name: "Mahindra Scorpio",
     category: "Commanding Escort",
     tagline: "High stability and presence for bridal family logistics.",
-    image: "photo-1606016159991-dfe4f974be5c",
+    image: "/vehicles/toyota-innova-crysta.webp",
   },
   {
     name: "Hyundai Verna (Sunroof)",
     category: "Executive Sport",
     tagline: "Dynamic look, perfect for modern photoshoot themes.",
-    image: "photo-1541899481282-d53bffe3c35d",
+    image: "/vehicles/maruti-dzire.webp",
   },
 ];
 
@@ -118,7 +118,7 @@ export default function WeddingsPage() {
             <div key={idx} className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 group flex flex-col">
               <div className="h-48 overflow-hidden bg-gray-100 relative">
                 <img
-                  src={`https://images.unsplash.com/${car.image}?w=600&h=400&fit=crop&auto=format&q=80`}
+                  src={car.image}
                   alt={car.name}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />
