@@ -61,7 +61,7 @@ export function RentalCard({ vehicle: v, rentalType: _rentalType, index = 0 }: R
       }}
     >
       {/* Image */}
-      <div className="relative h-48 overflow-hidden bg-black/30">
+      <div className="relative h-64 overflow-hidden bg-black/30">
         {/* Shimmer */}
         <div
           className="absolute inset-0 -translate-x-full group-hover:translate-x-full z-10 pointer-events-none transition-transform duration-[900ms]"
@@ -73,14 +73,14 @@ export function RentalCard({ vehicle: v, rentalType: _rentalType, index = 0 }: R
         />
 
         <img
-          src={resolveImg(v.image, 600, 380)}
+          src={resolveImg(v.image, 600, 420)}
           alt={v.name}
           className="w-full h-full object-cover transition-transform duration-700"
           style={{ transform: hovered ? "scale(1.06)" : "scale(1)" }}
         />
 
         {/* Gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
 
         {/* Category + Luxury badge */}
         <div className="absolute top-3 left-3 flex gap-1.5">
@@ -110,10 +110,10 @@ export function RentalCard({ vehicle: v, rentalType: _rentalType, index = 0 }: R
       </div>
 
       {/* Content */}
-      <div className="p-4 flex flex-col flex-1">
-        <div className="text-[9px] text-white/35 uppercase tracking-[0.2em] font-mono mb-0.5">{v.brand}</div>
+      <div className="p-5 flex flex-col flex-1">
+        <div className="text-[10px] text-white/35 uppercase tracking-[0.2em] font-mono mb-0.5">{v.brand}</div>
         <h3
-          className="font-display font-bold text-base leading-tight transition-colors duration-300"
+          className="font-display font-bold text-lg leading-tight transition-colors duration-300"
           style={{ color: hovered ? GOLD : "white" }}
         >
           {v.name}
@@ -121,27 +121,27 @@ export function RentalCard({ vehicle: v, rentalType: _rentalType, index = 0 }: R
 
         {/* Pricing */}
         {pricing && (
-          <div className="mt-2">
-            <div className="font-mono font-bold text-sm" style={{ color: GOLD }}>{pricing.primary}</div>
+          <div className="mt-3">
+            <div className="font-mono font-bold text-base" style={{ color: GOLD }}>{pricing.primary}</div>
             <div className="text-white/40 text-[10px] font-mono mt-0.5">{pricing.secondary}</div>
           </div>
         )}
 
         {/* Specs */}
-        <div className="flex gap-4 mt-3">
+        <div className="flex gap-4 mt-4">
           <span className="flex items-center gap-1.5 text-white/55 text-xs">
-            <Users size={11} style={{ color: GOLD }} />
+            <Users size={12} style={{ color: GOLD }} />
             <span className="font-mono">{v.seats} Seats</span>
           </span>
           <span className="flex items-center gap-1.5 text-white/55 text-xs">
-            <Fuel size={11} style={{ color: GOLD }} />
+            <Fuel size={12} style={{ color: GOLD }} />
             <span className="font-mono">{v.fuel}</span>
           </span>
           <span className="text-white/55 text-xs font-mono">AC</span>
         </div>
 
         {/* CTAs */}
-        <div className="flex gap-2 mt-4">
+        <div className="flex gap-2 mt-5">
           <Link
             href={`/vehicles/${v.slug}`}
             className="flex-1 text-center text-xs font-semibold py-2.5 rounded-lg border transition-all duration-200"

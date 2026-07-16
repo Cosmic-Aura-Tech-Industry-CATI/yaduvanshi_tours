@@ -14,6 +14,11 @@ const FEATURES = [
   "24/7 dedicated wedding transport desk",
 ];
 
+const resolveImg = (src: string, w: number, h: number) =>
+  src.startsWith("/")
+    ? src
+    : `https://images.unsplash.com/${src}?w=${w}&h=${h}&fit=crop&auto=format&q=85`;
+
 const GALLERY_IMGS = [
   { src: "/weddings/wedding-car.webp",     alt: "Decorated luxury wedding car" },
   { src: "/weddings/wedding-couple.webp",  alt: "Bridal grand entry" },
@@ -50,7 +55,7 @@ export function WeddingSection() {
           <div className="grid grid-cols-12 gap-4">
             <div className="col-span-8 rounded-2xl overflow-hidden h-72 sm:h-96 shadow-xl group relative">
               <img
-                src={GALLERY_IMGS[0].src}
+                src={resolveImg(GALLERY_IMGS[0].src, 750, 550)}
                 alt={GALLERY_IMGS[0].alt}
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
               />
@@ -58,21 +63,21 @@ export function WeddingSection() {
             </div>
             <div className="col-span-4 rounded-2xl overflow-hidden h-40 sm:h-52 self-end shadow-lg group relative">
               <img
-                src={GALLERY_IMGS[1].src}
+                src={resolveImg(GALLERY_IMGS[1].src, 450, 450)}
                 alt={GALLERY_IMGS[1].alt}
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
               />
             </div>
             <div className="col-span-4 rounded-2xl overflow-hidden h-40 sm:h-52 self-start shadow-lg group relative">
               <img
-                src={GALLERY_IMGS[2].src}
+                src={resolveImg(GALLERY_IMGS[2].src, 450, 450)}
                 alt={GALLERY_IMGS[2].alt}
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
               />
             </div>
             <div className="col-span-8 rounded-2xl overflow-hidden h-48 sm:h-64 shadow-xl group relative">
               <img
-                src={GALLERY_IMGS[3].src}
+                src={resolveImg(GALLERY_IMGS[3].src, 750, 500)}
                 alt={GALLERY_IMGS[3].alt}
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
               />

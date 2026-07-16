@@ -7,6 +7,11 @@ import { ArrowRight, ShieldCheck, Heart, UserCheck, Sparkles, Star } from "lucid
 const GOLD = "#C9A84C";
 const DARK = "#1A2B1C";
 
+const resolveImg = (src: string, w: number, h: number) =>
+  src.startsWith("/")
+    ? src
+    : `https://images.unsplash.com/${src}?w=${w}&h=${h}&fit=crop&auto=format&q=85`;
+
 const WEDDING_FLEET = [
   {
     name: "Mercedes-Benz E-Class",
@@ -118,7 +123,7 @@ export default function WeddingsPage() {
             <div key={idx} className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 group flex flex-col">
               <div className="h-48 overflow-hidden bg-gray-100 relative">
                 <img
-                  src={car.image}
+                  src={resolveImg(car.image, 600, 400)}
                   alt={car.name}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />

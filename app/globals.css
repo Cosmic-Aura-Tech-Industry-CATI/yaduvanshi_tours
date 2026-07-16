@@ -198,3 +198,12 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none !important;
+    overflow-x: auto !important;
+    width: auto !important;
+  }
+}
+

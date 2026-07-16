@@ -21,15 +21,12 @@ const NAV_LINKS = [
   {
     label: "Tour Packages", to: "/tours",
     sub: [
-      { label: "All Packages",       to: "/tours"                },
-      { label: "Spiritual Tours",    to: "/tours?cat=spiritual"  },
-      { label: "Mountain Retreats",  to: "/tours?cat=mountains"  },
-      { label: "Customised Package", to: "/inquiry"              },
+      { label: "Explore Tours",             to: "/tours"   },
+      { label: "Customized Tour Packages",  to: "/inquiry" },
     ],
   },
   { label: "Vehicle Rentals", to: "/vehicles"    },
   { label: "Wedding Travel",  to: "/weddings"    },
-  { label: "Destinations",    to: "/destinations"},
   { label: "About Us",        to: "/about"       },
   { label: "Contact Us",      to: "/contact"     },
 ];
@@ -70,12 +67,12 @@ function MagneticBtn({ children, href }: { children: React.ReactNode; href: stri
 function DropMenu({ items }: { items: { label: string; to: string }[] }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 8, scale: 0.97 }}
+      initial={{ opacity: 0, y: 12, scale: 0.95 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
-      exit={{ opacity: 0, y: 8, scale: 0.97 }}
-      transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+      exit={{ opacity: 0, y: 8, scale: 0.96 }}
+      transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
       className="absolute top-full left-0 mt-3 w-56 rounded-xl overflow-hidden shadow-2xl z-50"
-      style={{ background: "rgba(26,43,28,0.97)", border: `1px solid ${GOLD}28`, backdropFilter: "blur(12px)" }}
+      style={{ background: "rgba(20, 35, 22, 0.98)", border: `1px solid ${GOLD}30`, backdropFilter: "blur(16px)" }}
     >
       {items.map((item, i) => (
         <motion.div
@@ -125,17 +122,18 @@ export function Navbar() {
 
   return (
     <>
-      {/* ── Premium Info Bar ─────────────────────────────────── */}
-      <AnimatePresence>
-        {infoVisible && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="hidden md:block overflow-hidden z-[60] relative"
-            style={{ background: DARK, borderBottom: `1px solid ${GOLD}22` }}
-          >
+      <div className="fixed top-0 left-0 right-0 z-50 flex flex-col pointer-events-none">
+        {/* ── Premium Info Bar ─────────────────────────────────── */}
+        <AnimatePresence>
+          {infoVisible && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="hidden md:block overflow-hidden z-[60] relative pointer-events-auto"
+              style={{ background: DARK, borderBottom: `1px solid ${GOLD}22` }}
+            >
             <div className="max-w-7xl mx-auto px-6 lg:px-10 flex items-center justify-between py-1.5 text-xs gap-6">
               <div className="flex items-center gap-6 flex-wrap">
                 {INFO_ITEMS.slice(2).map((item, i) => (
@@ -154,7 +152,7 @@ export function Navbar() {
                       {item.text}
                     </a>
                   ) : (
-                    <span key={i} className="flex items-center gap-1.5 text-white/50">
+                    <span key={i} className="flex items-center gap-1.5 text-white/55">
                       <item.icon size={11} style={{ color: GOLD }} />
                       {item.text}
                     </span>
@@ -166,12 +164,11 @@ export function Navbar() {
         )}
       </AnimatePresence>
 
-      {/* ── Main Header ─────────────────────────────────────── */}
-      <motion.header
-        className="fixed left-0 right-0 z-50 px-6 lg:px-10 py-3.5"
-        style={{ top: 0 }}
-        animate={{
-          backgroundColor: solidBg ? "rgba(26,43,28,0.95)" : "rgba(0,0,0,0)",
+        {/* ── Main Header ─────────────────────────────────────── */}
+        <motion.header
+          className="w-full px-6 lg:px-10 py-5 pointer-events-auto"
+          animate={{
+          backgroundColor: solidBg ? "rgba(26,43,28,0.96)" : "rgba(0,0,0,0)",
           backdropFilter: solidBg ? "blur(14px)" : "blur(0px)",
           boxShadow: solidBg ? `0 2px 28px rgba(0,0,0,0.32), 0 0 0 1px ${GOLD}18` : "none",
         }}
@@ -179,19 +176,26 @@ export function Navbar() {
       >
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2.5">
-            <svg viewBox="0 0 32 32" className="w-9 h-9 flex-shrink-0" fill="none">
-              <polygon points="16,3 29,27 3,27" stroke={GOLD} strokeWidth="2" strokeLinejoin="round" />
-              <polygon points="16,10 23,23 9,23" fill={GOLD} opacity="0.35" />
-            </svg>
+          <Link href="/" className="flex items-center gap-3 group">
+            <div className="w-10 h-10 rounded-full overflow-hidden border border-[#C9A84C] bg-white flex items-center justify-center relative shadow-[0_0_12px_rgba(201,168,76,0.3)] flex-shrink-0">
+              <img
+                src="/images/logo.png"
+                alt="Yaduvanshi Tours Logo"
+                className="w-full h-full object-cover"
+              />
+            </div>
             <div>
-              <div className="font-display font-bold text-white text-lg leading-none tracking-wide">Yaduvanshi</div>
-              <div className="text-[9px] tracking-[0.25em] uppercase mt-0.5" style={{ color: "rgba(255,255,255,0.4)" }}>Tours &amp; Travels</div>
+              <div className="font-display font-bold text-white text-lg leading-none tracking-wide group-hover:text-[#C9A84C] transition-colors">
+                Yaduvanshi
+              </div>
+              <div className="text-[9px] tracking-[0.25em] uppercase mt-0.5" style={{ color: "rgba(255,255,255,0.45)" }}>
+                Tours &amp; Travels
+              </div>
             </div>
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center gap-1">
+          <nav className="hidden lg:flex items-center gap-5">
             {NAV_LINKS.map((link) => {
               const isActive = link.sub
                 ? pathname.startsWith("/tours")
@@ -199,25 +203,25 @@ export function Navbar() {
 
               if (link.sub) {
                 return (
-                  <div key={link.label} className="relative"
+                  <div key={link.label} className="relative animate-none"
                     onMouseEnter={() => setMegaOpen(true)}
                     onMouseLeave={() => setMegaOpen(false)}
                   >
                     <button
-                      className="relative flex items-center gap-1 px-3 py-2 text-sm rounded-md transition-all"
-                      style={{ color: isActive ? "white" : "rgba(255,255,255,0.7)" }}
+                      className="relative flex items-center gap-1.5 px-3 py-2 text-sm rounded-md transition-colors group"
+                      style={{ color: isActive ? "white" : "rgba(255,255,255,0.75)" }}
                     >
-                      {link.label}
-                      <motion.span animate={{ rotate: megaOpen ? 180 : 0 }} transition={{ duration: 0.2 }}>
+                      <span className="relative z-10 transition-colors group-hover:text-white">{link.label}</span>
+                      <motion.span animate={{ rotate: megaOpen ? 180 : 0 }} transition={{ duration: 0.2 }} className="group-hover:text-white">
                         <ChevronDown size={13} />
                       </motion.span>
-                      {isActive && (
-                        <motion.span layoutId="nav-pill"
-                          className="absolute inset-0 rounded-md -z-10"
-                          style={{ background: "rgba(201,168,76,0.12)" }}
-                          transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                        />
-                      )}
+                      {/* Smooth Underline animation */}
+                      <span 
+                        className="absolute bottom-0 left-3 right-3 h-0.5 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center"
+                        style={{ background: GOLD, transform: isActive ? "scaleX(1)" : undefined }}
+                      />
+                      {/* Subtle hover background pill */}
+                      <span className="absolute inset-0 rounded-md bg-white/0 group-hover:bg-white/5 transition-colors duration-300 -z-10" />
                     </button>
 
                     <AnimatePresence>
@@ -229,23 +233,17 @@ export function Navbar() {
 
               return (
                 <Link key={link.label} href={link.to}
-                  className="relative px-3 py-2 text-sm rounded-md transition-colors"
-                  style={{ color: isActive ? "white" : "rgba(255,255,255,0.7)" }}
+                  className="relative px-3 py-2 text-sm rounded-md transition-colors group"
+                  style={{ color: isActive ? "white" : "rgba(255,255,255,0.75)" }}
                 >
-                  {link.label}
-                  {/* Active underline */}
-                  <motion.span
-                    className="absolute bottom-1 left-3 right-3 h-px"
-                    style={{ background: GOLD }}
-                    animate={{ scaleX: isActive ? 1 : 0, opacity: isActive ? 1 : 0 }}
-                    transition={{ duration: 0.25 }}
+                  <span className="relative z-10 transition-colors group-hover:text-white">{link.label}</span>
+                  {/* Smooth Underline animation */}
+                  <span 
+                    className="absolute bottom-0 left-3 right-3 h-0.5 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center"
+                    style={{ background: GOLD, transform: isActive ? "scaleX(1)" : undefined }}
                   />
-                  {/* Hover background */}
-                  <motion.span
-                    className="absolute inset-0 rounded-md -z-10"
-                    style={{ background: "rgba(255,255,255,0)" }}
-                    whileHover={{ background: "rgba(255,255,255,0.05)" }}
-                  />
+                  {/* Subtle hover background pill */}
+                  <span className="absolute inset-0 rounded-md bg-white/0 group-hover:bg-white/5 transition-colors duration-300 -z-10" />
                 </Link>
               );
             })}
@@ -267,6 +265,7 @@ export function Navbar() {
           </div>
         </div>
       </motion.header>
+    </div>
 
       {/* ── Mobile Fullscreen Menu ───────────────────────────── */}
       <AnimatePresence>
@@ -281,11 +280,14 @@ export function Navbar() {
           >
             {/* Mobile header */}
             <div className="flex justify-between items-center mb-10">
-              <div className="flex items-center gap-2.5">
-                <svg viewBox="0 0 32 32" className="w-8 h-8" fill="none">
-                  <polygon points="16,3 29,27 3,27" stroke={GOLD} strokeWidth="2" strokeLinejoin="round" />
-                  <polygon points="16,10 23,23 9,23" fill={GOLD} opacity="0.35" />
-                </svg>
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-full overflow-hidden border border-[#C9A84C] bg-white flex items-center justify-center flex-shrink-0">
+                  <img
+                    src="/images/logo.png"
+                    alt="Yaduvanshi Tours Logo"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
                 <span className="font-display font-bold text-white text-lg">Yaduvanshi Tours</span>
               </div>
               <button onClick={() => setMobileOpen(false)}
@@ -302,25 +304,34 @@ export function Navbar() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: i * 0.055, duration: 0.36, ease: [0.22, 1, 0.36, 1] }}
                 >
-                  <Link href={link.to}
-                    className="block py-3.5 text-2xl font-display text-white/80 hover:text-white border-b border-white/8 transition-colors"
-                    style={{ borderColor: pathname === link.to ? `${GOLD}40` : "rgba(255,255,255,0.06)",
-                             color: pathname === link.to ? "#fff" : undefined }}
-                  >
-                    {pathname === link.to && (
-                      <span className="inline-block w-1.5 h-1.5 rounded-full mr-2 -mb-0.5" style={{ background: GOLD }} />
-                    )}
-                    {link.label}
-                  </Link>
-                  {link.sub && (
-                    <div className="flex flex-col gap-0 pl-4 mb-2">
-                      {link.sub.slice(1).map((s) => (
-                        <Link key={s.label} href={s.to}
-                          className="py-2 text-sm text-white/45 hover:text-white/80 transition-colors">
-                          {s.label}
-                        </Link>
-                      ))}
+                  {link.sub ? (
+                    <div className="block py-3.5 border-b border-white/8" style={{ borderColor: pathname.startsWith("/tours") ? `${GOLD}40` : "rgba(255,255,255,0.06)" }}>
+                      <div className="text-2xl font-display text-white/80 flex items-center gap-1.5">
+                        {pathname.startsWith("/tours") && (
+                          <span className="inline-block w-1.5 h-1.5 rounded-full" style={{ background: GOLD }} />
+                        )}
+                        {link.label}
+                      </div>
+                      <div className="flex flex-col gap-1 pl-4 mt-2">
+                        {link.sub.map((s) => (
+                          <Link key={s.label} href={s.to}
+                            className="py-2 text-base text-white/55 hover:text-white transition-colors">
+                            {s.label}
+                          </Link>
+                        ))}
+                      </div>
                     </div>
+                  ) : (
+                    <Link href={link.to}
+                      className="block py-3.5 text-2xl font-display text-white/80 hover:text-white border-b border-white/8 transition-colors"
+                      style={{ borderColor: pathname === link.to ? `${GOLD}40` : "rgba(255,255,255,0.06)",
+                               color: pathname === link.to ? "#fff" : undefined }}
+                    >
+                      {pathname === link.to && (
+                        <span className="inline-block w-1.5 h-1.5 rounded-full mr-2 -mb-0.5" style={{ background: GOLD }} />
+                      )}
+                      {link.label}
+                    </Link>
                   )}
                 </motion.div>
               ))}
