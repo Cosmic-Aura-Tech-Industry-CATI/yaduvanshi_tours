@@ -3,8 +3,8 @@
 import { motion } from "motion/react";
 import { ShieldCheck, Car, IndianRupee, Headphones, Lock } from "lucide-react";
 
-const GOLD = "#C9A84C";
-const DARK = "#1A2B1C";
+const BRASS = "#CF9D7B";
+const COFFEE = "#724B39";
 
 const FEATURES = [
   {
@@ -14,44 +14,50 @@ const FEATURES = [
   },
   {
     icon: Car,
-    title: "Experienced Drivers",
-    desc: "Trained & background-verified",
+    title: "Expert Drivers",
+    desc: "Trained & verified escorts",
   },
   {
     icon: IndianRupee,
-    title: "Transparent Pricing",
-    desc: "No hidden charges ever",
+    title: "Best Value",
+    desc: "Transparent rates, no hidden fees",
   },
   {
     icon: Headphones,
-    title: "24/7 Support",
-    desc: "Always here when you need us",
+    title: "Royal Support",
+    desc: "24/7 concierge assistance",
   },
   {
     icon: Lock,
-    title: "Secure Payments",
-    desc: "Safe & encrypted booking",
+    title: "Encrypted Booking",
+    desc: "Secure payment channels",
   },
 ];
 
 export function TrustStrip() {
   return (
     <section
-      className="relative py-5 overflow-hidden"
-      style={{ background: DARK }}
+      className="relative py-6 overflow-hidden"
+      style={{ background: "#0C1519" }}
     >
-      {/* Subtle top border glow */}
-      <div
-        className="absolute top-0 inset-x-0 h-px pointer-events-none"
-        style={{ background: `linear-gradient(to right, transparent, ${GOLD}60, transparent)` }}
-      />
-      <div
-        className="absolute bottom-0 inset-x-0 h-px pointer-events-none"
-        style={{ background: `linear-gradient(to right, transparent, ${GOLD}30, transparent)` }}
-      />
+      {/* Ambient glow blobs */}
+      <div className="ambient-blob-brass" style={{ top: "-100px", left: "10%" }} />
+      <div className="ambient-blob-coffee" style={{ top: "-80px", right: "15%" }} />
 
-      <div className="max-w-7xl mx-auto px-6 lg:px-12">
-        <div className="flex flex-wrap justify-center md:justify-between items-center gap-x-4 gap-y-3">
+      {/* Top glow divider */}
+      <div className="glow-divider absolute top-0 inset-x-0" />
+      {/* Bottom glow divider */}
+      <div className="glow-divider absolute bottom-0 inset-x-0" />
+
+      <div className="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
+        <div 
+          className="flex flex-nowrap overflow-x-auto lg:overflow-x-visible md:overflow-x-visible items-center justify-between gap-6 p-6 rounded-2xl border custom-scrollbar"
+          style={{
+            background: "rgba(58, 53, 52, 0.2)",
+            borderColor: "rgba(207, 157, 123, 0.25)",
+            boxShadow: "0 8px 32px rgba(0, 0, 0, 0.4), 0 0 20px rgba(207, 157, 123, 0.05)"
+          }}
+        >
           {FEATURES.map((f, i) => (
             <motion.div
               key={f.title}
@@ -59,33 +65,46 @@ export function TrustStrip() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.08, duration: 0.5 }}
-              whileHover={{ y: -2 }}
-              className="group flex items-center gap-3 cursor-default"
+              whileHover={{ y: -4 }}
+              className="group flex items-center gap-3.5 cursor-default flex-shrink-0"
             >
-              {/* Icon container */}
+              {/* Icon container — glass with glow */}
               <motion.div
-                className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
+                className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 border"
                 style={{
-                  background: `${GOLD}18`,
-                  border: `1px solid ${GOLD}35`,
+                  background: "rgba(22, 33, 39, 0.6)",
+                  borderColor: "rgba(207, 157, 123, 0.2)",
+                  boxShadow: `0 0 12px rgba(207, 157, 123, 0.15)`,
                 }}
-                whileHover={{ scale: 1.15, rotate: 5 }}
+                whileHover={{
+                  scale: 1.15,
+                  rotate: 4,
+                  borderColor: "#E8B96A",
+                  boxShadow: `0 0 22px rgba(232, 185, 106, 0.35), 0 0 44px rgba(232, 185, 106, 0.12)`,
+                }}
                 transition={{ type: "spring", stiffness: 400, damping: 12 }}
               >
-                <f.icon size={16} style={{ color: GOLD }} />
+                <f.icon size={18} className="transition-all duration-300 group-hover:text-[#E8B96A] group-hover:drop-shadow-[0_0_8px_rgba(232,185,106,0.6)] text-[#CF9D7B]" />
               </motion.div>
 
               <div>
-                <div className="text-white text-xs font-semibold leading-none">{f.title}</div>
-                <div className="text-white/40 text-[10px] mt-0.5 font-mono">{f.desc}</div>
+                <div className="text-white text-xs font-bold leading-none font-accent tracking-widest uppercase">{f.title}</div>
+                <div className="text-[#D8CFC7]/50 text-[10px] mt-1 font-mono tracking-wide">{f.desc}</div>
               </div>
 
-              {/* Separator */}
+              {/* Constellation connecting glow line */}
               {i < FEATURES.length - 1 && (
-                <div
-                  className="hidden md:block w-px h-7 ml-4 flex-shrink-0"
-                  style={{ background: "rgba(255,255,255,0.10)" }}
-                />
+                <div className="hidden lg:flex items-center ml-6 flex-shrink-0">
+                  <div className="w-1 h-1 rounded-full" style={{ background: `${BRASS}30` }} />
+                  <div
+                    className="w-10 h-px"
+                    style={{
+                      background: `linear-gradient(to right, ${BRASS}30, ${COFFEE}15, transparent)`,
+                      boxShadow: `0 0 4px ${BRASS}20`,
+                    }}
+                  />
+                  <div className="w-0.5 h-0.5 rounded-full" style={{ background: `${COFFEE}30` }} />
+                </div>
               )}
             </motion.div>
           ))}

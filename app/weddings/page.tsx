@@ -2,10 +2,11 @@
 
 import Link from "next/link";
 import { motion } from "motion/react";
-import { ArrowRight, ShieldCheck, Heart, UserCheck, Sparkles, Star } from "lucide-react";
+import { ArrowRight, Heart, UserCheck, Sparkles } from "lucide-react";
 
-const GOLD = "#C9A84C";
-const DARK = "#1A2B1C";
+const BRASS = "#CF9D7B";
+const COFFEE = "#724B39";
+const GOLD = "#E8B96A";
 
 const resolveImg = (src: string, w: number, h: number) =>
   src.startsWith("/")
@@ -53,33 +54,46 @@ const WEDDING_FLEET = [
 
 export default function WeddingsPage() {
   return (
-    <div className="bg-[#FAFAF8] min-h-screen pt-28 pb-20">
+    <div className="bg-[#0C1519] min-h-screen pt-28 pb-20 text-[#D8CFC7] overflow-hidden relative">
+      {/* Background blobs for firelight depth */}
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full pointer-events-none z-0 opacity-10"
+        style={{ background: `radial-gradient(circle, ${BRASS}, transparent 70%)` }} />
+      <div className="absolute bottom-1/4 left-0 w-[600px] h-[600px] rounded-full pointer-events-none z-0 opacity-5"
+        style={{ background: `radial-gradient(circle, ${COFFEE}, transparent 70%)` }} />
+
       {/* Immersive Header */}
-      <section className="bg-[#1A2B1C] text-white py-20 px-6 relative overflow-hidden border-b border-[#C9A84C]/20">
-        <div className="absolute inset-0 opacity-5 bg-[linear-gradient(to_right,#C9A84C_1px,transparent_1px),linear-gradient(to_bottom,#C9A84C_1px,transparent_1px)] bg-[size:24px_24px]" />
-        <div className="max-w-7xl mx-auto text-center relative z-10 space-y-4">
-          <span className="text-[#C9A84C] font-mono text-xs uppercase tracking-widest block">Premium Wedding Travel</span>
-          <h1 className="font-display text-4xl md:text-5xl font-bold tracking-wide">Tension-Free Wedding Logistics</h1>
-          <p className="text-white/60 text-sm max-w-xl mx-auto leading-relaxed">
+      <section className="relative py-20 px-6 overflow-hidden z-10 text-center">
+        <div className="max-w-7xl mx-auto space-y-4">
+          <span className="text-[#E8B96A] font-accent text-xs uppercase tracking-[0.25em] block mb-3 font-semibold">Premium Wedding Travel</span>
+          <h1 className="font-display text-4xl md:text-6xl font-bold tracking-wide text-white">
+            Tension-Free <span className="text-[#E8B96A]">Wedding Logistics</span>
+          </h1>
+          <p className="text-[#D8CFC7]/60 text-sm md:text-base max-w-xl mx-auto mt-5 font-sans leading-relaxed">
             Ensure grand arrivals, coordinated airport pickups, and premium decorated rides handled by elite highway chauffeurs.
           </p>
-          <div className="pt-4">
+          <div className="w-24 h-0.5 mx-auto mt-6" style={{ background: `linear-gradient(to right, transparent, ${BRASS}, transparent)` }} />
+          
+          <div className="pt-6">
             <Link
               href="/inquiry?type=wedding"
-              className="inline-flex items-center gap-2 px-8 py-3.5 rounded-sm text-xs font-semibold cursor-pointer transition-all hover:brightness-95"
-              style={{ backgroundColor: GOLD, color: DARK }}
+              className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full text-xs font-bold font-accent tracking-widest cursor-pointer transition-all hover:brightness-110 text-[#0C1519]"
+              style={{
+                background: `linear-gradient(135deg, ${GOLD}, ${BRASS})`,
+                boxShadow: `0 4px 15px rgba(232,185,106,0.2)`
+              }}
             >
-              Get Wedding Quote <ArrowRight size={14} />
+              GET WEDDING QUOTE <ArrowRight size={14} />
             </Link>
           </div>
         </div>
       </section>
 
       {/* Core Services Focus */}
-      <section className="max-w-7xl mx-auto px-6 mt-16">
-        <div className="text-center mb-10">
-          <span className="text-[#C9A84C] font-mono text-xs uppercase tracking-wider">How We Serve You</span>
-          <h2 className="font-display text-2xl md:text-3xl font-semibold text-gray-900 mt-1">Our Wedding Specialities</h2>
+      <section className="max-w-7xl mx-auto px-6 mt-16 relative z-10">
+        <div className="text-center mb-12">
+          <span className="text-[#CF9D7B] font-accent text-xs uppercase tracking-[0.2em] font-semibold">How We Serve You</span>
+          <h2 className="font-display text-3xl font-bold text-white mt-2">Our Wedding Specialities</h2>
+          <div className="w-16 h-px mx-auto mt-4" style={{ background: `linear-gradient(to right, transparent, ${COFFEE}, transparent)` }} />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -100,48 +114,69 @@ export default function WeddingsPage() {
               desc: "Coordinated guest transits in luxury Tempo Travellers or MPVs from airport to venue with dedicated drivers.",
             },
           ].map((srv, idx) => (
-            <div key={idx} className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex flex-col items-center text-center gap-3">
-              <div className="w-12 h-12 rounded-full bg-[#C9A84C]/10 flex items-center justify-center text-[#C9A84C] mb-2">
-                <srv.Icon size={20} />
+            <div 
+              key={idx} 
+              className="p-6 rounded-xl border flex flex-col items-center text-center gap-4 glass-panel"
+              style={{
+                background: "rgba(58, 53, 52, 0.25)",
+                borderColor: "rgba(207, 157, 123, 0.15)",
+              }}
+            >
+              <div 
+                className="w-12 h-12 rounded-lg flex items-center justify-center mb-2"
+                style={{
+                  background: "rgba(207, 157, 123, 0.1)",
+                  border: `1px solid rgba(207, 157, 123, 0.25)`,
+                }}
+              >
+                <srv.Icon size={20} style={{ color: BRASS }} />
               </div>
-              <h3 className="font-display font-semibold text-gray-900 text-sm">{srv.title}</h3>
-              <p className="text-gray-500 text-xs leading-relaxed font-sans">{srv.desc}</p>
+              <h3 className="font-display font-semibold text-white text-base">{srv.title}</h3>
+              <p className="text-[#D8CFC7]/70 text-xs leading-relaxed font-sans">{srv.desc}</p>
             </div>
           ))}
         </div>
       </section>
 
       {/* Featured Fleet grid */}
-      <section className="max-w-7xl mx-auto px-6 mt-20">
-        <div className="text-center mb-10">
-          <span className="text-[#C9A84C] font-mono text-xs uppercase tracking-wider">Premium Selection</span>
-          <h2 className="font-display text-2xl md:text-3xl font-semibold text-gray-900 mt-1">Featured Wedding Fleet</h2>
+      <section className="max-w-7xl mx-auto px-6 mt-28 relative z-10">
+        <div className="text-center mb-12">
+          <span className="text-[#CF9D7B] font-accent text-xs uppercase tracking-[0.2em] font-semibold">Premium Selection</span>
+          <h2 className="font-display text-3xl font-bold text-white mt-2">Featured Wedding Fleet</h2>
+          <div className="w-16 h-px mx-auto mt-4" style={{ background: `linear-gradient(to right, transparent, ${COFFEE}, transparent)` }} />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {WEDDING_FLEET.map((car, idx) => (
-            <div key={idx} className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 group flex flex-col">
-              <div className="h-48 overflow-hidden bg-gray-100 relative">
+            <div 
+              key={idx} 
+              className="rounded-xl overflow-hidden border group flex flex-col glass-panel"
+              style={{
+                background: "rgba(58, 53, 52, 0.25)",
+                borderColor: "rgba(207, 157, 123, 0.15)",
+              }}
+            >
+              <div className="h-48 overflow-hidden bg-black/40 relative">
                 <img
                   src={resolveImg(car.image, 600, 400)}
                   alt={car.name}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />
-                <div className="absolute top-3 left-3 bg-[#1A2B1C] text-[#C9A84C] text-[9px] font-mono font-bold uppercase tracking-widest px-2 py-0.5 rounded-sm">
+                <div className="absolute top-3 left-3 bg-[#162127] text-[#E8B96A] text-[9px] font-accent font-bold uppercase tracking-widest px-2.5 py-1 rounded border border-[#CF9D7B]/30">
                   {car.category}
                 </div>
               </div>
               <div className="p-5 flex-1 flex flex-col justify-between">
                 <div>
-                  <h3 className="font-display font-bold text-gray-800 text-sm">{car.name}</h3>
-                  <p className="text-gray-500 text-xs mt-2 leading-relaxed font-sans">{car.tagline}</p>
+                  <h3 className="font-display font-bold text-white text-base">{car.name}</h3>
+                  <p className="text-[#D8CFC7]/60 text-xs mt-2 leading-relaxed font-sans">{car.tagline}</p>
                 </div>
-                <div className="mt-5 pt-3 border-t border-gray-50">
+                <div className="mt-6 pt-4 border-t border-white/5">
                   <Link
                     href={`/inquiry?type=wedding&vehicle=${car.name.toLowerCase().replace(/ /g, "-")}`}
-                    className="text-xs font-semibold text-[#C9A84C] hover:text-[#1A2B1C] flex items-center gap-1 hover:gap-2 transition-all font-display"
+                    className="text-xs font-semibold text-[#E8B96A] hover:text-white flex items-center gap-1.5 hover:translate-x-1 transition-all font-accent uppercase tracking-wider"
                   >
-                    Select vehicle & request rates <ArrowRight size={12} />
+                    Select vehicle & request rates <ArrowRight size={13} />
                   </Link>
                 </div>
               </div>
@@ -151,18 +186,27 @@ export default function WeddingsPage() {
       </section>
 
       {/* Trust banner */}
-      <section className="bg-[#1A2B1C] text-white p-8 md:p-12 rounded-xl max-w-7xl mx-auto px-6 mt-20 border border-[#C9A84C]/25 text-center space-y-4">
-        <h3 className="font-display text-xl md:text-2xl font-bold tracking-wide">Looking for customized guest route transits?</h3>
-        <p className="text-white/60 text-xs max-w-md mx-auto leading-relaxed">
+      <section 
+        className="p-8 md:p-12 rounded-xl max-w-7xl mx-auto px-6 mt-28 border text-center space-y-5 relative z-10 glass-panel"
+        style={{
+          background: "rgba(58, 53, 52, 0.25)",
+          borderColor: "rgba(207, 157, 123, 0.25)",
+        }}
+      >
+        <h3 className="font-display text-2xl font-bold tracking-wide text-white">Looking for customized guest route transits?</h3>
+        <p className="text-[#D8CFC7]/60 text-xs max-w-md mx-auto leading-relaxed font-sans">
           Provide us your guest arrivals list, and we will configure multi-vehicle schedules in private Tempo Travellers or Ertigas for seamless pickups.
         </p>
-        <div className="pt-2">
+        <div className="pt-3">
           <Link
             href="/inquiry?type=wedding"
-            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-sm text-xs font-semibold hover:brightness-95 transition-all"
-            style={{ backgroundColor: GOLD, color: DARK }}
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-xs font-bold font-accent tracking-widest hover:brightness-110 transition-all text-[#0C1519]"
+            style={{
+              background: `linear-gradient(135deg, ${GOLD}, ${BRASS})`,
+              boxShadow: `0 4px 15px rgba(232,185,106,0.15)`
+            }}
           >
-            Submit Guest Logistcs Plan <ArrowRight size={13} />
+            Submit Guest Logistics Plan <ArrowRight size={13} />
           </Link>
         </div>
       </section>

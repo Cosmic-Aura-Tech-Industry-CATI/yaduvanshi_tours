@@ -6,8 +6,10 @@ import { motion } from "motion/react";
 import { Users, Fuel, ArrowRight, Sparkles } from "lucide-react";
 import type { Vehicle, RentalType } from "@/types";
 
-const GOLD = "#C9A84C";
-const DARK = "#1A2B1C";
+const BRASS = "#CF9D7B";
+const COFFEE = "#724B39";
+const GOLD = "#E8B96A";
+const IVORY = "#F5F0EA";
 
 const resolveImg = (src: string, w: number, h: number) =>
   src.startsWith("/")
@@ -51,22 +53,22 @@ export function RentalCard({ vehicle: v, rentalType: _rentalType, index = 0 }: R
       whileHover={{ y: -6 }}
       onHoverStart={() => setHovered(true)}
       onHoverEnd={() => setHovered(false)}
-      className="relative rounded-2xl overflow-hidden flex flex-col cursor-pointer"
+      className="relative rounded-2xl overflow-hidden flex flex-col cursor-pointer glass-panel corner-brackets hover-glow"
       style={{
-        background: "linear-gradient(145deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.03) 100%)",
-        border: hovered ? `1.5px solid ${GOLD}60` : "1.5px solid rgba(255,255,255,0.08)",
-        boxShadow: hovered ? `0 20px 40px rgba(0,0,0,0.4), 0 0 20px ${GOLD}18` : "0 4px 20px rgba(0,0,0,0.25)",
-        backdropFilter: "blur(8px)",
+        boxShadow: hovered
+          ? `0 0 35px rgba(207, 157, 123, 0.35), 0 20px 40px rgba(0,0,0,0.55)`
+          : "0 0 20px rgba(207, 157, 123, 0.12), 0 4px 20px rgba(0,0,0,0.35)",
+        border: hovered ? `1.5px solid ${BRASS}50` : "1.5px solid rgba(207, 157, 123, 0.18)",
         transition: "border 0.3s, box-shadow 0.4s",
       }}
     >
       {/* Image */}
       <div className="relative h-64 overflow-hidden bg-black/30">
-        {/* Shimmer */}
+        {/* Shimmer — brass */}
         <div
-          className="absolute inset-0 -translate-x-full group-hover:translate-x-full z-10 pointer-events-none transition-transform duration-[900ms]"
+          className="absolute inset-0 z-10 pointer-events-none"
           style={{
-            background: `linear-gradient(105deg, transparent 40%, ${GOLD}15 50%, transparent 60%)`,
+            background: `linear-gradient(105deg, transparent 40%, ${BRASS}18 50%, transparent 60%)`,
             transform: hovered ? "translateX(100%)" : "translateX(-100%)",
             transition: "transform 0.9s ease",
           }}
@@ -79,29 +81,29 @@ export function RentalCard({ vehicle: v, rentalType: _rentalType, index = 0 }: R
           style={{ transform: hovered ? "scale(1.06)" : "scale(1)" }}
         />
 
-        {/* Gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+        {/* Gradient overlay — Chinese Black */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0C1519]/90 via-transparent to-transparent" />
 
         {/* Category + Luxury badge */}
-        <div className="absolute top-3 left-3 flex gap-1.5">
+        <div className="absolute top-3 left-3 flex gap-1.5 font-accent tracking-widest text-[9px]">
           <span
-            className="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider"
-            style={{ background: `${GOLD}22`, color: GOLD, border: `1px solid ${GOLD}50`, backdropFilter: "blur(6px)" }}
+            className="px-2.5 py-1 rounded-full font-bold uppercase glass-panel"
+            style={{ color: BRASS }}
           >
             {CATEGORY_LABELS[v.category] ?? v.category}
           </span>
           {v.category === "luxury" && (
             <span
-              className="flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold"
-              style={{ background: "rgba(0,0,0,0.5)", color: GOLD, backdropFilter: "blur(6px)", border: `1px solid ${GOLD}40` }}
+              className="flex items-center gap-1 px-2.5 py-1 rounded-full font-bold glass-panel"
+              style={{ color: GOLD }}
             >
               <Sparkles size={8} /> Luxury
             </span>
           )}
           {v.popular && v.category !== "luxury" && (
             <span
-              className="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase"
-              style={{ background: "rgba(0,0,0,0.5)", color: "white", backdropFilter: "blur(6px)", border: "1px solid rgba(255,255,255,0.2)" }}
+              className="px-2.5 py-1 rounded-full font-bold uppercase glass-panel"
+              style={{ color: IVORY }}
             >
               Popular
             </span>
@@ -111,10 +113,10 @@ export function RentalCard({ vehicle: v, rentalType: _rentalType, index = 0 }: R
 
       {/* Content */}
       <div className="p-5 flex flex-col flex-1">
-        <div className="text-[10px] text-white/35 uppercase tracking-[0.2em] font-mono mb-0.5">{v.brand}</div>
+        <div className="text-[9px] text-[#D8CFC7]/40 uppercase tracking-[0.2em] font-mono mb-0.5">{v.brand}</div>
         <h3
           className="font-display font-bold text-lg leading-tight transition-colors duration-300"
-          style={{ color: hovered ? GOLD : "white" }}
+          style={{ color: hovered ? GOLD : IVORY }}
         >
           {v.name}
         </h3>
@@ -122,53 +124,51 @@ export function RentalCard({ vehicle: v, rentalType: _rentalType, index = 0 }: R
         {/* Pricing */}
         {pricing && (
           <div className="mt-3">
-            <div className="font-mono font-bold text-base" style={{ color: GOLD }}>{pricing.primary}</div>
-            <div className="text-white/40 text-[10px] font-mono mt-0.5">{pricing.secondary}</div>
+            <div className="font-mono font-bold text-base text-glow-gold" style={{ color: GOLD }}>{pricing.primary}</div>
+            <div className="text-[#D8CFC7]/40 text-[10px] font-mono mt-0.5">{pricing.secondary}</div>
           </div>
         )}
 
         {/* Specs */}
-        <div className="flex gap-4 mt-4">
-          <span className="flex items-center gap-1.5 text-white/55 text-xs">
-            <Users size={12} style={{ color: GOLD }} />
+        <div className="flex gap-4 mt-4 font-sans">
+          <span className="flex items-center gap-1.5 text-[#D8CFC7]/60 text-xs">
+            <Users size={12} style={{ color: BRASS }} />
             <span className="font-mono">{v.seats} Seats</span>
           </span>
-          <span className="flex items-center gap-1.5 text-white/55 text-xs">
-            <Fuel size={12} style={{ color: GOLD }} />
+          <span className="flex items-center gap-1.5 text-[#D8CFC7]/60 text-xs">
+            <Fuel size={12} style={{ color: BRASS }} />
             <span className="font-mono">{v.fuel}</span>
           </span>
-          <span className="text-white/55 text-xs font-mono">AC</span>
+          <span className="text-[#D8CFC7]/60 text-xs font-mono">AC</span>
         </div>
 
         {/* CTAs */}
-        <div className="flex gap-2 mt-5">
+        <div className="flex gap-2 mt-5 font-accent tracking-widest text-[10px]">
           <Link
             href={`/vehicles/${v.slug}`}
-            className="flex-1 text-center text-xs font-semibold py-2.5 rounded-lg border transition-all duration-200"
-            style={{ borderColor: `${GOLD}50`, color: GOLD }}
-            onMouseEnter={e => {
-              (e.currentTarget as HTMLElement).style.background = `${GOLD}15`;
-            }}
-            onMouseLeave={e => {
-              (e.currentTarget as HTMLElement).style.background = "transparent";
-            }}
+            className="flex-1 text-center py-2.5 rounded-lg transition-all duration-200 glass-panel hover:bg-white/5"
+            style={{ color: GOLD }}
           >
             Details
           </Link>
           <Link
             href={`/inquiry?type=vehicle&vehicle=${v.slug}`}
-            className="flex items-center gap-1.5 text-xs font-semibold px-4 py-2.5 rounded-lg transition-all duration-200 hover:brightness-90"
-            style={{ background: GOLD, color: DARK }}
+            className="flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-lg transition-all duration-200 hover:brightness-110"
+            style={{ background: `linear-gradient(135deg, ${GOLD}, ${BRASS})`, color: "#0C1519" }}
           >
             Book Now <ArrowRight size={10} />
           </Link>
         </div>
       </div>
 
-      {/* Animated bottom gold bar */}
+      {/* Animated bottom glow bar */}
       <div
         className="absolute bottom-0 left-0 h-0.5 transition-all duration-500"
-        style={{ width: hovered ? "100%" : "0%", background: GOLD }}
+        style={{
+          width: hovered ? "100%" : "0%",
+          background: `linear-gradient(to right, ${GOLD}, ${BRASS})`,
+          boxShadow: hovered ? `0 0 10px ${GOLD}40` : "none",
+        }}
       />
     </motion.div>
   );

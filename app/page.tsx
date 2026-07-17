@@ -7,6 +7,7 @@ import { VehicleRentalsSection } from "@/components/VehicleRentalsSection";
 import { WeddingSection } from "@/components/WeddingSection";
 import { GallerySection } from "@/components/GallerySection";
 import { TestimonialsSection } from "@/components/TestimonialsSection";
+import { StatsSection } from "@/components/StatsSection";
 import { MapCtaSection } from "@/components/MapCtaSection";
 
 export default function Home() {
@@ -19,6 +20,7 @@ export default function Home() {
       <WeddingSection />
       <GallerySection />
       <TestimonialsSection />
+      <StatsSection />
       <MapCtaSection />
     </div>
   );

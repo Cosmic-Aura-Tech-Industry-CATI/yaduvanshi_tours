@@ -3,10 +3,11 @@
 import { useState, use } from "react";
 import { VEHICLES } from "@/data/vehicles";
 import { notFound, useRouter } from "next/navigation";
-import { Users, Fuel, Shield, Calendar, ArrowRight, Table, Gauge, Compass, Eye } from "lucide-react";
+import { ArrowRight, Info } from "lucide-react";
 
-const GOLD = "#C9A84C";
-const DARK = "#1A2B1C";
+const BRASS = "#CF9D7B";
+const COFFEE = "#724B39";
+const GOLD = "#E8B96A";
 
 const IMG = (id: string, w: number, h: number) =>
   `https://images.unsplash.com/${id}?w=${w}&h=${h}&fit=crop&auto=format&q=85`;
@@ -33,23 +34,29 @@ export default function VehicleDetailPage({ params }: VehicleDetailPageProps) {
   };
 
   return (
-    <div className="bg-[#FAFAF8] min-h-screen pt-20 pb-20">
+    <div className="bg-[#0C1519] min-h-screen pt-20 pb-20 text-[#D8CFC7] overflow-hidden relative">
+      {/* Background blobs for firelight depth */}
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full pointer-events-none z-0 opacity-10"
+        style={{ background: `radial-gradient(circle, ${BRASS}, transparent 70%)` }} />
+      <div className="absolute bottom-1/4 left-0 w-[600px] h-[600px] rounded-full pointer-events-none z-0 opacity-5"
+        style={{ background: `radial-gradient(circle, ${COFFEE}, transparent 70%)` }} />
+
       {/* Hero Showcase */}
-      <div className="relative h-[300px] md:h-[450px] bg-gray-900 text-white overflow-hidden">
+      <div className="relative h-[300px] md:h-[450px] bg-black/80 text-white overflow-hidden z-10">
         <img
           src={IMG(v.image, 1600, 900)}
           alt={v.name}
           className="absolute inset-0 w-full h-full object-cover opacity-70"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0C1519] to-transparent" />
         <div className="absolute bottom-10 left-0 right-0 px-6 max-w-7xl mx-auto">
-          <span className="text-[#C9A84C] font-mono text-[10px] font-bold uppercase tracking-widest block mb-2">
+          <span className="text-[#E8B96A] font-accent text-[10px] font-bold uppercase tracking-widest block mb-2">
             {v.brand} · {v.category}
           </span>
-          <h1 className="font-display text-3xl md:text-5xl font-bold tracking-wide leading-tight">
+          <h1 className="font-display text-3xl md:text-5xl font-bold tracking-wide leading-tight text-white">
             {v.name}
           </h1>
-          <div className="flex gap-4 mt-3 text-xs text-white/70 font-mono">
+          <div className="flex gap-4 mt-3 text-xs text-[#D8CFC7]/80 font-mono">
             <span>👥 {v.seats} Seats</span>
             <span>⛽ {v.fuel}</span>
             <span>⚙️ {v.transmission}</span>
@@ -58,12 +65,18 @@ export default function VehicleDetailPage({ params }: VehicleDetailPageProps) {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 mt-12 grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="max-w-7xl mx-auto px-6 mt-12 grid grid-cols-1 lg:grid-cols-3 gap-8 relative z-10">
         {/* Left Column: Details, Specs, Inclusions */}
         <div className="lg:col-span-2 space-y-8">
           {/* Tabs Selector */}
-          <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
-            <div className="flex border-b border-gray-100">
+          <div 
+            className="rounded-xl border overflow-hidden glass-panel"
+            style={{
+              background: "rgba(58, 53, 52, 0.25)",
+              borderColor: "rgba(207, 157, 123, 0.15)",
+            }}
+          >
+            <div className="flex border-b border-white/5 bg-black/20">
               {[
                 { id: "pricing", label: "Rental Pricing" },
                 { id: "specs", label: "Technical Specifications" },
@@ -72,10 +85,10 @@ export default function VehicleDetailPage({ params }: VehicleDetailPageProps) {
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id as any)}
-                  className={`flex-1 text-center py-3.5 text-xs font-bold transition-all border-b-2 cursor-pointer ${
+                  className={`flex-1 text-center py-3.5 text-xs font-bold transition-all border-b-2 cursor-pointer uppercase font-accent tracking-wider ${
                     activeTab === tab.id
-                      ? "text-[#C9A84C] border-[#C9A84C]"
-                      : "text-gray-500 border-transparent hover:text-gray-800"
+                      ? "text-[#E8B96A] border-[#E8B96A]"
+                      : "text-[#D8CFC7]/50 border-transparent hover:text-white"
                   }`}
                 >
                   {tab.label}
@@ -89,40 +102,56 @@ export default function VehicleDetailPage({ params }: VehicleDetailPageProps) {
                 <div className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {/* Local package card */}
-                    <div className="p-5 rounded-lg border border-gray-100 bg-[#FAFAF8] flex flex-col justify-between">
+                    <div 
+                      className="p-5 rounded-lg border flex flex-col justify-between"
+                      style={{
+                        background: "rgba(22, 33, 39, 0.35)",
+                        borderColor: "rgba(255,255,255,0.05)",
+                      }}
+                    >
                       <div>
-                        <h4 className="font-display font-bold text-gray-800 text-sm">Local Daily Package</h4>
-                        <p className="text-[10px] text-gray-400 font-mono mt-1">Standard (8 Hours / 80 Km limit)</p>
-                        <div className="text-2xl font-mono font-bold text-[#C9A84C] mt-3">
+                        <h4 className="font-display font-bold text-white text-base">Local Daily Package</h4>
+                        <p className="text-[10px] text-[#D8CFC7]/50 font-mono mt-1">Standard (8 Hours / 80 Km limit)</p>
+                        <div className="text-xl font-mono font-bold text-[#E8B96A] mt-4">
                           ₹{v.localPriceDay.min.toLocaleString("en-IN")} - ₹{v.localPriceDay.max.toLocaleString("en-IN")}
-                          <span className="text-xs text-gray-400 font-sans font-normal"> /day</span>
+                          <span className="text-xs text-[#D8CFC7]/50 font-sans font-normal"> /day</span>
                         </div>
                       </div>
                       <button
                         onClick={() => handleBookRedirect("local")}
-                        className="mt-6 w-full text-center text-xs font-semibold py-2.5 rounded-sm border border-[#C9A84C] text-[#C9A84C] hover:bg-[#C9A84C] hover:text-[#1A2B1C] transition-all cursor-pointer"
+                        className="mt-6 w-full text-center text-xs font-bold font-accent tracking-wider py-2.5 rounded-full border border-[#E8B96A] text-[#E8B96A] hover:bg-[#E8B96A] hover:text-[#0C1519] transition-all cursor-pointer bg-[#E8B96A]/5"
                       >
                         Enquire Local Daily
                       </button>
                     </div>
 
                     {/* Outstation package card */}
-                    <div className="p-5 rounded-lg border border-gray-100 bg-[#FAFAF8] flex flex-col justify-between">
+                    <div 
+                      className="p-5 rounded-lg border flex flex-col justify-between"
+                      style={{
+                        background: "rgba(22, 33, 39, 0.35)",
+                        borderColor: "rgba(255,255,255,0.05)",
+                      }}
+                    >
                       <div>
-                        <h4 className="font-display font-bold text-gray-800 text-sm">Outstation Highway Travel</h4>
-                        <p className="text-[10px] text-gray-400 font-mono mt-1">Charged per kilometer run</p>
-                        <div className="text-2xl font-mono font-bold text-[#C9A84C] mt-3">
+                        <h4 className="font-display font-bold text-white text-base">Outstation Highway Travel</h4>
+                        <p className="text-[10px] text-[#D8CFC7]/50 font-mono mt-1">Charged per kilometer run</p>
+                        <div className="text-xl font-mono font-bold text-[#E8B96A] mt-4">
                           ₹{v.outstationPriceKm.min} - ₹{v.outstationPriceKm.max}
-                          <span className="text-xs text-gray-400 font-sans font-normal"> /km</span>
+                          <span className="text-xs text-[#D8CFC7]/50 font-sans font-normal"> /km</span>
                         </div>
-                        <ul className="text-[10px] text-gray-500 font-sans mt-3 space-y-1">
+                        <ul className="text-[10px] text-[#D8CFC7]/60 font-sans mt-3.5 space-y-1.5">
                           <li>• Minimum billable run: {v.outstationMinKm} km/day</li>
                           <li>• Driver allowance: ₹{v.driverAllowancePerDay}/day</li>
                         </ul>
                       </div>
                       <button
                         onClick={() => handleBookRedirect("outstation")}
-                        className="mt-6 w-full text-center text-xs font-semibold py-2.5 rounded-sm bg-[#C9A84C] text-[#1A2B1C] hover:brightness-95 transition-all cursor-pointer"
+                        className="mt-6 w-full text-center text-xs font-bold font-accent tracking-wider py-3 rounded-full transition-all cursor-pointer text-[#0C1519]"
+                        style={{
+                          background: `linear-gradient(135deg, ${GOLD}, ${BRASS})`,
+                          boxShadow: `0 4px 15px rgba(232,185,106,0.15)`
+                        }}
                       >
                         Enquire Outstation
                       </button>
@@ -130,8 +159,17 @@ export default function VehicleDetailPage({ params }: VehicleDetailPageProps) {
                   </div>
 
                   {/* Notes */}
-                  <div className="p-4 rounded-lg bg-[#C9A84C]/5 border border-[#C9A84C]/15 text-xs text-gray-600 font-sans leading-relaxed">
-                    <strong>Important Note:</strong> {v.tollsExtraNote}. Toll taxes, parking charges, and inter-state permit clearances are paid directly by the client or billed extra on actual receipts.
+                  <div 
+                    className="p-4 rounded-lg border text-xs text-[#D8CFC7]/70 font-sans leading-relaxed flex gap-2.5 items-start"
+                    style={{
+                      background: "rgba(58, 53, 52, 0.15)",
+                      borderColor: "rgba(207, 157, 123, 0.15)",
+                    }}
+                  >
+                    <Info size={15} style={{ color: GOLD }} className="flex-shrink-0 mt-0.5" />
+                    <div>
+                      <strong className="text-white">Important Note:</strong> {v.tollsExtraNote}. Toll taxes, parking charges, and inter-state permit clearances are paid directly by the client or billed extra on actual receipts.
+                    </div>
                   </div>
                 </div>
               )}
@@ -141,25 +179,25 @@ export default function VehicleDetailPage({ params }: VehicleDetailPageProps) {
                 <div className="overflow-x-auto">
                   <table className="w-full text-left border-collapse text-xs">
                     <thead>
-                      <tr className="border-b border-gray-100 font-display font-bold text-gray-500">
+                      <tr className="border-b border-white/10 font-display font-bold text-[#D8CFC7]/50 uppercase tracking-widest text-[10px]">
                         <th className="py-2.5">Feature Specification</th>
                         <th className="py-2.5">Details</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-gray-100 text-gray-600 font-sans">
+                    <tbody className="divide-y divide-white/5 text-[#D8CFC7]/80 font-sans">
                       {Object.entries(v.specs).map(([key, val]) => (
-                        <tr key={key}>
-                          <td className="py-3 font-semibold text-gray-800">{key}</td>
+                        <tr key={key} className="hover:bg-white/5 transition-colors">
+                          <td className="py-3 font-semibold text-white">{key}</td>
                           <td className="py-3">{val}</td>
                         </tr>
                       ))}
-                      <tr>
-                        <td className="py-3 font-semibold text-gray-800">Seating Capacity</td>
+                      <tr className="hover:bg-white/5 transition-colors">
+                        <td className="py-3 font-semibold text-white">Seating Capacity</td>
                         <td className="py-3">{v.seats} Comfort Seats</td>
                       </tr>
-                      <tr>
-                        <td className="py-3 font-semibold text-gray-800">Luggage Space</td>
-                        <td className="py-3">Accommodates up to {v.luggageCapacity} large bags</td>
+                      <tr className="hover:bg-white/5 transition-colors">
+                        <td className="py-3 font-semibold text-white">Luggage Space</td>
+                        <td className="py-3">{v.luggageCapacity} large bags</td>
                       </tr>
                     </tbody>
                   </table>
@@ -168,26 +206,26 @@ export default function VehicleDetailPage({ params }: VehicleDetailPageProps) {
 
               {/* Rules & Terms */}
               {activeTab === "terms" && (
-                <div className="space-y-6">
+                <div className="space-y-6 font-sans">
                   <div>
-                    <h4 className="font-display font-bold text-gray-800 text-xs uppercase tracking-wider mb-2.5">Driver-driven details</h4>
-                    <p className="text-gray-600 text-xs font-sans leading-relaxed">
+                    <h4 className="font-display font-bold text-white text-xs uppercase tracking-wider mb-2">Driver-driven details</h4>
+                    <p className="text-[#D8CFC7]/70 text-xs leading-relaxed">
                       All outstation rentals include an experienced highway chauffeur. Travel routes are mapped prior to departure. Drivers require a night boarding allowance of ₹{v.driverAllowancePerDay} for stays on multi-day journeys.
                     </p>
                   </div>
                   {v.selfDriveAvailable && (
                     <div>
-                      <h4 className="font-display font-bold text-gray-800 text-xs uppercase tracking-wider mb-2.5">Self-drive terms</h4>
-                      <p className="text-gray-600 text-xs font-sans leading-relaxed">
+                      <h4 className="font-display font-bold text-white text-xs uppercase tracking-wider mb-2">Self-drive terms</h4>
+                      <p className="text-[#D8CFC7]/70 text-xs leading-relaxed">
                         To claim self-drive: must present a valid, non-learner driving license, Aadhaar card, and submit a security deposit of ₹5,000. Fuel is calculated on a full-to-full tank policy.
                       </p>
                     </div>
                   )}
                   <div>
-                    <h4 className="font-display font-bold text-gray-800 text-xs uppercase tracking-wider mb-2.5 text-red-600">Cancellation Policy</h4>
-                    <p className="text-gray-600 text-xs font-sans leading-relaxed">
-                      * Cancel up to 48 hours prior to journey start: 90% refund of deposit.
-                      * Cancel inside 24-48 hours: 50% refund.
+                    <h4 className="font-display font-bold text-red-500 text-xs uppercase tracking-wider mb-2">Cancellation Policy</h4>
+                    <p className="text-[#D8CFC7]/70 text-xs leading-relaxed">
+                      * Cancel up to 48 hours prior to journey start: 90% refund of deposit.<br />
+                      * Cancel inside 24-48 hours: 50% refund.<br />
                       * Cancel inside 24 hours: No refund of initial reservation booking amount.
                     </p>
                   </div>
@@ -199,34 +237,43 @@ export default function VehicleDetailPage({ params }: VehicleDetailPageProps) {
 
         {/* Right Column: Dynamic summary/quick booking */}
         <div>
-          <div className="bg-[#1A2B1C] text-white p-6 rounded-xl shadow-xl border border-[#C9A84C]/25 sticky top-24 space-y-5">
-            <span className="text-[#C9A84C] text-[10px] font-mono uppercase tracking-widest block">Quick Quote Inquiry</span>
+          <div 
+            className="p-6 rounded-xl border sticky top-24 space-y-5 shadow-2xl backdrop-blur-md glass-panel"
+            style={{
+              background: "rgba(58, 53, 52, 0.25)",
+              borderColor: "rgba(207, 157, 123, 0.25)",
+            }}
+          >
+            <span className="text-[#E8B96A] text-[10px] font-accent uppercase tracking-widest block font-semibold">Quick Quote Inquiry</span>
             <div className="space-y-1">
-              <h3 className="font-display font-bold text-lg text-white">{v.name}</h3>
-              <div className="text-[10px] text-white/50 font-mono">Premium {v.category.toUpperCase()} Rental</div>
+              <h3 className="font-display font-bold text-xl text-white">{v.name}</h3>
+              <div className="text-[10px] text-[#D8CFC7]/50 font-mono">Premium {v.category.toUpperCase()} Rental</div>
             </div>
 
-            <div className="border-t border-white/10 pt-4 space-y-3.5">
+            <div className="border-t border-white/5 pt-4 space-y-3.5 font-sans">
               <div className="flex justify-between items-center text-xs">
-                <span className="text-white/60">Seats:</span>
+                <span className="text-[#D8CFC7]/60">Seats:</span>
                 <span className="font-semibold text-white">{v.seats} Passenger capacity</span>
               </div>
               <div className="flex justify-between items-center text-xs">
-                <span className="text-white/60">Air Conditioning:</span>
+                <span className="text-[#D8CFC7]/60">Air Conditioning:</span>
                 <span className="font-semibold text-white">Equipped with Climate AC</span>
               </div>
               <div className="flex justify-between items-center text-xs">
-                <span className="text-white/60">Transmission:</span>
+                <span className="text-[#D8CFC7]/60">Transmission:</span>
                 <span className="font-semibold text-white">{v.transmission}</span>
               </div>
             </div>
 
             <button
               onClick={() => handleBookRedirect("outstation")}
-              className="w-full py-3.5 rounded-sm font-semibold text-xs flex items-center justify-center gap-2 cursor-pointer transition-all hover:brightness-95 mt-4"
-              style={{ backgroundColor: GOLD, color: DARK }}
+              className="w-full py-3.5 rounded-full font-bold font-accent tracking-widest text-xs flex items-center justify-center gap-2 cursor-pointer transition-all hover:brightness-110 mt-4 text-[#0C1519]"
+              style={{
+                background: `linear-gradient(135deg, ${GOLD}, ${BRASS})`,
+                boxShadow: `0 4px 15px rgba(232,185,106,0.2)`
+              }}
             >
-              Plan Outstation Booking <ArrowRight size={13} />
+              PLAN OUTSTATION BOOKING <ArrowRight size={13} />
             </button>
           </div>
         </div>

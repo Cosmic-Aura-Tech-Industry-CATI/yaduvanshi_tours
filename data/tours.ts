@@ -36,12 +36,8 @@ export const TOURS_DATA: TourPackage[] = [
     destinations: ["Ayodhya", "Hanuman Garhi", "Kanak Bhawan", "Saryu River Ghats"],
     rating: 4.9,
     reviewsCount: 312,
-    image: "/tours/ayodhya-darshan.webp",
-    gallery: [
-      "/tours/ayodhya-darshan.webp",
-      "photo-1544735716-392fe2489ffa",
-      "photo-1608958416715-4a5f36e4f35e"
-    ],
+    image: "/images/tours/ayodhya-darshan/1.webp",
+    gallery: ["/images/tours/ayodhya-darshan/1.webp", "/images/tours/ayodhya-darshan/2.webp"],
     inclusions: ["AC Sedan / SUV transport", "Driver allowance, fuel, tolls & parking", "Local guide service at temple complex", "Complimentary mineral water bottles"],
     exclusions: ["Hotel accommodation", "VIP Darshan ticket charges", "Personal meals & prasad offerings"],
     itinerary: [
@@ -61,12 +57,8 @@ export const TOURS_DATA: TourPackage[] = [
     destinations: ["Mathura Birthplace", "Vrindavan Prem Mandir", "Bankey Bihari Mandir", "Nidhivan"],
     rating: 4.8,
     reviewsCount: 220,
-    image: "/tours/mathura-vrindavan.webp",
-    gallery: [
-      "/tours/mathura-vrindavan.webp",
-      "photo-1600100397608-f010e6a394a1",
-      "photo-1561361513-2d000a50f0db"
-    ],
+    image: "/images/tours/mathura-vrindavan/1.webp",
+    gallery: ["/images/tours/mathura-vrindavan/1.webp", "/images/tours/mathura-vrindavan/2.webp"],
     inclusions: ["AC private vehicle (Sedan/SUV)", "Fuel, toll taxes, and driver allowance", "Vrindavan local sightseeing assistance"],
     exclusions: ["Pooja offerings & donation receipts", "Meals and tour guide fee"],
     itinerary: [
@@ -86,8 +78,8 @@ export const TOURS_DATA: TourPackage[] = [
     destinations: ["Ramghat", "Kamadgiri Hill", "Gupt Godavari Caves", "Sphatik Shila"],
     rating: 4.7,
     reviewsCount: 98,
-    image: "photo-1600100397608-f010e6a394a1",
-    gallery: ["photo-1600100397608-f010e6a394a1", "photo-1544735716-392fe2489ffa"],
+    image: "/images/tours/chitrakoot-tour/1.webp",
+    gallery: ["/images/tours/chitrakoot-tour/1.webp", "/images/tours/chitrakoot-tour/2.webp"],
     inclusions: ["AC car from Ayodhya/Varanasi", "Fuel charges & driver allowance", "All toll tax and parking fees"],
     exclusions: ["Boating charges at Ramghat", "Pooja/guide charges", "Accommodation"],
     itinerary: [
@@ -107,8 +99,8 @@ export const TOURS_DATA: TourPackage[] = [
     destinations: ["Khatu Shyam Ji Temple", "Salasar Hanuman Dham", "Jeen Mata Temple"],
     rating: 4.9,
     reviewsCount: 180,
-    image: "photo-1545232979-8bf34eb9757b",
-    gallery: ["photo-1545232979-8bf34eb9757b", "photo-1600100397608-f010e6a394a1"],
+    image: "/images/tours/khatu-shyam-ji/1.webp",
+    gallery: ["/images/tours/khatu-shyam-ji/1.webp", "/images/tours/khatu-shyam-ji/2.webp"],
     inclusions: ["AC Sedan / SUV transport", "Fuel, state road tax, tolls & driver stay"],
     exclusions: ["Hotel lodging", "VIP darshan entry tickets", "Food & beverage"],
     itinerary: [
@@ -129,12 +121,8 @@ export const TOURS_DATA: TourPackage[] = [
     destinations: ["Ujjain Mahakal", "Harsiddhi Mata", "Omkareshwar Jyotirlinga", "Kal Bhairav"],
     rating: 4.9,
     reviewsCount: 450,
-    image: "/tours/mahakal-omkareshwar.webp",
-    gallery: [
-      "/tours/mahakal-omkareshwar.webp",
-      "photo-1600100397608-f010e6a394a1",
-      "photo-1544735716-392fe2489ffa"
-    ],
+    image: "/images/tours/mahakal-omkareshwar/1.webp",
+    gallery: ["/images/tours/mahakal-omkareshwar/1.webp", "/images/tours/mahakal-omkareshwar/2.webp"],
     inclusions: ["AC SUV for group travel", "Bhasma Aarti registration guidance", "Fuel, state tax and driver expenses"],
     exclusions: ["Special darshan pass rates", "Boating at Narmada river", "Meals & hotel"],
     itinerary: [
@@ -155,12 +143,8 @@ export const TOURS_DATA: TourPackage[] = [
     destinations: ["Kashi Vishwanath Temple", "Dashashwamedh Ghat", "Sankat Mochan", "Sarnath"],
     rating: 4.9,
     reviewsCount: 512,
-    image: "/tours/kashi-vishwanath.webp",
-    gallery: [
-      "/tours/kashi-vishwanath.webp",
-      "photo-1596176530529-78163a4f7af2",
-      "photo-1544735716-392fe2489ffa"
-    ],
+    image: "/images/tours/kashi-vishwanath/1.webp",
+    gallery: ["/images/tours/kashi-vishwanath/1.webp", "/images/tours/kashi-vishwanath/2.webp"],
     inclusions: ["AC Sedan / SUV transport", "Fuel, parking, tolls and driver stay", "Morning boat ride in Ganges river"],
     exclusions: ["Local guide fee", "Hotel and meals", "Temple pooja tickets"],
     itinerary: [
@@ -180,8 +164,8 @@ export const TOURS_DATA: TourPackage[] = [
     destinations: ["Triveni Sangam", "Bade Hanuman Ji", "Anand Bhawan", "Allahabad Fort"],
     rating: 4.8,
     reviewsCount: 110,
-    image: "photo-1596176530529-78163a4f7af2",
-    gallery: ["photo-1596176530529-78163a4f7af2", "photo-1600100397608-f010e6a394a1"],
+    image: "/images/tours/prayagraj-sangam/1.webp",
+    gallery: ["/images/tours/prayagraj-sangam/1.webp", "/images/tours/prayagraj-sangam/2.webp"],
     inclusions: ["AC transport for all local sights", "Toll, parking and driver charges"],
     exclusions: ["Boat hire to Sangam point", "Anand Bhawan entry tickets"],
     itinerary: [
@@ -201,8 +185,8 @@ export const TOURS_DATA: TourPackage[] = [
     destinations: ["Har Ki Pauri", "Mansa Devi Temple", "Laxman Jhula", "Triveni Ghat Rishikesh"],
     rating: 4.8,
     reviewsCount: 165,
-    image: "photo-1561361513-2d000a50f0db",
-    gallery: ["photo-1561361513-2d000a50f0db", "photo-1600100397608-f010e6a394a1"],
+    image: "/images/tours/haridwar-rishikesh/1.webp",
+    gallery: ["/images/tours/haridwar-rishikesh/1.webp", "/images/tours/haridwar-rishikesh/2.webp"],
     inclusions: ["AC sedan transportation", "Driver allowance and fuel taxes"],
     exclusions: ["Cable car fees to Mansa Devi", "Rafting / adventure sports"],
     itinerary: [
@@ -222,8 +206,8 @@ export const TOURS_DATA: TourPackage[] = [
     destinations: ["Naini Lake", "Mall Road", "Naina Devi Temple", "Bhimtal & Sattal lakes"],
     rating: 4.8,
     reviewsCount: 142,
-    image: "photo-1572979841890-e7f09f0611e9",
-    gallery: ["photo-1572979841890-e7f09f0611e9", "photo-1582510003544-4d00b7f74220"],
+    image: "/images/tours/nainital-tour/1.webp",
+    gallery: ["/images/tours/nainital-tour/1.webp", "/images/tours/nainital-tour/2.webp"],
     inclusions: ["AC private taxi (Sedan/SUV)", "Fuel, toll, parking and driver allowance"],
     exclusions: ["Boating fees", "Cable car tickets", "Personal expenses"],
     itinerary: [
@@ -244,8 +228,8 @@ export const TOURS_DATA: TourPackage[] = [
     destinations: ["Kempty Falls", "Lal Tibba Landour", "Gun Hill", "Mall Road Mussoorie"],
     rating: 4.7,
     reviewsCount: 115,
-    image: "photo-1582510003544-4d00b7f74220",
-    gallery: ["photo-1582510003544-4d00b7f74220", "photo-1572979841890-e7f09f0611e9"],
+    image: "/images/tours/mussoorie-tour/1.webp",
+    gallery: ["/images/tours/mussoorie-tour/1.webp", "/images/tours/mussoorie-tour/2.webp"],
     inclusions: ["Chauffeur-driven AC Sedan / SUV", "Tolls, parking, and state border permit fees"],
     exclusions: ["Waterfall activities fees", "Meals and guide assistance"],
     itinerary: [
@@ -266,12 +250,8 @@ export const TOURS_DATA: TourPackage[] = [
     destinations: ["Kainchi Dham Ashram", "Naini Lake", "Bhimtal Lake"],
     rating: 4.9,
     reviewsCount: 380,
-    image: "/tours/neem-karoli-kainchi-dham.webp",
-    gallery: [
-      "/tours/neem-karoli-kainchi-dham.webp",
-      "photo-1572979841890-e7f09f0611e9",
-      "photo-1582510003544-4d00b7f74220"
-    ],
+    image: "/images/tours/neem-karoli-kainchi-dham/1.webp",
+    gallery: ["/images/tours/neem-karoli-kainchi-dham/1.webp", "/images/tours/neem-karoli-kainchi-dham/2.webp"],
     inclusions: ["AC transport for entire circuit", "Driver night stay, tolls & fuel tax"],
     exclusions: ["Ashram donation receipts", "Accommodation & food"],
     itinerary: [
@@ -292,12 +272,8 @@ export const TOURS_DATA: TourPackage[] = [
     destinations: ["Manali Mall Road", "Solang Valley", "Hadimba Temple", "Kasol & Manikaran Sahib"],
     rating: 4.8,
     reviewsCount: 290,
-    image: "/tours/kullu-manali.webp",
-    gallery: [
-      "/tours/kullu-manali.webp",
-      "photo-1618172193763-c511deb635ca",
-      "photo-1582510003544-4d00b7f74220"
-    ],
+    image: "/images/tours/kullu-manali/1.webp",
+    gallery: ["/images/tours/kullu-manali/1.webp", "/images/tours/kullu-manali/2.webp"],
     inclusions: ["Private AC Innova or Sedan", "State road taxes & driver allowances", "Solang Valley transfer"],
     exclusions: ["Rohtang Pass green permit charges", "Adventure paragliding/skiing packages"],
     itinerary: [
@@ -321,8 +297,8 @@ export const TOURS_DATA: TourPackage[] = [
     destinations: ["The Ridge Shimla", "Kufri Adventure Park", "Jakhoo Temple", "Mall Road"],
     rating: 4.7,
     reviewsCount: 198,
-    image: "photo-1618172193763-c511deb635ca",
-    gallery: ["photo-1618172193763-c511deb635ca", "photo-1582510003544-4d00b7f74220"],
+    image: "/images/tours/shimla-tour/1.webp",
+    gallery: ["/images/tours/shimla-tour/1.webp", "/images/tours/shimla-tour/2.webp"],
     inclusions: ["AC Sedan / SUV transport", "Fuel, parking, toll taxes & driver allowance"],
     exclusions: ["Toy train tickets", "Horse ride in Kufri", "Meals"],
     itinerary: [
@@ -346,12 +322,8 @@ export const TOURS_DATA: TourPackage[] = [
     destinations: ["Katra Vaishno Devi", "Srinagar Dal Lake", "Gulmarg Snow Fields", "Sonmarg Glaciers"],
     rating: 4.9,
     reviewsCount: 410,
-    image: "/tours/vaishno-devi-kashmir.webp",
-    gallery: [
-      "/tours/vaishno-devi-kashmir.webp",
-      "photo-1596176530529-78163a4f7af2",
-      "photo-1544735716-392fe2489ffa"
-    ],
+    image: "/images/tours/vaishno-devi/1.webp",
+    gallery: ["/images/tours/vaishno-devi/1.webp", "/images/tours/vaishno-devi/2.webp"],
     inclusions: ["AC Sedan/SUV for Jammu to Srinagar transfers", "State border permits, tolls and parking", "Dal Lake Shikara ride"],
     exclusions: ["Helicopter / pony tickets in Katra", "Gondola ride tickets in Gulmarg (must pre-book)"],
     itinerary: [
@@ -379,11 +351,8 @@ export const TOURS_DATA: TourPackage[] = [
     destinations: ["Amer Fort", "Hawa Mahal", "City Palace", "Jantar Mantar observatory"],
     rating: 4.8,
     reviewsCount: 198,
-    image: "https://images.unsplash.com/photo-1599661046289-e31897846e41?w=600&h=400&fit=crop&q=80",
-    gallery: [
-      "https://images.unsplash.com/photo-1599661046289-e31897846e41?w=600&h=400&fit=crop&q=80",
-      "photo-1477587458883-47135fb7a0be"
-    ],
+    image: "/images/tours/jaipur-tour/1.webp",
+    gallery: ["/images/tours/jaipur-tour/1.webp", "/images/tours/jaipur-tour/2.webp"],
     inclusions: ["AC premium Sedan / SUV", "Fuel, parking, state tax & driver allowance"],
     exclusions: ["Monument entry fees", "Chokhi Dhani dinner buffet tickets"],
     itinerary: [
@@ -404,8 +373,8 @@ export const TOURS_DATA: TourPackage[] = [
     destinations: ["Amer Fort Jaipur", "Mehrangarh Fort Jodhpur", "Lake Pichola Udaipur", "City Palace"],
     rating: 4.9,
     reviewsCount: 230,
-    image: "photo-1477587458883-47135fb7a0be",
-    gallery: ["photo-1477587458883-47135fb7a0be", "https://images.unsplash.com/photo-1599661046289-e31897846e41?w=600&h=400&fit=crop&q=80"],
+    image: "/images/tours/rajasthan-heritage/1.webp",
+    gallery: ["/images/tours/rajasthan-heritage/1.webp", "/images/tours/rajasthan-heritage/2.webp"],
     inclusions: ["AC private taxi (Innova/Sedan)", "State road permit taxes for Rajasthan, tolls & driver stay"],
     exclusions: ["Lake Pichola boating fees", "Local tourist guide fees"],
     itinerary: [
@@ -429,8 +398,8 @@ export const TOURS_DATA: TourPackage[] = [
     destinations: ["Baga Beach", "Aguada Fort", "Basilica of Bom Jesus", "Dudhsagar Waterfalls"],
     rating: 4.8,
     reviewsCount: 302,
-    image: "photo-1507525428034-b723cf961d3e",
-    gallery: ["photo-1507525428034-b723cf961d3e", "photo-1477587458883-47135fb7a0be"],
+    image: "/images/tours/goa-tour/1.webp",
+    gallery: ["/images/tours/goa-tour/1.webp", "/images/tours/goa-tour/2.webp"],
     inclusions: ["AC car for all sightseeing days", "Fuel, parking, toll taxes and driver charges"],
     exclusions: ["Water sports activities fee", "Dudhsagar jeep safari fee"],
     itinerary: [
@@ -452,11 +421,8 @@ export const TOURS_DATA: TourPackage[] = [
     destinations: ["Munnar Tea Gardens", "Thekkady Spice Plantation", "Alleppey Houseboat", "Cochin Fort"],
     rating: 4.9,
     reviewsCount: 288,
-    image: "https://images.unsplash.com/photo-1593693397690-362cb9666fc2?w=600&h=400&fit=crop&q=80",
-    gallery: [
-      "https://images.unsplash.com/photo-1593693397690-362cb9666fc2?w=600&h=400&fit=crop&q=80",
-      "photo-1507525428034-b723cf961d3e"
-    ],
+    image: "/images/tours/kerala-tour/1.webp",
+    gallery: ["/images/tours/kerala-tour/1.webp", "/images/tours/kerala-tour/2.webp"],
     inclusions: ["AC vehicle (Innova/Sedan)", "Fuel, toll, parking and state permit fees", "Houseboat cruise with lunch"],
     exclusions: ["Kathakali show entry fee", "Spice plantation safari fee"],
     itinerary: [
@@ -479,8 +445,8 @@ export const TOURS_DATA: TourPackage[] = [
     destinations: ["Golden Temple", "Jallianwala Bagh", "Wagah Border", "Partition Museum"],
     rating: 4.9,
     reviewsCount: 215,
-    image: "photo-1514222134-b57cbb8ce073",
-    gallery: ["photo-1514222134-b57cbb8ce073", "photo-1561361513-2d000a50f0db"],
+    image: "/images/tours/amritsar-wagah/1.webp",
+    gallery: ["/images/tours/amritsar-wagah/1.webp", "/images/tours/amritsar-wagah/2.webp"],
     inclusions: ["AC Sedan / SUV transport", "Fuel, parking, toll taxes & driver allowance"],
     exclusions: ["Local guide fees", "Meals and personal shopping"],
     itinerary: [
@@ -501,8 +467,8 @@ export const TOURS_DATA: TourPackage[] = [
     destinations: ["Ujjain Mahakal", "Indore Rajwada Palace", "Chappan Dukan Street Food"],
     rating: 4.8,
     reviewsCount: 167,
-    image: "photo-1600100397608-f010e6a394a1", // Fallback
-    gallery: ["photo-1600100397608-f010e6a394a1", "photo-1544735716-392fe2489ffa"],
+    image: "/images/tours/ujjain-indore/1.webp", // Fallback
+    gallery: ["/images/tours/ujjain-indore/1.webp", "/images/tours/ujjain-indore/2.webp"],
     inclusions: ["AC private taxi (Sedan/SUV)", "Fuel, toll, parking and driver charges"],
     exclusions: ["Mahakal VIP temple passes", "Meals and street food costs"],
     itinerary: [
@@ -522,8 +488,8 @@ export const TOURS_DATA: TourPackage[] = [
     destinations: ["Dwarkadhish Temple", "Nageshwar Jyotirlinga", "Somnath Temple", "Triveni Sangam Somnath"],
     rating: 4.9,
     reviewsCount: 298,
-    image: "photo-1545232979-8bf34eb9757b", // Fallback
-    gallery: ["photo-1545232979-8bf34eb9757b", "photo-1600100397608-f010e6a394a1"],
+    image: "/images/tours/dwarka-somnath/1.webp", // Fallback
+    gallery: ["/images/tours/dwarka-somnath/1.webp", "/images/tours/dwarka-somnath/2.webp"],
     inclusions: ["AC Sedan / SUV transport", "Fuel, state border taxes, parking, tolls and driver stay"],
     exclusions: ["Local ferry boat to Bet Dwarka", "Temple pooja tickets"],
     itinerary: [
@@ -545,8 +511,8 @@ export const TOURS_DATA: TourPackage[] = [
     destinations: ["Madurai Meenakshi Temple", "Ramanathaswamy Temple", "Pamban Bridge", "Dhanushkodi"],
     rating: 4.9,
     reviewsCount: 198,
-    image: "photo-1600100397980-0000b77cbb87",
-    gallery: ["photo-1600100397980-0000b77cbb87", "photo-1545232979-8bf34eb9757b"],
+    image: "/images/tours/rameshwaram-madurai/1.webp",
+    gallery: ["/images/tours/rameshwaram-madurai/1.webp", "/images/tours/rameshwaram-madurai/2.webp"],
     inclusions: ["AC car for entire route", "Tolls, state taxes, parking & driver stay"],
     exclusions: ["Pooja charges at temples", "Local jeep ride to Dhanushkodi beach"],
     itinerary: [
@@ -568,8 +534,8 @@ export const TOURS_DATA: TourPackage[] = [
     destinations: ["Leh Palace", "Khardung La Pass", "Nubra Valley", "Pangong Lake"],
     rating: 4.9,
     reviewsCount: 388,
-    image: "photo-1590076214667-c0f3c7582b17",
-    gallery: ["photo-1590076214667-c0f3c7582b17", "photo-1618172193763-c511deb635ca"],
+    image: "/images/tours/leh-ladakh/1.webp",
+    gallery: ["/images/tours/leh-ladakh/1.webp", "/images/tours/leh-ladakh/2.webp"],
     inclusions: ["AC Innova for Leh sightseeing", "Inner line permit fees for Ladakh", "All toll and parking taxes"],
     exclusions: ["Oxygen cylinder rental fees", "Double-humped camel ride in Nubra"],
     itinerary: [
@@ -594,8 +560,8 @@ export const TOURS_DATA: TourPackage[] = [
     destinations: ["Gateway of India", "Marine Drive", "Siddhivinayak Temple", "Bandra-Worli Sea Link"],
     rating: 4.7,
     reviewsCount: 220,
-    image: "photo-1566552881560-0be862a7c445",
-    gallery: ["photo-1566552881560-0be862a7c445", "photo-1507525428034-b723cf961d3e"],
+    image: "/images/tours/mumbai-tour/1.webp",
+    gallery: ["/images/tours/mumbai-tour/1.webp", "/images/tours/mumbai-tour/2.webp"],
     inclusions: ["AC sedan transportation", "Fuel, parking, toll taxes and driver charges"],
     exclusions: ["Elephanta Caves ferry tickets", "Local entry fees"],
     itinerary: [
@@ -617,8 +583,8 @@ export const TOURS_DATA: TourPackage[] = [
     destinations: ["Dal Lake Houseboats", "Gulmarg Snow Hills", "Pahalgam Valley", "Sonmarg Glacier"],
     rating: 4.9,
     reviewsCount: 310,
-    image: "photo-1598305072040-e22132e0e090",
-    gallery: ["photo-1598305072040-e22132e0e090", "/tours/vaishno-devi-kashmir.webp"],
+    image: "/images/tours/kashmir-paradise/1.webp",
+    gallery: ["/images/tours/kashmir-paradise/1.webp", "/images/tours/kashmir-paradise/2.webp"],
     inclusions: ["AC Sedan / SUV transport", "Fuel, toll, parking and driver charges", "Dal Lake Shikara boat ride"],
     exclusions: ["Gondola cable car ride tickets", "Pony rides / local cabs in Pahalgam"],
     itinerary: [
@@ -643,12 +609,8 @@ export const TOURS_DATA: TourPackage[] = [
     destinations: ["Yamunotri Dham", "Gangotri Dham", "Kedarnath Jyotirlinga", "Badrinath Dham"],
     rating: 4.9,
     reviewsCount: 680,
-    image: "/tours/char-dham-yatra.webp",
-    gallery: [
-      "/tours/char-dham-yatra.webp",
-      "photo-1596176530529-78163a4f7af2",
-      "photo-1544735716-392fe2489ffa"
-    ],
+    image: "/images/tours/char-dham-yatra/1.webp",
+    gallery: ["/images/tours/char-dham-yatra/1.webp", "/images/tours/char-dham-yatra/2.webp"],
     inclusions: ["Chauffeur-driven Tempo Traveller (17-seater)", "All state permits, hill tolls, fuel & driver stay", "Local yatra desk assistance"],
     exclusions: ["Helicopter/Pony booking in Kedarnath", "Hotel lodging", "Guide charges"],
     itinerary: [
@@ -665,3 +627,32 @@ export const TOURS_DATA: TourPackage[] = [
     ]
   }
 ];
+
+export const TOUR_PRICING: Record<string, { fiveSeater?: string; sevenSeater?: string; special?: { label: string; price: string }[] }> = {
+  "ayodhya-darshan": { fiveSeater: "₹5,500–6,200", sevenSeater: "₹7,500–8,200" },
+  "mathura-vrindavan": { fiveSeater: "₹11,000–11,700", sevenSeater: "₹15,000–15,700" },
+  "chitrakoot-tour": { fiveSeater: "₹6,500–7,200", sevenSeater: "₹8,500–9,200" },
+  "khatu-shyam-ji": { fiveSeater: "₹17,000–18,000", sevenSeater: "₹21,000–22,000" },
+  "mahakal-omkareshwar": { fiveSeater: "₹20,000–21,000", sevenSeater: "₹26,000–27,000" },
+  "kashi-vishwanath": { fiveSeater: "₹10,500–11,200", sevenSeater: "₹12,500–13,200" },
+  "prayagraj-sangam": { fiveSeater: "₹6,500–7,200", sevenSeater: "₹8,500–9,200" },
+  "haridwar-rishikesh": { fiveSeater: "₹6,500–7,200", sevenSeater: "₹8,500–9,200" },
+  "nainital-tour": { fiveSeater: "₹9,500–10,500", sevenSeater: "₹12,500–13,500" },
+  "mussoorie-tour": { fiveSeater: "₹10,500–11,500", sevenSeater: "₹13,500–14,500" },
+  "neem-karoli-kainchi-dham": { fiveSeater: "₹11,500–13,000", sevenSeater: "₹14,500–16,500" },
+  "kullu-manali": { fiveSeater: "₹32,000–33,800", sevenSeater: "₹42,000–43,800" },
+  "shimla-tour": { fiveSeater: "₹26,000–27,800", sevenSeater: "₹36,000–37,800" },
+  "vaishno-devi": { fiveSeater: "₹40,000–43,500", sevenSeater: "₹50,000–53,500" },
+  "jaipur-tour": { fiveSeater: "₹11,500–12,500", sevenSeater: "₹14,500–15,500" },
+  "rajasthan-heritage": { fiveSeater: "₹38,000–39,800", sevenSeater: "₹48,000–49,800" },
+  "goa-tour": { fiveSeater: "₹24,000–25,500", sevenSeater: "₹31,000–32,500" },
+  "kerala-tour": { fiveSeater: "₹28,000–29,800", sevenSeater: "₹36,000–37,800" },
+  "amritsar-wagah": { fiveSeater: "₹9,000–10,000", sevenSeater: "₹11,500–12,500" },
+  "ujjain-indore": { fiveSeater: "₹7,500–8,200", sevenSeater: "₹9,500–10,200" },
+  "dwarka-somnath": { fiveSeater: "₹22,000–23,500", sevenSeater: "₹28,000–29,500" },
+  "rameshwaram-madurai": { fiveSeater: "₹24,000–25,500", sevenSeater: "₹30,000–31,500" },
+  "leh-ladakh": { fiveSeater: "₹55,000–58,500", sevenSeater: "₹70,000–73,500" },
+  "mumbai-tour": { fiveSeater: "₹28,000–34,000", sevenSeater: "₹36,000–44,000" },
+  "kashmir-paradise": { fiveSeater: "₹50,000–53,500", sevenSeater: "₹65,000–68,500" },
+  "char-dham-yatra": { special: [{ label: "17-Seater Tempo", price: "₹1,40,000" }, { label: "26-Seater Bus", price: "₹1,90,000" }] }
+};

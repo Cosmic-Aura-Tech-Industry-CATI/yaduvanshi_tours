@@ -4,9 +4,10 @@ import Link from "next/link";
 import { motion, useInView } from "motion/react";
 import { Star, Clock, ArrowRight } from "lucide-react";
 import { useEffect, useState, useRef } from "react";
-import type { TourPackage } from "@/data/tours";
+import { type TourPackage, TOUR_PRICING } from "@/data/tours";
 
-const GOLD = "#C9A84C";
+const GOLD = "#E8B96A";
+const BRASS = "#CF9D7B";
 
 // Image resolver for both local assets and Unsplash CDN keys
 export const resolveImg = (src: string, w: number, h: number) =>
@@ -51,7 +52,7 @@ export function PriceTag({ price, type }: { price: number; type: TourPackage["pr
   return (
     <div className="flex flex-col">
       <div className="flex items-baseline gap-1">
-        <span className="text-lg md:text-xl font-serif font-bold text-[#C9A84C]">
+        <span className="text-lg md:text-xl font-serif font-bold text-[#E8B96A]">
           {formatIndianCurrency(price)}
         </span>
         <span className="text-[10px] font-mono text-white/50 uppercase tracking-wider">
@@ -64,6 +65,17 @@ export function PriceTag({ price, type }: { price: number; type: TourPackage["pr
 
 // Reusable TourCard Component
 export function TourCard({ tour }: { tour: TourPackage }) {
+  const images = [tour.image, ...(tour.gallery || [])].filter((img, idx, self) => self.indexOf(img) === idx);
+  const [currentImgIdx, setCurrentImgIdx] = useState(0);
+
+  useEffect(() => {
+    if (images.length <= 1) return;
+    const interval = setInterval(() => {
+      setCurrentImgIdx((prev) => (prev + 1) % images.length);
+    }, 4500);
+    return () => clearInterval(interval);
+  }, [images.length]);
+
   return (
     <motion.div
       layout
@@ -72,26 +84,36 @@ export function TourCard({ tour }: { tour: TourPackage }) {
       viewport={{ once: true, margin: "-40px" }}
       whileHover={{ y: -6 }}
       transition={{ duration: 0.35 }}
-      className="flex flex-col h-full rounded-2xl overflow-hidden border transition-all duration-300"
+      className="flex flex-col h-full rounded-2xl overflow-hidden border transition-all duration-300 glass-panel"
       style={{
-        background: "rgba(255,255,255,0.03)",
-        borderColor: "rgba(201,168,76,0.12)",
+        background: "rgba(58, 53, 52, 0.25)",
+        borderColor: "rgba(207, 157, 123, 0.15)",
         boxShadow: "0 10px 30px rgba(0,0,0,0.25)"
       }}
     >
       {/* Visual Image */}
       <div className="relative h-56 overflow-hidden bg-black/20">
-        <img
-          src={resolveImg(tour.image, 500, 360)}
-          alt={tour.name}
-          className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-        />
-        <div className="absolute top-4 left-4">
+        {images.map((img, idx) => (
+          <img
+            key={img}
+            src={resolveImg(img, 500, 360)}
+            alt={tour.name}
+            className="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out"
+            style={{
+              opacity: currentImgIdx === idx ? 1 : 0,
+              zIndex: currentImgIdx === idx ? 10 : 0,
+            }}
+          />
+        ))}
+        {/* Layer of gradient overlay on top of slide */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent z-20 pointer-events-none" />
+        
+        <div className="absolute top-4 left-4 z-20">
           <RegionBadge region={tour.region} />
         </div>
         <div 
-          className="absolute bottom-4 right-4 flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-bold backdrop-blur-md border border-white/10"
-          style={{ background: "rgba(19,31,20,0.72)", color: GOLD }}
+          className="absolute bottom-4 right-4 flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-bold backdrop-blur-md border border-white/10 z-20"
+          style={{ background: "rgba(22, 33, 39, 0.72)", color: GOLD }}
         >
           <Clock size={12} /> {tour.durationDays} Days
         </div>
@@ -115,16 +137,54 @@ export function TourCard({ tour }: { tour: TourPackage }) {
         </div>
 
         {/* Footer actions */}
-        <div>
-          <div className="h-px w-full mb-4 bg-gradient-to-r from-white/10 to-transparent" />
-          <div className="flex items-center justify-between">
-            <PriceTag price={tour.startingPrice} type={tour.pricingType} />
+        <div className="mt-auto pt-3 border-t border-white/5">
+          {/* Detailed vehicle pricing ranges */}
+          {(() => {
+            const pricing = TOUR_PRICING[tour.slug];
+            if (pricing?.special) {
+              return (
+                <div className="space-y-1 mb-3">
+                  {pricing.special.map((s) => (
+                    <div key={s.label} className="flex items-center justify-between text-xs">
+                      <span className="text-[#D8CFC7]/50 font-mono">{s.label}</span>
+                      <span className="font-bold font-mono text-[#E8B96A]">{s.price}</span>
+                    </div>
+                  ))}
+                </div>
+              );
+            }
+            return (
+              <div className="space-y-1 mb-3">
+                <div className="flex items-center justify-between text-xs">
+                  <span className="text-[#D8CFC7]/50 font-mono">5-Seater Range</span>
+                  <span className="font-bold font-mono text-[#E8B96A]">
+                    {pricing?.fiveSeater || `${formatIndianCurrency(tour.startingPrice)}–${formatIndianCurrency(Math.round(tour.startingPrice * 1.15))}`}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between text-xs">
+                  <span className="text-[#D8CFC7]/50 font-mono">7-Seater Range</span>
+                  <span className="font-semibold font-mono text-[#D8CFC7]">
+                    {pricing?.sevenSeater || `${formatIndianCurrency(Math.round(tour.startingPrice * 1.35))}–${formatIndianCurrency(Math.round(tour.startingPrice * 1.5))}`}
+                  </span>
+                </div>
+              </div>
+            );
+          })()}
+
+          <div className="flex gap-2.5 mt-4 font-accent tracking-widest text-[10px]">
             <Link
               href={`/tours/${tour.slug}`}
-              className="inline-flex items-center justify-center w-8 h-8 rounded-full transition-all duration-300 border hover:scale-105"
-              style={{ borderColor: "rgba(201,168,76,0.3)", color: GOLD }}
+              className="flex-1 text-center py-2.5 rounded-lg transition-all duration-200 glass-panel hover:bg-white/5 border border-white/10"
+              style={{ color: GOLD }}
             >
-              <ArrowRight size={14} />
+              Details
+            </Link>
+            <Link
+              href={`/inquiry?package=${tour.slug}`}
+              className="flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-lg transition-all duration-200 hover:brightness-110"
+              style={{ background: `linear-gradient(135deg, ${GOLD}, ${BRASS})`, color: "#0C1519" }}
+            >
+              Book <ArrowRight size={10} />
             </Link>
           </div>
         </div>

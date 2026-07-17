@@ -6,12 +6,22 @@ import { motion, AnimatePresence, useInView } from "motion/react";
 import { ArrowRight, Calendar, Clock, MapPin, Compass } from "lucide-react";
 import { geoMercator, geoPath } from "d3-geo";
 
-// Style tokens
-const BG_DEEP = "#0d1a12";
-const GOLD = "#d4af37";
-const GOLD_SOFT = "#e8c766";
-const TEXT_MAIN = "#f2ede0";
-const TEXT_SUB = "#9db3a3";
+const BG_DEEP = "#0C1519";
+const BRASS = "#CF9D7B";
+const COFFEE = "#724B39";
+const GOLD = "#E8B96A";
+const IVORY = "#F5F0EA";
+const TEXT_SUB = "#D8CFC7";
+
+const STATE_TO_DEST_ID: Record<string, string> = {
+  "Rajasthan": "jaipur",
+  "Himachal Pradesh": "manali",
+  "Jammu & Kashmir": "gulmarg",
+  "Uttar Pradesh": "varanasi",
+  "Goa": "goa",
+  "Kerala": "munnar",
+  "Gujarat": "kutch"
+};
 
 interface Destination {
   id: string;
@@ -131,13 +141,11 @@ export function MapCtaSection() {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
 
   const containerRef = useRef<HTMLElement>(null);
-  // Viewport tracking to only animate and load when visible, saving system resources
   const isSectionInView = useInView(containerRef, { once: false, margin: "-80px" });
 
   const width = 600;
   const height = 700;
 
-  // d3-geo projection configuration
   const projection = useMemo(() => {
     return geoMercator()
       .center([78.9629, 22.5937])
@@ -148,7 +156,6 @@ export function MapCtaSection() {
   const pathGenerator = useMemo(() => geoPath().projection(projection), [projection]);
 
   useEffect(() => {
-    // Only load dataset when section is in or close to viewport
     if (!isSectionInView && geoData) return;
 
     fetch("/india_state.geojson")
@@ -157,7 +164,6 @@ export function MapCtaSection() {
       .catch((err) => console.error("Error loading India GeoJSON map:", err));
   }, [isSectionInView]);
 
-  // Memoize path generation so it's calculated ONCE on data mount, not per hover or re-render tick
   const computedStatePaths = useMemo(() => {
     if (!geoData) return [];
     return geoData.features.map((feature: any, idx: number) => {
@@ -174,35 +180,38 @@ export function MapCtaSection() {
   }, [selectedId]);
 
   return (
-    <section 
+    <section
       ref={containerRef}
       className="py-24 px-6 lg:px-12 relative overflow-hidden"
       style={{ background: BG_DEEP }}
     >
-      {/* Background ambient lighting */}
-      <div 
-        className="absolute inset-0 pointer-events-none opacity-[0.06]"
-        style={{ backgroundImage: `radial-gradient(circle, ${GOLD} 1px, transparent 1px)`, backgroundSize: "32px 32px" }}
+      {/* Ambient glow blobs */}
+      <div className="ambient-blob-brass" style={{ top: "5%", right: "-5%" }} />
+      <div className="ambient-blob-coffee" style={{ bottom: "10%", left: "-3%" }} />
+
+      {/* Background dot pattern */}
+      <div
+        className="absolute inset-0 pointer-events-none opacity-[0.04]"
+        style={{ backgroundImage: `radial-gradient(circle, ${BRASS} 1px, transparent 1px)`, backgroundSize: "32px 32px" }}
       />
-      <div 
-        className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full pointer-events-none"
-        style={{ background: `radial-gradient(circle, ${GOLD}08, transparent 70%)` }}
-      />
+
+      {/* Top glow divider */}
+      <div className="glow-divider absolute top-0 inset-x-0" />
 
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="text-center mb-16">
-          <motion.p 
-            className="font-serif italic text-xl md:text-2xl mb-2"
-            style={{ color: GOLD }}
+          <motion.p
+            className="font-script text-xl md:text-2xl mb-2"
+            style={{ color: BRASS }}
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
             Sacred Destinations
           </motion.p>
-          <motion.h2 
-            className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold tracking-wide mb-4"
-            style={{ color: TEXT_MAIN }}
+          <motion.h2
+            className="font-display text-3xl md:text-4xl lg:text-5xl font-bold tracking-wide mb-4 text-glow-gold"
+            style={{ color: GOLD }}
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -211,52 +220,77 @@ export function MapCtaSection() {
             Explore the Heart of India
           </motion.h2>
           <div className="flex items-center justify-center gap-2 mt-4">
-            <div className="w-10 h-px" style={{ background: GOLD }} />
-            <div className="w-2 h-2 rotate-45" style={{ background: GOLD }} />
-            <div className="w-10 h-px" style={{ background: GOLD }} />
+            <div className="w-10 h-px" style={{ background: `linear-gradient(to right, ${BRASS}, transparent)` }} />
+            <div className="w-2 h-2 rotate-45" style={{ background: BRASS, boxShadow: `0 0 8px ${BRASS}60` }} />
+            <div className="w-10 h-px" style={{ background: `linear-gradient(to left, ${BRASS}, transparent)` }} />
           </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           {/* ── Left Side: Interactive Map ── */}
           <div className="lg:col-span-7 flex justify-center relative">
-            <div 
-              className="w-full max-w-[550px] p-6 rounded-2xl border relative transition-shadow duration-500"
-              style={{ 
-                background: "rgba(13,26,18,0.6)", 
-                borderColor: "rgba(212,175,55,0.12)",
-                boxShadow: "0 20px 50px rgba(0,0,0,0.5), inset 0 0 20px rgba(212,175,55,0.02)"
-              }}
+            <div
+              className="w-full max-w-[550px] p-6 rounded-2xl relative transition-shadow duration-500 glass-panel-strong"
             >
               {geoData ? (
                 <svg viewBox={`0 0 ${width} ${height}`} className="w-full h-auto drop-shadow-[0_10px_15px_rgba(0,0,0,0.8)]">
                   {/* GeoJSON Map paths */}
                   <g>
-                    {computedStatePaths.map((item: any, idx: number) => (
-                      <path
-                        key={idx}
-                        d={item.path}
-                        fill="rgba(212, 175, 55, 0.025)"
-                        stroke={GOLD}
-                        strokeWidth={0.8}
-                        className="transition-all duration-300 hover:fill-[rgba(212,175,55,0.08)]"
-                        style={{
-                          strokeOpacity: 0.22,
-                        }}
-                      />
-                    ))}
+                    {computedStatePaths.map((item: any, idx: number) => {
+                      const destId = STATE_TO_DEST_ID[item.name];
+                      const isSelectedState = destId && selectedId === destId;
+                      const isHoveredState = destId && hoveredId === destId;
+                      const isInteractive = !!destId;
+
+                      return (
+                        <path
+                          key={idx}
+                          d={item.path}
+                          fill={
+                            isSelectedState || isHoveredState
+                              ? "rgba(232, 185, 106, 0.08)"
+                              : "rgba(207, 157, 123, 0.025)"
+                          }
+                          stroke={isSelectedState || isHoveredState ? GOLD : BRASS}
+                          strokeWidth={isSelectedState || isHoveredState ? 1.5 : 0.8}
+                          className={`transition-all duration-300 ${
+                            isInteractive
+                              ? "cursor-pointer hover:fill-[rgba(232,185,106,0.12)]"
+                              : ""
+                          }`}
+                          style={{
+                            strokeOpacity: isSelectedState || isHoveredState ? 0.9 : 0.2,
+                          }}
+                          onClick={() => {
+                            if (destId) {
+                              setSelectedId(destId);
+                            }
+                          }}
+                          onMouseEnter={() => {
+                            if (destId) {
+                              setHoveredId(destId);
+                            }
+                          }}
+                          onMouseLeave={() => {
+                            if (destId) {
+                              setHoveredId(null);
+                            }
+                          }}
+                        />
+                      );
+                    })}
                   </g>
 
-                  {/* Geographically accurate Destination Markers */}
+                  {/* Destination Markers */}
                   {DESTINATIONS.map((d) => {
                     const coords = projection([d.lon, d.lat]);
                     if (!coords) return null;
                     const [cx, cy] = coords;
                     const isSelected = selectedId === d.id;
-                    const isHovered = hoveredId === d.id;
+                    const isTransition = hoveredId === d.id;
 
                     return (
-                      <g 
+                      <g
                         key={d.id}
                         onClick={() => setSelectedId(d.id)}
                         onMouseEnter={() => setHoveredId(d.id)}
@@ -270,27 +304,27 @@ export function MapCtaSection() {
                           }
                         }}
                       >
-                        {/* Outer hover ring indicator */}
+                        {/* Outer hover ring */}
                         <circle
                           cx={cx}
                           cy={cy}
                           r={16}
                           fill="none"
-                          stroke={GOLD}
+                          stroke={BRASS}
                           strokeWidth={1.2}
                           className="opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                         />
 
-                        {/* Pulsing indicator loop using transform scale/opacity (GPU-accelerated, will-change optimized) */}
+                        {/* Pulsing indicator */}
                         {isSectionInView && (
                           <motion.circle
                             cx={cx}
                             cy={cy}
                             r={8}
                             fill="none"
-                            stroke={GOLD}
+                            stroke={BRASS}
                             strokeWidth={1.2}
-                            style={{ 
+                            style={{
                               transformOrigin: `${cx}px ${cy}px`,
                               willChange: "transform, opacity"
                             }}
@@ -302,18 +336,19 @@ export function MapCtaSection() {
                           />
                         )}
 
-                        {/* Central Pin Point */}
+                        {/* Central Pin */}
                         <circle
                           cx={cx}
                           cy={cy}
                           r={isSelected ? 5.5 : 4}
-                          fill={isSelected ? GOLD_SOFT : GOLD}
+                          fill={isSelected ? GOLD : BRASS}
                           className="transition-all duration-300"
+                          style={{ filter: isSelected ? `drop-shadow(0 0 6px ${GOLD}80)` : "none" }}
                         />
 
-                        {/* Hover Name Label */}
+                        {/* Name Label */}
                         <AnimatePresence>
-                          {(isHovered || isSelected) && (
+                          {(isTransition || isSelected) && (
                             <g>
                               <rect
                                 x={cx - 40}
@@ -321,8 +356,8 @@ export function MapCtaSection() {
                                 width={80}
                                 height={18}
                                 rx={4}
-                                fill="rgba(13,26,18,0.92)"
-                                stroke="rgba(212,175,55,0.3)"
+                                fill="rgba(12,21,25,0.92)"
+                                stroke={`${BRASS}40`}
                                 strokeWidth={1}
                               />
                               <text
@@ -345,24 +380,24 @@ export function MapCtaSection() {
                 </svg>
               ) : (
                 <div className="h-[450px] flex flex-col items-center justify-center gap-4 text-center">
-                  <Compass className="animate-spin text-amber-500/50" size={32} />
+                  <Compass className="animate-spin" size={32} style={{ color: `${BRASS}60` }} />
                   <span className="text-sm font-mono" style={{ color: TEXT_SUB }}>Loading geographic boundaries...</span>
                 </div>
               )}
 
-              {/* Compass symbol decoration */}
-              <div className="absolute bottom-5 right-5 opacity-25 pointer-events-none">
-                <svg viewBox="0 0 50 50" className="w-12 h-12" fill="none" stroke={GOLD} strokeWidth="1">
+              {/* Compass decoration */}
+              <div className="absolute bottom-5 right-5 opacity-20 pointer-events-none">
+                <svg viewBox="0 0 50 50" className="w-12 h-12" fill="none" stroke={BRASS} strokeWidth="1">
                   <circle cx="25" cy="25" r="21" strokeDasharray="3 3" />
                   <path d="M25 4 L25 46 M4 25 L46 25" />
-                  <polygon points="25,7 28,21 25,25 22,21" fill={GOLD} stroke="none" />
-                  <text x="21.5" y="6" fill={GOLD} fontSize="7" fontFamily="monospace" fontWeight="bold">N</text>
+                  <polygon points="25,7 28,21 25,25 22,21" fill={BRASS} stroke="none" />
+                  <text x="21.5" y="6" fill={BRASS} fontSize="7" fontFamily="monospace" fontWeight="bold">N</text>
                 </svg>
               </div>
             </div>
           </div>
 
-          {/* ── Right Side: Destination Detail Side Panel ── */}
+          {/* ── Right Side: Destination Detail Panel ── */}
           <div className="lg:col-span-5 h-full flex flex-col justify-center">
             <AnimatePresence mode="wait">
               <motion.div
@@ -371,36 +406,31 @@ export function MapCtaSection() {
                 animate={{ opacity: 1, x: 0, scale: 1 }}
                 exit={{ opacity: 0, x: -22, scale: 0.98 }}
                 transition={{ duration: 0.28, ease: "easeOut" }}
-                className="w-full rounded-2xl overflow-hidden shadow-2xl flex flex-col h-full border"
-                style={{ 
-                  background: "rgba(13,26,18,0.7)", 
-                  borderColor: "rgba(212,175,55,0.12)",
-                  backdropFilter: "blur(12px)"
-                }}
+                className="w-full rounded-2xl overflow-hidden shadow-2xl flex flex-col h-full glass-panel-strong corner-brackets"
               >
-                {/* Visual Image container */}
+                {/* Image */}
                 <div className="relative h-60 overflow-hidden bg-black/40">
                   <img
                     src={activeDest.image}
                     alt={activeDest.name}
                     className="w-full h-full object-cover"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0d1a12] via-transparent to-transparent" />
-                  <div 
-                    className="absolute top-4 right-4 flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold backdrop-blur-md"
-                    style={{ background: "rgba(13,26,18,0.65)", color: GOLD, border: `1px solid rgba(212,175,55,0.25)` }}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0C1519] via-transparent to-transparent" />
+                  <div
+                    className="absolute top-4 right-4 flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold glass-panel"
+                    style={{ color: GOLD }}
                   >
                     <Calendar size={11} /> {activeDest.season}
                   </div>
                 </div>
 
-                {/* Content Panel */}
+                {/* Content */}
                 <div className="p-6 md:p-8 flex flex-col gap-5 flex-1 justify-between">
                   <div className="space-y-3">
-                    <span className="text-[10px] tracking-[0.2em] font-mono uppercase" style={{ color: GOLD }}>
+                    <span className="text-[9px] tracking-[0.2em] font-accent uppercase" style={{ color: BRASS }}>
                       Selected Package
                     </span>
-                    <h3 className="font-serif text-3xl font-bold tracking-wide" style={{ color: TEXT_MAIN }}>
+                    <h3 className="font-display text-3xl font-bold tracking-wide text-glow-gold" style={{ color: GOLD }}>
                       {activeDest.name}
                     </h3>
                     <p className="text-sm font-sans leading-relaxed" style={{ color: TEXT_SUB }}>
@@ -408,45 +438,37 @@ export function MapCtaSection() {
                     </p>
                   </div>
 
-                  {/* Specs & Pricing */}
-                  <div className="grid grid-cols-2 gap-4 py-4 border-t border-b" style={{ borderColor: "rgba(212,175,55,0.12)" }}>
-                    <div className="flex items-center gap-2">
-                      <Clock size={16} style={{ color: GOLD }} />
+                  {/* Specs */}
+                  <div className="grid grid-cols-2 gap-4 py-4 border-t border-b" style={{ borderColor: `${BRASS}15` }}>
+                    <div className="flex items-center gap-2 font-sans">
+                      <Clock size={16} style={{ color: BRASS }} />
                       <div>
                         <span className="block text-[9px] uppercase font-mono tracking-wider" style={{ color: TEXT_SUB }}>Duration</span>
-                        <span className="block text-xs font-semibold" style={{ color: TEXT_MAIN }}>{activeDest.duration}</span>
+                        <span className="block text-xs font-semibold" style={{ color: IVORY }}>{activeDest.duration}</span>
                       </div>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <MapPin size={16} style={{ color: GOLD }} />
+                    <div className="flex items-center gap-2 font-sans">
+                      <MapPin size={16} style={{ color: BRASS }} />
                       <div>
                         <span className="block text-[9px] uppercase font-mono tracking-wider" style={{ color: TEXT_SUB }}>Starts From</span>
-                        <span className="block text-xs font-bold" style={{ color: GOLD }}>{activeDest.price}</span>
+                        <span className="block text-xs font-bold text-glow-gold" style={{ color: GOLD }}>{activeDest.price}</span>
                       </div>
                     </div>
                   </div>
 
                   {/* Actions */}
-                  <div className="flex flex-col sm:flex-row gap-3">
+                  <div className="flex flex-col sm:flex-row gap-3 font-accent tracking-widest text-[10px]">
                     <Link
                       href={`/tours/${activeDest.slug}`}
-                      className="flex-1 inline-flex items-center justify-center gap-2 py-3 px-5 font-semibold text-xs rounded-sm transition-all duration-300"
-                      style={{ background: GOLD, color: BG_DEEP }}
-                      onMouseEnter={e => ((e.currentTarget as HTMLElement).style.background = GOLD_SOFT)}
-                      onMouseLeave={e => ((e.currentTarget as HTMLElement).style.background = GOLD)}
+                      className="flex-1 inline-flex items-center justify-center gap-2 py-3.5 px-5 font-semibold rounded-sm transition-all duration-300 hover:brightness-110 btn-glow"
+                      style={{ background: `linear-gradient(135deg, ${GOLD}, ${BRASS})`, color: "#0C1519" }}
                     >
                       View Tour Package <ArrowRight size={13} />
                     </Link>
                     <Link
                       href={`/inquiry?package=${activeDest.slug}`}
-                      className="inline-flex items-center justify-center py-3 px-6 text-xs font-semibold border rounded-sm transition-all duration-300"
-                      style={{ borderColor: "rgba(212,175,55,0.3)", color: TEXT_MAIN }}
-                      onMouseEnter={e => {
-                        (e.currentTarget as HTMLElement).style.background = "rgba(212,175,55,0.06)";
-                      }}
-                      onMouseLeave={e => {
-                        (e.currentTarget as HTMLElement).style.background = "transparent";
-                      }}
+                      className="inline-flex items-center justify-center py-3.5 px-6 font-semibold rounded-sm transition-all duration-300 glass-panel hover:bg-white/5"
+                      style={{ color: IVORY }}
                     >
                       Plan Trip
                     </Link>
