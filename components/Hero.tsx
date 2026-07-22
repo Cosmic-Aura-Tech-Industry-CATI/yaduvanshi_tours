@@ -333,7 +333,7 @@ export function Hero() {
             className="absolute top-1/2 left-1/2 min-w-full min-h-full w-full h-full object-cover object-center"
             style={{ transform: "translate(-50%, -50%)" }}
           >
-            <source src={isMobile ? "/videos/hero-video-mobile.mp4" : "/videos/hero-video-desktop.mp4"} type="video/mp4" />
+            <source src="/videos/india-cinematic-loop-4k-compressed.webm" type="video/webm" />
           </video>
         </motion.div>
 
