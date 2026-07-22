@@ -37,16 +37,28 @@ export function PackagesSection() {
 
   return (
     <div id="tours-section">
-      {/* ── Packages Grid ── */}
-      <section className="py-20 px-6 lg:px-12 relative overflow-hidden" style={{ background: "#162127" }}>
+      {/* ── Hero Header with Full-Bleed Background Image ── */}
+      <section className="relative pt-20 pb-0 px-6 lg:px-12 overflow-hidden z-10" style={{ background: "#162127" }}>
+        {/* Full-Bleed Background Image */}
+        <img
+          src="/tours/Copilot_20260719_213737.png"
+          alt="Popular Tour Packages Hero Background"
+          className="absolute inset-0 w-full h-full object-cover z-0"
+        />
+        
+        {/* Dark theme gradient overlay for contrast and readability */}
+        <div 
+          className="absolute inset-0 z-10 bg-gradient-to-b from-black/70 via-black/50 to-[#162127]"
+        />
+
         {/* Ambient blobs */}
-        <div className="ambient-blob-coffee" style={{ top: "15%", left: "-5%" }} />
-        <div className="ambient-blob-brass" style={{ bottom: "10%", right: "-3%" }} />
+        <div className="ambient-blob-coffee z-20" style={{ top: "15%", left: "-5%" }} />
+        <div className="ambient-blob-brass z-20" style={{ bottom: "10%", right: "-3%" }} />
 
         {/* Top glow divider */}
-        <div className="glow-divider absolute top-0 inset-x-0" />
+        <div className="glow-divider absolute top-0 inset-x-0 z-20" />
 
-        <div className="max-w-7xl mx-auto relative z-10">
+        <div className="max-w-7xl mx-auto relative z-30">
           {/* Header */}
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
             <div>
@@ -85,7 +97,7 @@ export function PackagesSection() {
           </div>
 
           {/* Filter tabs — glass pills */}
-          <div className="flex gap-2 flex-wrap mb-10 relative">
+          <div className="flex gap-2 flex-wrap relative">
             {PKG_FILTERS.map((f) => (
               <button
                 key={f}
@@ -118,7 +130,16 @@ export function PackagesSection() {
               </button>
             ))}
           </div>
+        </div>
+      </section>
 
+      {/* ── Packages Grid (Immediate transition below hero header) ── */}
+      <section className="pb-20 pt-10 px-6 lg:px-12 relative overflow-hidden" style={{ background: "#162127" }}>
+        {/* Ambient blobs */}
+        <div className="ambient-blob-coffee" style={{ top: "15%", left: "-5%" }} />
+        <div className="ambient-blob-brass" style={{ bottom: "10%", right: "-3%" }} />
+
+        <div className="max-w-7xl mx-auto relative z-10">
           {/* Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             <AnimatePresence mode="popLayout">

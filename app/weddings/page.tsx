@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { motion } from "motion/react";
 import { ArrowRight, Heart, UserCheck, Sparkles } from "lucide-react";
@@ -7,50 +8,192 @@ import { ArrowRight, Heart, UserCheck, Sparkles } from "lucide-react";
 const BRASS = "#CF9D7B";
 const COFFEE = "#724B39";
 const GOLD = "#E8B96A";
-
-const resolveImg = (src: string, w: number, h: number) =>
-  src.startsWith("/")
-    ? src
-    : `https://images.unsplash.com/${src}?w=${w}&h=${h}&fit=crop&auto=format&q=85`;
+const IVORY = "#F5F0EA";
 
 const WEDDING_FLEET = [
   {
-    name: "Mercedes-Benz E-Class",
-    category: "Luxury Flagship",
-    tagline: "Ultimate luxury and styling for the bride & groom's grand exit.",
-    image: "/weddings/wedding-car.webp",
-  },
-  {
-    name: "Audi A6 Sedan",
-    category: "Luxury Elite",
-    tagline: "Sophisticated styling and panoramic comfort for VIP entries.",
-    image: "/weddings/wedding-convoy.webp",
-  },
-  {
-    name: "Toyota Fortuner",
-    category: "Command SUV",
-    tagline: "Unmatched road presence for the groom's baraat leading caravan.",
-    image: "/vehicles/toyota-fortuner.webp",
-  },
-  {
     name: "Honda City (Sunroof)",
-    category: "Executive Sedan",
-    tagline: "Premium comfort and sunroof capture moments for the bride's arrival.",
-    image: "/weddings/wedding-couple.webp",
-  },
-  {
-    name: "Mahindra Scorpio",
-    category: "Commanding Escort",
-    tagline: "High stability and presence for bridal family logistics.",
-    image: "/vehicles/toyota-innova-crysta.webp",
+    category: "SEDANS",
+    seats: 5,
+    price: "₹3,800 – ₹7,000",
+    image: "/vehicles/honda-city.webp"
   },
   {
     name: "Hyundai Verna (Sunroof)",
-    category: "Executive Sport",
-    tagline: "Dynamic look, perfect for modern photoshoot themes.",
-    image: "/vehicles/maruti-dzire.webp",
+    category: "SEDANS",
+    seats: 5,
+    price: "₹4,000 – ₹7,500",
+    image: "/vehicles/hyundai-verna.webp"
   },
+  {
+    name: "Mahindra Scorpio",
+    category: "SUVS",
+    seats: 7,
+    price: "₹2,700 – ₹4,000",
+    image: "/vehicles/mahindra-scorpio.webp"
+  },
+  {
+    name: "Toyota Fortuner",
+    category: "SUVS",
+    seats: 7,
+    price: "₹22,000 – ₹30,000",
+    image: "/vehicles/toyota-fortuner.webp"
+  },
+  {
+    name: "Audi A6",
+    category: "LUXURY CARS",
+    seats: 5,
+    price: "₹12,000 – ₹18,000",
+    image: "/vehicles/audi-a6.webp"
+  },
+  {
+    name: "Mercedes-Benz",
+    category: "LUXURY CARS",
+    seats: 5,
+    price: "₹18,000 – ₹30,000",
+    image: "/vehicles/mercedes-benz.webp"
+  }
 ];
+
+function WeddingFleetCard({ car, idx }: { car: typeof WEDDING_FLEET[0]; idx: number }) {
+  const [hovered, setHovered] = useState(false);
+
+  return (
+    <motion.div 
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ delay: idx * 0.08, duration: 0.5 }}
+      whileHover={{ y: -6 }}
+      onHoverStart={() => setHovered(true)}
+      onHoverEnd={() => setHovered(false)}
+      className="rounded-2xl overflow-hidden border flex flex-col glass-panel corner-brackets hover-glow transition-all duration-300"
+      style={{
+        boxShadow: hovered
+          ? `0 0 35px rgba(207, 157, 123, 0.35), 0 20px 40px rgba(0,0,0,0.55)`
+          : "0 0 20px rgba(207, 157, 123, 0.12), 0 4px 20px rgba(0,0,0,0.35)",
+        border: hovered ? `1.5px solid ${BRASS}50` : "1.5px solid rgba(207, 157, 123, 0.18)",
+        background: "rgba(22, 33, 39, 0.15)",
+        transition: "border 0.3s, box-shadow 0.4s",
+      }}
+    >
+      {/* Image: white background, centered model, reuse Vehicle Rentals source */}
+      <div className="h-40 bg-white flex items-center justify-center p-4 relative overflow-hidden border-b border-white/5">
+        {/* Shimmer overlay */}
+        <div
+          className="absolute inset-0 z-10 pointer-events-none"
+          style={{
+            background: `linear-gradient(105deg, transparent 40%, rgba(207, 157, 123, 0.08) 50%, transparent 60%)`,
+            transform: hovered ? "translateX(100%)" : "translateX(-100%)",
+            transition: "transform 0.9s ease",
+          }}
+        />
+
+        <img
+          src={car.image}
+          alt={car.name}
+          className="w-full h-full object-contain transition-transform duration-700 relative z-0"
+          style={{ transform: hovered ? "scale(1.05)" : "scale(1)" }}
+        />
+      </div>
+      
+      {/* Content Body */}
+      <div className="p-4 flex-1 flex flex-col justify-between">
+        <div>
+          {/* Uppercase Category label */}
+          <span className="text-[#E8B96A] font-accent text-[9px] font-bold uppercase tracking-widest block mb-1.5">
+            {car.category}
+          </span>
+          
+          {/* Name (Bold, large font, wraps to two lines if needed) */}
+          <h3 
+            className="font-display font-bold text-sm transition-colors leading-tight mb-2"
+            style={{ color: hovered ? GOLD : IVORY }}
+          >
+            {car.name}
+          </h3>
+          
+          {/* Seats count with icon row */}
+          <div className="flex items-center gap-1.5 text-[10px] text-[#D8CFC7]/50 font-mono mb-3">
+            <span className="text-[#CF9D7B]">👤</span>
+            <span>{car.seats} Seats</span>
+          </div>
+        </div>
+
+        <div>
+          {/* Price range in gold, larger font, own line */}
+          <div className="text-[#E8B96A] font-mono font-bold text-sm mb-4">
+            {car.price}
+          </div>
+          
+          {/* Reserve Car button: outline/ghost style, full-width, links to prefilled inquiry */}
+          <Link
+            href={`/inquiry?type=wedding&vehicle=${encodeURIComponent(car.name)}`}
+            className="w-full py-2 rounded-lg border flex items-center justify-center gap-1 text-[9px] font-accent tracking-widest uppercase font-bold transition-all duration-200"
+            style={{
+              borderColor: hovered ? GOLD : "rgba(232, 185, 106, 0.3)",
+              color: hovered ? "#0C1519" : GOLD,
+              background: hovered ? GOLD : "transparent"
+            }}
+          >
+            Reserve Car <ArrowRight size={10} />
+          </Link>
+        </div>
+      </div>
+
+      {/* Animated bottom glowing line on hover */}
+      <div
+        className="absolute bottom-0 left-0 h-0.5 transition-all duration-500"
+        style={{
+          width: hovered ? "100%" : "0%",
+          background: `linear-gradient(to right, ${GOLD}, ${BRASS})`,
+          boxShadow: hovered ? `0 0 10px ${GOLD}40` : "none",
+        }}
+      />
+    </motion.div>
+  );
+}
+
+function WeddingSpecialityCard({ srv, idx }: { srv: any; idx: number }) {
+  const [hovered, setHovered] = useState(false);
+  const Icon = srv.Icon;
+
+  return (
+    <motion.div 
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ delay: idx * 0.1, duration: 0.5 }}
+      whileHover={{ y: -5 }}
+      onHoverStart={() => setHovered(true)}
+      onHoverEnd={() => setHovered(false)}
+      className="p-6 rounded-xl border flex flex-col items-center text-center gap-4 glass-panel corner-brackets hover-glow transition-all duration-300"
+      style={{
+        background: "rgba(58, 53, 52, 0.25)",
+        border: hovered ? `1px solid ${BRASS}50` : "1px solid rgba(207, 157, 123, 0.15)",
+        boxShadow: hovered ? `0 0 25px rgba(207, 157, 123, 0.2)` : "none"
+      }}
+    >
+      <div 
+        className="w-12 h-12 rounded-lg flex items-center justify-center mb-2 transition-all duration-500"
+        style={{
+          background: hovered ? GOLD : "rgba(207, 157, 123, 0.1)",
+          border: `1px solid rgba(207, 157, 123, 0.25)`,
+          transform: hovered ? "scale(1.1) rotate(5deg)" : "scale(1)"
+        }}
+      >
+        <Icon size={20} style={{ color: hovered ? "#0C1519" : BRASS }} />
+      </div>
+      <h3 
+        className="font-display font-semibold text-base transition-colors duration-300"
+        style={{ color: hovered ? GOLD : IVORY }}
+      >
+        {srv.title}
+      </h3>
+      <p className="text-[#D8CFC7]/70 text-xs leading-relaxed font-sans">{srv.desc}</p>
+    </motion.div>
+  );
+}
 
 export default function WeddingsPage() {
   return (
@@ -61,35 +204,69 @@ export default function WeddingsPage() {
       <div className="absolute bottom-1/4 left-0 w-[600px] h-[600px] rounded-full pointer-events-none z-0 opacity-5"
         style={{ background: `radial-gradient(circle, ${COFFEE}, transparent 70%)` }} />
 
-      {/* Immersive Header */}
-      <section className="relative py-20 px-6 overflow-hidden z-10 text-center">
-        <div className="max-w-7xl mx-auto space-y-4">
+      {/* Immersive Header / Hero with Full-Bleed Background Image */}
+      <section className="relative py-24 px-6 overflow-hidden z-10 text-center flex items-center justify-center min-h-[380px] md:min-h-[460px]">
+        {/* Full-Bleed Background Image */}
+        <div 
+          className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage: "url('/vehicles/wedding-hero.png')",
+          }}
+        />
+        {/* Dark theme gradient overlay for contrast and readability */}
+        <div 
+          className="absolute inset-0 z-10 bg-gradient-to-b from-[#0C1519]/85 via-[#0C1519]/75 to-[#0C1519]"
+        />
+
+        {/* Content Layer */}
+        <div className="max-w-7xl mx-auto relative z-20 space-y-4">
           <span className="text-[#E8B96A] font-accent text-xs uppercase tracking-[0.25em] block mb-3 font-semibold">Premium Wedding Travel</span>
           <h1 className="font-display text-4xl md:text-6xl font-bold tracking-wide text-white">
             Tension-Free <span className="text-[#E8B96A]">Wedding Logistics</span>
           </h1>
-          <p className="text-[#D8CFC7]/60 text-sm md:text-base max-w-xl mx-auto mt-5 font-sans leading-relaxed">
+          <p className="text-[#D8CFC7]/80 text-sm md:text-base max-w-xl mx-auto mt-5 font-sans leading-relaxed">
             Ensure grand arrivals, coordinated airport pickups, and premium decorated rides handled by elite highway chauffeurs.
           </p>
           <div className="w-24 h-0.5 mx-auto mt-6" style={{ background: `linear-gradient(to right, transparent, ${BRASS}, transparent)` }} />
           
           <div className="pt-6">
-            <Link
-              href="/inquiry?type=wedding"
-              className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full text-xs font-bold font-accent tracking-widest cursor-pointer transition-all hover:brightness-110 text-[#0C1519]"
-              style={{
-                background: `linear-gradient(135deg, ${GOLD}, ${BRASS})`,
-                boxShadow: `0 4px 15px rgba(232,185,106,0.2)`
-              }}
+            <motion.div
+              whileHover={{ scale: 1.03, y: -2 }}
+              whileTap={{ scale: 0.98 }}
+              className="inline-block"
             >
-              GET WEDDING QUOTE <ArrowRight size={14} />
-            </Link>
+              <Link
+                href="/inquiry?type=wedding"
+                className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full text-xs font-bold font-accent tracking-widest cursor-pointer transition-all text-[#0C1519]"
+                style={{
+                  background: `linear-gradient(135deg, ${GOLD}, ${BRASS})`,
+                  boxShadow: `0 4px 20px rgba(232, 185, 106, 0.35)`
+                }}
+              >
+                GET WEDDING QUOTE <ArrowRight size={14} />
+              </Link>
+            </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Core Services Focus */}
+      {/* Featured Fleet grid (Premium Selection - Handpicked for your big day) */}
       <section className="max-w-7xl mx-auto px-6 mt-16 relative z-10">
+        <div className="text-center mb-12">
+          <span className="text-[#CF9D7B] font-accent text-xs uppercase tracking-[0.2em] font-semibold">Premium Selection</span>
+          <h2 className="font-display text-3xl font-bold text-white mt-2 font-serif">Handpicked for your big day.</h2>
+          <div className="w-16 h-px mx-auto mt-4" style={{ background: `linear-gradient(to right, transparent, ${COFFEE}, transparent)` }} />
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-6">
+          {WEDDING_FLEET.map((car, idx) => (
+            <WeddingFleetCard key={idx} car={car} idx={idx} />
+          ))}
+        </div>
+      </section>
+
+      {/* Core Services Focus (How We Serve You - Our Wedding Specialities) */}
+      <section className="max-w-7xl mx-auto px-6 mt-28 relative z-10">
         <div className="text-center mb-12">
           <span className="text-[#CF9D7B] font-accent text-xs uppercase tracking-[0.2em] font-semibold">How We Serve You</span>
           <h2 className="font-display text-3xl font-bold text-white mt-2">Our Wedding Specialities</h2>
@@ -114,73 +291,7 @@ export default function WeddingsPage() {
               desc: "Coordinated guest transits in luxury Tempo Travellers or MPVs from airport to venue with dedicated drivers.",
             },
           ].map((srv, idx) => (
-            <div 
-              key={idx} 
-              className="p-6 rounded-xl border flex flex-col items-center text-center gap-4 glass-panel"
-              style={{
-                background: "rgba(58, 53, 52, 0.25)",
-                borderColor: "rgba(207, 157, 123, 0.15)",
-              }}
-            >
-              <div 
-                className="w-12 h-12 rounded-lg flex items-center justify-center mb-2"
-                style={{
-                  background: "rgba(207, 157, 123, 0.1)",
-                  border: `1px solid rgba(207, 157, 123, 0.25)`,
-                }}
-              >
-                <srv.Icon size={20} style={{ color: BRASS }} />
-              </div>
-              <h3 className="font-display font-semibold text-white text-base">{srv.title}</h3>
-              <p className="text-[#D8CFC7]/70 text-xs leading-relaxed font-sans">{srv.desc}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Featured Fleet grid */}
-      <section className="max-w-7xl mx-auto px-6 mt-28 relative z-10">
-        <div className="text-center mb-12">
-          <span className="text-[#CF9D7B] font-accent text-xs uppercase tracking-[0.2em] font-semibold">Premium Selection</span>
-          <h2 className="font-display text-3xl font-bold text-white mt-2">Featured Wedding Fleet</h2>
-          <div className="w-16 h-px mx-auto mt-4" style={{ background: `linear-gradient(to right, transparent, ${COFFEE}, transparent)` }} />
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {WEDDING_FLEET.map((car, idx) => (
-            <div 
-              key={idx} 
-              className="rounded-xl overflow-hidden border group flex flex-col glass-panel"
-              style={{
-                background: "rgba(58, 53, 52, 0.25)",
-                borderColor: "rgba(207, 157, 123, 0.15)",
-              }}
-            >
-              <div className="h-48 overflow-hidden bg-black/40 relative">
-                <img
-                  src={resolveImg(car.image, 600, 400)}
-                  alt={car.name}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                />
-                <div className="absolute top-3 left-3 bg-[#162127] text-[#E8B96A] text-[9px] font-accent font-bold uppercase tracking-widest px-2.5 py-1 rounded border border-[#CF9D7B]/30">
-                  {car.category}
-                </div>
-              </div>
-              <div className="p-5 flex-1 flex flex-col justify-between">
-                <div>
-                  <h3 className="font-display font-bold text-white text-base">{car.name}</h3>
-                  <p className="text-[#D8CFC7]/60 text-xs mt-2 leading-relaxed font-sans">{car.tagline}</p>
-                </div>
-                <div className="mt-6 pt-4 border-t border-white/5">
-                  <Link
-                    href={`/inquiry?type=wedding&vehicle=${car.name.toLowerCase().replace(/ /g, "-")}`}
-                    className="text-xs font-semibold text-[#E8B96A] hover:text-white flex items-center gap-1.5 hover:translate-x-1 transition-all font-accent uppercase tracking-wider"
-                  >
-                    Select vehicle & request rates <ArrowRight size={13} />
-                  </Link>
-                </div>
-              </div>
-            </div>
+            <WeddingSpecialityCard key={idx} srv={srv} idx={idx} />
           ))}
         </div>
       </section>
@@ -198,16 +309,22 @@ export default function WeddingsPage() {
           Provide us your guest arrivals list, and we will configure multi-vehicle schedules in private Tempo Travellers or Ertigas for seamless pickups.
         </p>
         <div className="pt-3">
-          <Link
-            href="/inquiry?type=wedding"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-xs font-bold font-accent tracking-widest hover:brightness-110 transition-all text-[#0C1519]"
-            style={{
-              background: `linear-gradient(135deg, ${GOLD}, ${BRASS})`,
-              boxShadow: `0 4px 15px rgba(232,185,106,0.15)`
-            }}
+          <motion.div
+            whileHover={{ scale: 1.03, y: -2 }}
+            whileTap={{ scale: 0.98 }}
+            className="inline-block"
           >
-            Submit Guest Logistics Plan <ArrowRight size={13} />
-          </Link>
+            <Link
+              href="/inquiry?type=wedding"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-xs font-bold font-accent tracking-widest transition-all text-[#0C1519]"
+              style={{
+                background: `linear-gradient(135deg, ${GOLD}, ${BRASS})`,
+                boxShadow: `0 4px 20px rgba(232, 185, 106, 0.25)`
+              }}
+            >
+              Submit Guest Logistics Plan <ArrowRight size={13} />
+            </Link>
+          </motion.div>
         </div>
       </section>
     </div>

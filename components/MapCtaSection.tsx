@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion, AnimatePresence, useInView } from "motion/react";
 import { ArrowRight, Calendar, Clock, MapPin, Compass } from "lucide-react";
 import { geoMercator, geoPath } from "d3-geo";
+import { TOURS_DATA } from "@/data/tours";
 
 const BG_DEEP = "#0C1519";
 const BRASS = "#CF9D7B";
@@ -14,13 +15,19 @@ const IVORY = "#F5F0EA";
 const TEXT_SUB = "#D8CFC7";
 
 const STATE_TO_DEST_ID: Record<string, string> = {
-  "Rajasthan": "jaipur",
-  "Himachal Pradesh": "manali",
-  "Jammu & Kashmir": "gulmarg",
-  "Uttar Pradesh": "varanasi",
-  "Goa": "goa",
-  "Kerala": "munnar",
-  "Gujarat": "kutch"
+  "Rajasthan": "jaipur-tour",
+  "Himachal Pradesh": "kullu-manali",
+  "Jammu & Kashmir": "vaishno-devi",
+  "Uttar Pradesh": "ayodhya-darshan",
+  "Goa": "goa-tour",
+  "Kerala": "kerala-tour",
+  "Gujarat": "dwarka-somnath",
+  "Uttarakhand": "haridwar-rishikesh",
+  "Madhya Pradesh": "mahakal-omkareshwar",
+  "Punjab": "amritsar-wagah",
+  "Tamil Nadu": "rameshwaram-madurai",
+  "Maharashtra": "mumbai-tour",
+  "Ladakh": "leh-ladakh"
 };
 
 interface Destination {
@@ -36,108 +43,54 @@ interface Destination {
   slug: string;
 }
 
-const DESTINATIONS: Destination[] = [
-  {
-    id: "gulmarg",
-    name: "Gulmarg",
-    lat: 34.05,
-    lon: 74.38,
-    desc: "Snow paradise of Kashmir. Ultimate winter wonderland of majestic alpine landscapes and world-class skiing.",
-    price: "₹40,000",
-    duration: "10 Days",
-    season: "Oct–Apr",
-    image: "/tours/vaishno-devi-kashmir.webp",
-    slug: "vaishno-devi-kashmir"
-  },
-  {
-    id: "manali",
-    name: "Manali",
-    lat: 32.24,
-    lon: 77.19,
-    desc: "Alpine valleys, pristine rivers & adventure peaks in Himachal Pradesh. Perfect for nature lovers.",
-    price: "₹32,000",
-    duration: "6 Days",
-    season: "May–Oct",
-    image: "/tours/kullu-manali.webp",
-    slug: "kullu-manali"
-  },
-  {
-    id: "jaipur",
-    name: "Jaipur",
-    lat: 26.91,
-    lon: 75.78,
-    desc: "The Pink City. Experience grand royal heritage, majestic palaces, historical astronomy forts, and bazaars.",
-    price: "₹18,000",
-    duration: "3 Days",
-    season: "Oct–Mar",
-    image: "https://images.unsplash.com/photo-1599661046289-e31897846e41?w=600&h=400&fit=crop&q=80",
-    slug: "tours"
-  },
-  {
-    id: "agra",
-    name: "Agra",
-    lat: 27.18,
-    lon: 78.02,
-    desc: "Home to the world-renowned Taj Mahal. Explore the epic monuments of the Mughal Empire along the Yamuna.",
-    price: "₹9,500",
-    duration: "2 Days",
-    season: "Oct–Mar",
-    image: "https://images.unsplash.com/photo-1564507592333-c60657eea523?w=600&h=400&fit=crop&q=80",
-    slug: "tours"
-  },
-  {
-    id: "varanasi",
-    name: "Varanasi",
-    lat: 25.32,
-    lon: 82.97,
-    desc: "One of the oldest living cities. Witness the spectacular evening Ganga Aarti and spiritual ghats.",
-    price: "₹10,500",
-    duration: "2 Days",
-    season: "Oct–Mar",
-    image: "/tours/kashi-vishwanath.webp",
-    slug: "kashi-vishwanath"
-  },
-  {
-    id: "goa",
-    name: "Goa",
-    lat: 15.30,
-    lon: 74.00,
-    desc: "Sun, sand, and beautiful beaches. A perfect coastal retreat blending Portuguese heritage and vibrant shorelines.",
-    price: "₹15,000",
-    duration: "4 Days",
-    season: "Nov–Feb",
-    image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&h=400&fit=crop&q=80",
-    slug: "tours"
-  },
-  {
-    id: "munnar",
-    name: "Munnar",
-    lat: 10.09,
-    lon: 77.06,
-    desc: "Lush tea plantations, misty mountains, and winding trails in Kerala's green Western Ghats.",
-    price: "₹22,000",
-    duration: "5 Days",
-    season: "Sep–Mar",
-    image: "https://images.unsplash.com/photo-1593693397690-362cb9666fc2?w=600&h=400&fit=crop&q=80",
-    slug: "tours"
-  },
-  {
-    id: "kutch",
-    name: "Rann of Kutch",
-    lat: 23.73,
-    lon: 69.86,
-    desc: "Vast white salt desert. Best experienced during moonlit winter nights when the landscape glows.",
-    price: "₹12,500",
-    duration: "3 Days",
-    season: "Nov–Feb",
-    image: "https://images.unsplash.com/photo-1605649487212-47bdab064df7?w=600&h=400&fit=crop&q=80",
-    slug: "tours"
-  }
-];
+const TOUR_COORDS: Record<string, { lat: number; lon: number; season: string }> = {
+  "ayodhya-darshan": { lat: 26.7925, lon: 82.1998, season: "Year-Round" },
+  "mathura-vrindavan": { lat: 27.4924, lon: 77.6737, season: "Year-Round" },
+  "chitrakoot-tour": { lat: 25.1764, lon: 80.8653, season: "Year-Round" },
+  "khatu-shyam-ji": { lat: 27.3683, lon: 75.3999, season: "Year-Round" },
+  "mahakal-omkareshwar": { lat: 23.1760, lon: 75.7885, season: "Year-Round" },
+  "kashi-vishwanath": { lat: 25.3176, lon: 82.9739, season: "Year-Round" },
+  "prayagraj-sangam": { lat: 25.4358, lon: 81.8463, season: "Year-Round" },
+  "haridwar-rishikesh": { lat: 29.9457, lon: 78.1642, season: "Year-Round" },
+  "nainital-tour": { lat: 29.3803, lon: 79.4636, season: "Mar–Nov" },
+  "mussoorie-tour": { lat: 30.4598, lon: 78.0796, season: "Mar–Nov" },
+  "neem-karoli-kainchi-dham": { lat: 29.4218, lon: 79.5168, season: "Year-Round" },
+  "kullu-manali": { lat: 32.2396, lon: 77.1887, season: "Year-Round" },
+  "shimla-tour": { lat: 31.1048, lon: 77.1734, season: "Year-Round" },
+  "vaishno-devi": { lat: 32.9801, lon: 74.9310, season: "Year-Round" },
+  "jaipur-tour": { lat: 26.9124, lon: 75.7873, season: "Oct–Mar" },
+  "rajasthan-heritage": { lat: 24.5854, lon: 73.7125, season: "Oct–Mar" },
+  "goa-tour": { lat: 15.4909, lon: 73.8278, season: "Nov–Feb" },
+  "kerala-tour": { lat: 10.0889, lon: 77.0595, season: "Sep–Mar" },
+  "amritsar-wagah": { lat: 31.6340, lon: 74.8723, season: "Oct–Mar" },
+  "ujjain-indore": { lat: 22.7196, lon: 75.8577, season: "Oct–Mar" },
+  "dwarka-somnath": { lat: 22.2442, lon: 68.9685, season: "Oct–Mar" },
+  "rameshwaram-madurai": { lat: 9.2876, lon: 79.3129, season: "Oct–Mar" },
+  "leh-ladakh": { lat: 34.1526, lon: 77.5770, season: "Jun–Sep" },
+  "mumbai-tour": { lat: 19.0760, lon: 72.8777, season: "Oct–Mar" },
+  "kashmir-paradise": { lat: 34.0837, lon: 74.7973, season: "Mar–Oct" },
+  "char-dham-yatra": { lat: 30.7352, lon: 79.0669, season: "May–Nov" },
+};
+
+const DESTINATIONS: Destination[] = TOURS_DATA.map((t) => {
+  const coords = TOUR_COORDS[t.slug] || { lat: 20.5937, lon: 78.9629, season: "Year-Round" };
+  return {
+    id: t.slug,
+    name: t.name,
+    lat: coords.lat,
+    lon: coords.lon,
+    desc: t.description,
+    price: `Starting at ₹${t.startingPrice.toLocaleString('en-IN')}`,
+    duration: `${t.durationDays} Days`,
+    season: coords.season,
+    image: t.image,
+    slug: t.slug
+  };
+});
 
 export function MapCtaSection() {
   const [geoData, setGeoData] = useState<any>(null);
-  const [selectedId, setSelectedId] = useState<string>("gulmarg");
+  const [selectedId, setSelectedId] = useState<string>("ayodhya-darshan");
   const [hoveredId, setHoveredId] = useState<string | null>(null);
 
   const containerRef = useRef<HTMLElement>(null);
@@ -350,27 +303,34 @@ export function MapCtaSection() {
                         <AnimatePresence>
                           {(isTransition || isSelected) && (
                             <g>
-                              <rect
-                                x={cx - 40}
-                                y={cy - 28}
-                                width={80}
-                                height={18}
-                                rx={4}
-                                fill="rgba(12,21,25,0.92)"
-                                stroke={`${BRASS}40`}
-                                strokeWidth={1}
-                              />
-                              <text
-                                x={cx}
-                                y={cy - 15}
-                                textAnchor="middle"
-                                fontSize="9.5"
-                                fontWeight="700"
-                                fontFamily="sans-serif"
-                                fill={GOLD}
-                              >
-                                {d.name}
-                              </text>
+                              {(() => {
+                                const labelWidth = Math.max(80, d.name.length * 6.5);
+                                return (
+                                  <>
+                                    <rect
+                                      x={cx - labelWidth / 2}
+                                      y={cy - 28}
+                                      width={labelWidth}
+                                      height={18}
+                                      rx={4}
+                                      fill="rgba(12,21,25,0.92)"
+                                      stroke={`${BRASS}40`}
+                                      strokeWidth={1}
+                                    />
+                                    <text
+                                      x={cx}
+                                      y={cy - 15}
+                                      textAnchor="middle"
+                                      fontSize="9.5"
+                                      fontWeight="700"
+                                      fontFamily="sans-serif"
+                                      fill={GOLD}
+                                    >
+                                      {d.name}
+                                    </text>
+                                  </>
+                                );
+                              })()}
                             </g>
                           )}
                         </AnimatePresence>

@@ -451,7 +451,7 @@ export const PACKAGES: TourPackage[] = [
     destinations: ["Katra", "Vaishno Devi Bhawan", "Srinagar", "Gulmarg", "Sonmarg"],
     duration: { days: 10, nights: 9 },
     groupSize: { min: 2, max: 7 },
-    image: "/tours/vaishno-devi-kashmir.webp",
+    image: "/tours/vaishno-devi.webp",
     gallery: [
       "photo-1595815771614-ade9d652a65d",
       "photo-1542314831-068cd1dbfeeb",

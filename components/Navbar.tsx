@@ -119,7 +119,14 @@ export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [megaOpen,   setMegaOpen]   = useState(false);
   const [infoVisible, setInfoVisible] = useState(true);
+  const [toursExpanded, setToursExpanded] = useState(false);
   const pathname = usePathname();
+
+  useEffect(() => {
+    if (!mobileOpen) {
+      setToursExpanded(false);
+    }
+  }, [mobileOpen]);
   const isHome = pathname === "/";
 
   useEffect(() => {
@@ -336,21 +343,48 @@ export function Navbar() {
                   transition={{ delay: i * 0.055, duration: 0.36, ease: [0.22, 1, 0.36, 1] }}
                 >
                   {link.sub ? (
-                    <div className="block py-3.5 border-b" style={{ borderColor: pathname.startsWith("/tours") ? `${GOLD}40` : "rgba(255,255,255,0.06)" }}>
-                      <div className="text-xl font-display font-semibold text-white/80 flex items-center gap-1.5">
-                        {pathname.startsWith("/tours") && (
-                          <span className="inline-block w-1.5 h-1.5 rounded-full" style={{ background: GOLD }} />
+                    <div className="block border-b" style={{ borderColor: pathname.startsWith("/tours") ? `${GOLD}40` : "rgba(255,255,255,0.06)" }}>
+                      <button
+                        onClick={() => setToursExpanded(!toursExpanded)}
+                        className="w-full flex items-center justify-between py-3.5 text-xl font-display font-semibold text-white/80 hover:text-white transition-colors cursor-pointer text-left bg-transparent border-0 focus:outline-none"
+                        style={{ color: pathname.startsWith("/tours") ? GOLD : undefined }}
+                      >
+                        <div className="flex items-center">
+                          {pathname.startsWith("/tours") && (
+                            <span className="inline-block w-1.5 h-1.5 rounded-full mr-2 -mb-0.5" style={{ background: GOLD }} />
+                          )}
+                          {link.label}
+                        </div>
+                        <motion.span
+                          animate={{ rotate: toursExpanded ? 180 : 0 }}
+                          transition={{ duration: 0.2 }}
+                          className="text-white/60"
+                        >
+                          <ChevronDown size={18} />
+                        </motion.span>
+                      </button>
+                      <AnimatePresence initial={false}>
+                        {toursExpanded && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: "auto", opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.25, ease: "easeInOut" }}
+                            className="overflow-hidden"
+                          >
+                            <div className="flex flex-col gap-1 pl-4 pb-3.5 mt-1">
+                              {link.sub.map((s) => (
+                                <Link key={s.label} href={s.to}
+                                  onClick={() => setMobileOpen(false)}
+                                  className="py-2 text-sm font-accent tracking-wider text-[#D8CFC7]/60 hover:text-white transition-colors"
+                                >
+                                  {s.label}
+                                </Link>
+                              ))}
+                            </div>
+                          </motion.div>
                         )}
-                        {link.label}
-                      </div>
-                      <div className="flex flex-col gap-1 pl-4 mt-2">
-                        {link.sub.map((s) => (
-                          <Link key={s.label} href={s.to}
-                            className="py-2 text-sm font-accent tracking-wider text-[#D8CFC7]/60 hover:text-white transition-colors">
-                            {s.label}
-                          </Link>
-                        ))}
-                      </div>
+                      </AnimatePresence>
                     </div>
                   ) : (
                     <Link href={link.to}

@@ -4,6 +4,7 @@ import { useState, use } from "react";
 import { VEHICLES } from "@/data/vehicles";
 import { notFound, useRouter } from "next/navigation";
 import { ArrowRight, Info } from "lucide-react";
+import Link from "next/link";
 
 const BRASS = "#CF9D7B";
 const COFFEE = "#724B39";
@@ -25,6 +26,25 @@ export default function VehicleDetailPage({ params }: VehicleDetailPageProps) {
     notFound();
   }
 
+  const similarVehicles = VEHICLES.filter(
+    (vehicle) => vehicle.category === v.category && vehicle.slug !== v.slug
+  ).slice(0, 4);
+
+  const isFeatured = [
+    "bmw-5-series",
+    "force-urbania",
+    "force-urbania-17-seater",
+    "maruti-dzire",
+    "maruti-ertiga",
+    "toyota-fortuner",
+    "toyota-innova-crysta",
+    "honda-city",
+    "hyundai-verna",
+    "mahindra-scorpio",
+    "audi-a6",
+    "mercedes-benz"
+  ].includes(v.slug);
+
   const [activeTab, setActiveTab] = useState<"pricing" | "specs" | "terms">("pricing");
 
   const handleBookRedirect = (mode: "local" | "outstation") => {
@@ -44,9 +64,9 @@ export default function VehicleDetailPage({ params }: VehicleDetailPageProps) {
       {/* Hero Showcase */}
       <div className="relative h-[300px] md:h-[450px] bg-black/80 text-white overflow-hidden z-10">
         <img
-          src={IMG(v.image, 1600, 900)}
+          src={isFeatured ? IMG(v.image, 1600, 900) : "/vehicles/fleet-hero.png"}
           alt={v.name}
-          className="absolute inset-0 w-full h-full object-cover opacity-70"
+          className="absolute inset-0 w-full h-full object-cover opacity-60"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[#0C1519] to-transparent" />
         <div className="absolute bottom-10 left-0 right-0 px-6 max-w-7xl mx-auto">
@@ -100,7 +120,7 @@ export default function VehicleDetailPage({ params }: VehicleDetailPageProps) {
               {/* Pricing breakdown */}
               {activeTab === "pricing" && (
                 <div className="space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className={`grid grid-cols-1 ${v.category === "luxury" ? "" : "md:grid-cols-2"} gap-4`}>
                     {/* Local package card */}
                     <div 
                       className="p-5 rounded-lg border flex flex-col justify-between"
@@ -126,36 +146,38 @@ export default function VehicleDetailPage({ params }: VehicleDetailPageProps) {
                     </div>
 
                     {/* Outstation package card */}
-                    <div 
-                      className="p-5 rounded-lg border flex flex-col justify-between"
-                      style={{
-                        background: "rgba(22, 33, 39, 0.35)",
-                        borderColor: "rgba(255,255,255,0.05)",
-                      }}
-                    >
-                      <div>
-                        <h4 className="font-display font-bold text-white text-base">Outstation Highway Travel</h4>
-                        <p className="text-[10px] text-[#D8CFC7]/50 font-mono mt-1">Charged per kilometer run</p>
-                        <div className="text-xl font-mono font-bold text-[#E8B96A] mt-4">
-                          ₹{v.outstationPriceKm.min} - ₹{v.outstationPriceKm.max}
-                          <span className="text-xs text-[#D8CFC7]/50 font-sans font-normal"> /km</span>
-                        </div>
-                        <ul className="text-[10px] text-[#D8CFC7]/60 font-sans mt-3.5 space-y-1.5">
-                          <li>• Minimum billable run: {v.outstationMinKm} km/day</li>
-                          <li>• Driver allowance: ₹{v.driverAllowancePerDay}/day</li>
-                        </ul>
-                      </div>
-                      <button
-                        onClick={() => handleBookRedirect("outstation")}
-                        className="mt-6 w-full text-center text-xs font-bold font-accent tracking-wider py-3 rounded-full transition-all cursor-pointer text-[#0C1519]"
+                    {v.category !== "luxury" && (
+                      <div 
+                        className="p-5 rounded-lg border flex flex-col justify-between"
                         style={{
-                          background: `linear-gradient(135deg, ${GOLD}, ${BRASS})`,
-                          boxShadow: `0 4px 15px rgba(232,185,106,0.15)`
+                          background: "rgba(22, 33, 39, 0.35)",
+                          borderColor: "rgba(255,255,255,0.05)",
                         }}
                       >
-                        Enquire Outstation
-                      </button>
-                    </div>
+                        <div>
+                          <h4 className="font-display font-bold text-white text-base">Outstation Highway Travel</h4>
+                          <p className="text-[10px] text-[#D8CFC7]/50 font-mono mt-1">Charged per kilometer run</p>
+                          <div className="text-xl font-mono font-bold text-[#E8B96A] mt-4">
+                            ₹{v.outstationPriceKm.min} - ₹{v.outstationPriceKm.max}
+                            <span className="text-xs text-[#D8CFC7]/50 font-sans font-normal"> /km</span>
+                          </div>
+                          <ul className="text-[10px] text-[#D8CFC7]/60 font-sans mt-3.5 space-y-1.5">
+                            <li>• Minimum billable run: {v.outstationMinKm} km/day</li>
+                            <li>• Driver allowance: ₹{v.driverAllowancePerDay}/day</li>
+                          </ul>
+                        </div>
+                        <button
+                          onClick={() => handleBookRedirect("outstation")}
+                          className="mt-6 w-full text-center text-xs font-bold font-accent tracking-wider py-3 rounded-full transition-all cursor-pointer text-[#0C1519]"
+                          style={{
+                            background: `linear-gradient(135deg, ${GOLD}, ${BRASS})`,
+                            boxShadow: `0 4px 15px rgba(232,185,106,0.15)`
+                          }}
+                        >
+                          Enquire Outstation
+                        </button>
+                      </div>
+                    )}
                   </div>
 
                   {/* Notes */}
@@ -266,18 +288,82 @@ export default function VehicleDetailPage({ params }: VehicleDetailPageProps) {
             </div>
 
             <button
-              onClick={() => handleBookRedirect("outstation")}
+              onClick={() => handleBookRedirect(v.category === "luxury" ? "local" : "outstation")}
               className="w-full py-3.5 rounded-full font-bold font-accent tracking-widest text-xs flex items-center justify-center gap-2 cursor-pointer transition-all hover:brightness-110 mt-4 text-[#0C1519]"
               style={{
                 background: `linear-gradient(135deg, ${GOLD}, ${BRASS})`,
                 boxShadow: `0 4px 15px rgba(232,185,106,0.2)`
               }}
             >
-              PLAN OUTSTATION BOOKING <ArrowRight size={13} />
+              {v.category === "luxury" ? "PLAN CHAUFFEUR BOOKING" : "PLAN OUTSTATION BOOKING"} <ArrowRight size={13} />
             </button>
           </div>
         </div>
       </div>
+
+      {/* Similar Vehicles Carousel / Grid */}
+      {similarVehicles.length > 0 && (
+        <div className="max-w-7xl mx-auto px-6 mt-20 relative z-10">
+          <div className="flex items-center justify-between mb-8">
+            <div>
+              <span className="text-[#E8B96A] font-accent text-[10px] font-bold uppercase tracking-widest block mb-1">
+                Explore More
+              </span>
+              <h2 className="font-display text-2xl font-bold tracking-wide text-white">
+                Similar <span className="text-[#E8B96A]">Vehicles</span>
+              </h2>
+            </div>
+            <div className="w-16 h-0.5" style={{ background: `linear-gradient(to right, ${BRASS}, transparent)` }} />
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {similarVehicles.map((similarVehicle, idx) => (
+              <Link
+                key={similarVehicle.slug}
+                href={`/vehicles/${similarVehicle.slug}`}
+                className="group rounded-xl overflow-hidden glass-panel border border-white/5 bg-[#162127]/20 p-4 transition-all duration-300 hover:border-[#CF9D7B]/30 hover:bg-[#162127]/40 flex flex-col justify-between"
+              >
+                <div>
+                  <div className="aspect-[4/3] rounded-lg overflow-hidden relative mb-4">
+                    {["bmw-5-series", "force-urbania", "force-urbania-17-seater", "maruti-dzire", "maruti-ertiga", "toyota-fortuner", "toyota-innova-crysta"].includes(similarVehicle.slug) ? (
+                      <div className="bg-white w-full h-full flex items-center justify-center p-3">
+                        <img
+                          src={similarVehicle.image}
+                          alt={similarVehicle.name}
+                          className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105"
+                        />
+                      </div>
+                    ) : (
+                      <div className="bg-black/40 w-full h-full flex flex-col items-center justify-center text-center p-3">
+                        <span className="text-2xl">🚗</span>
+                        <span className="text-[8px] font-bold text-[#E8B96A] mt-1 font-mono uppercase tracking-wider block">
+                          Premium Fleet
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                  <div className="text-[9px] text-[#D8CFC7]/40 uppercase tracking-[0.2em] font-mono mb-0.5">
+                    {similarVehicle.brand}
+                  </div>
+                  <h4 className="font-display font-bold text-sm text-white group-hover:text-[#E8B96A] transition-colors leading-tight">
+                    {similarVehicle.name}
+                  </h4>
+                </div>
+
+                <div className="mt-4 pt-3 border-t border-white/5 flex items-center justify-between">
+                  <div className="font-mono text-xs font-bold text-[#E8B96A]">
+                    ₹{similarVehicle.localPriceDay.min.toLocaleString("en-IN")}
+                    <span className="text-[9px] text-[#D8CFC7]/50 font-sans font-normal">/day</span>
+                  </div>
+                  <span className="text-[9px] font-mono text-[#D8CFC7]/50">
+                    👥 {similarVehicle.seats} Seats
+                  </span>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

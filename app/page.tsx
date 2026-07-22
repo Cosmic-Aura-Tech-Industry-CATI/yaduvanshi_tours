@@ -9,6 +9,7 @@ import { GallerySection } from "@/components/GallerySection";
 import { TestimonialsSection } from "@/components/TestimonialsSection";
 import { StatsSection } from "@/components/StatsSection";
 import { MapCtaSection } from "@/components/MapCtaSection";
+import { TripPlanningCTA } from "@/components/TripPlanningCTA";
 
 export default function Home() {
   return (
@@ -22,6 +23,7 @@ export default function Home() {
       <TestimonialsSection />
       <StatsSection />
       <MapCtaSection />
+      <TripPlanningCTA />
     </div>
   );
 }

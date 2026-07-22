@@ -27,11 +27,6 @@ const FEATURES = [
     title: "Royal Support",
     desc: "24/7 concierge assistance",
   },
-  {
-    icon: Lock,
-    title: "Encrypted Booking",
-    desc: "Secure payment channels",
-  },
 ];
 
 export function TrustStrip() {
@@ -51,7 +46,7 @@ export function TrustStrip() {
 
       <div className="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
         <div 
-          className="flex flex-nowrap overflow-x-auto lg:overflow-x-visible md:overflow-x-visible items-center justify-between gap-6 p-6 rounded-2xl border custom-scrollbar"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 p-6 rounded-2xl border"
           style={{
             background: "rgba(58, 53, 52, 0.2)",
             borderColor: "rgba(207, 157, 123, 0.25)",
@@ -66,7 +61,12 @@ export function TrustStrip() {
               viewport={{ once: true }}
               transition={{ delay: i * 0.08, duration: 0.5 }}
               whileHover={{ y: -4 }}
-              className="group flex items-center gap-3.5 cursor-default flex-shrink-0"
+              className="group flex items-center gap-4 p-4 rounded-xl border cursor-default transition-all duration-300 w-full"
+              style={{
+                background: "rgba(22, 33, 39, 0.45)",
+                borderColor: "rgba(207, 157, 123, 0.12)",
+                boxShadow: "0 4px 15px rgba(0, 0, 0, 0.15)"
+              }}
             >
               {/* Icon container — glass with glow */}
               <motion.div
@@ -89,23 +89,8 @@ export function TrustStrip() {
 
               <div>
                 <div className="text-white text-xs font-bold leading-none font-accent tracking-widest uppercase">{f.title}</div>
-                <div className="text-[#D8CFC7]/50 text-[10px] mt-1 font-mono tracking-wide">{f.desc}</div>
+                <div className="text-[#D8CFC7]/50 text-[10px] mt-1.5 font-mono tracking-wide">{f.desc}</div>
               </div>
-
-              {/* Constellation connecting glow line */}
-              {i < FEATURES.length - 1 && (
-                <div className="hidden lg:flex items-center ml-6 flex-shrink-0">
-                  <div className="w-1 h-1 rounded-full" style={{ background: `${BRASS}30` }} />
-                  <div
-                    className="w-10 h-px"
-                    style={{
-                      background: `linear-gradient(to right, ${BRASS}30, ${COFFEE}15, transparent)`,
-                      boxShadow: `0 0 4px ${BRASS}20`,
-                    }}
-                  />
-                  <div className="w-0.5 h-0.5 rounded-full" style={{ background: `${COFFEE}30` }} />
-                </div>
-              )}
             </motion.div>
           ))}
         </div>
