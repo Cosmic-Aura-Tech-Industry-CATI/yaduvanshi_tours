@@ -6,95 +6,141 @@ import { motion, AnimatePresence, useInView } from "motion/react";
 import { ArrowRight } from "lucide-react";
 import { PACKAGES } from "@/data/packages";
 import { PackageCard } from "@/components/cards/PackageCard";
-import { SectionHeader } from "@/components/ui/SectionHeader";
 
-const GOLD = "#C9A84C";
-const DARK = "#1A2B1C";
+const BRASS = "#CF9D7B";
+const COFFEE = "#724B39";
+const GOLD = "#E8B96A";
+const IVORY = "#F5F0EA";
 
 const PKG_FILTERS = ["All", "Spiritual", "Mountains"];
 
-function CountUp({ to, suffix = "" }: { to: number; suffix?: string }) {
-  const [val, setVal] = useState(0);
-  const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true });
-
-  useEffect(() => {
-    if (!inView) return;
-    let cur = 0;
-    const step = to / 60;
-    const t = setInterval(() => {
-      cur = Math.min(cur + step, to);
-      setVal(Math.floor(cur));
-      if (cur >= to) clearInterval(t);
-    }, 20);
-    return () => clearInterval(t);
-  }, [inView, to]);
-
-  return (
-    <span ref={ref}>
-      {val.toLocaleString("en-IN")}
-      {suffix}
-    </span>
-  );
-}
+const FEATURED_SLUGS = [
+  "ayodhya-darshan",
+  "mathura-vrindavan",
+  "kashi-vishwanath",
+  "neem-karoli-kainchi-dham",
+  "mahakal-omkareshwar",
+  "kullu-manali",
+  "vaishno-devi-kashmir",
+  "char-dham-yatra",
+];
 
 export function PackagesSection() {
   const [pkgFilter, setPkgFilter] = useState("All");
 
+  const featuredPkgs = PACKAGES.filter((p) => FEATURED_SLUGS.includes(p.slug));
+
   const filteredPkgs =
     pkgFilter === "All"
-      ? PACKAGES.slice(0, 8)
-      : PACKAGES.filter((p) => p.category === pkgFilter.toLowerCase()).slice(0, 8);
+      ? featuredPkgs
+      : featuredPkgs.filter((p) => p.category === pkgFilter.toLowerCase());
 
   return (
-    <div>
-      {/* ── Stats banner ── */}
-      <section className="py-14 bg-[#FAFAF8]">
-        <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-          {[
-            { label: "Years on Road", to: 15, suffix: "+" },
-            { label: "Happy Travelers", to: 10000, suffix: "+" },
-            { label: "Tour Packages", to: 50, suffix: "+" },
-            { label: "Vehicles in Fleet", to: 200, suffix: "+" },
-          ].map((s) => (
-            <div key={s.label}>
-              <div className="font-display font-bold text-3xl md:text-4xl" style={{ color: GOLD }}>
-                <CountUp to={s.to} suffix={s.suffix} />
-              </div>
-              <div className="text-gray-500 text-sm mt-1 font-mono">{s.label}</div>
-            </div>
-          ))}
-        </div>
-      </section>
+    <div id="tours-section">
+      {/* ── Hero Header with Full-Bleed Background Image ── */}
+      <section className="relative pt-20 pb-0 px-6 lg:px-12 overflow-hidden z-10" style={{ background: "#162127" }}>
+        {/* Full-Bleed Background Image */}
+        <img
+          src="/tours/Copilot_20260719_213737.png"
+          alt="Popular Tour Packages Hero Background"
+          className="absolute inset-0 w-full h-full object-cover z-0"
+        />
+        
+        {/* Dark theme gradient overlay for contrast and readability */}
+        <div 
+          className="absolute inset-0 z-10 bg-gradient-to-b from-black/70 via-black/50 to-[#162127]"
+        />
 
-      {/* ── Packages Grid ── */}
-      <section className="py-20 px-6 lg:px-12 bg-[#FAFAF8] border-t border-gray-100">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row md:items-start justify-between mb-8">
-            <SectionHeader script="Handpicked Experiences" heading="Popular Tour Packages" />
+        {/* Ambient blobs */}
+        <div className="ambient-blob-coffee z-20" style={{ top: "15%", left: "-5%" }} />
+        <div className="ambient-blob-brass z-20" style={{ bottom: "10%", right: "-3%" }} />
+
+        {/* Top glow divider */}
+        <div className="glow-divider absolute top-0 inset-x-0 z-20" />
+
+        <div className="max-w-7xl mx-auto relative z-30">
+          {/* Header */}
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
+            <div>
+              <motion.p
+                className="font-script text-2xl mb-1"
+                style={{ color: BRASS }}
+                initial={{ opacity: 0, x: -12 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+              >
+                Wander Beyond Ordinary
+              </motion.p>
+              <motion.h2
+                className="font-display font-bold text-3xl md:text-4xl text-glow-gold"
+                style={{ color: GOLD }}
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.1 }}
+              >
+                Explore Selected Journeys
+              </motion.h2>
+              <div className="flex items-center gap-2 mt-3">
+                <div className="w-8 h-px" style={{ background: `linear-gradient(to right, ${BRASS}, transparent)` }} />
+                <div className="w-1.5 h-1.5 rotate-45" style={{ background: BRASS, boxShadow: `0 0 6px ${BRASS}60` }} />
+                <div className="w-8 h-px" style={{ background: `linear-gradient(to left, ${BRASS}, transparent)` }} />
+              </div>
+            </div>
             <Link
               href="/tours"
-              className="hidden md:flex items-center gap-1.5 mt-2 text-sm text-gray-600 border border-gray-300 px-4 py-2 rounded-sm hover:bg-[#C9A84C] hover:text-[#1A2B1C] hover:border-transparent transition-all"
+              className="hidden md:inline-flex items-center gap-1.5 text-xs font-accent tracking-widest px-5 py-2.5 rounded-sm transition-all duration-300 glass-panel hover-glow"
+              style={{ color: GOLD }}
             >
-              View All <ArrowRight size={13} />
+              View All <ArrowRight size={12} />
             </Link>
           </div>
-          <div className="flex gap-2 flex-wrap mb-8">
+
+          {/* Filter tabs — glass pills */}
+          <div className="flex gap-2 flex-wrap relative">
             {PKG_FILTERS.map((f) => (
               <button
                 key={f}
                 onClick={() => setPkgFilter(f)}
-                className="px-4 py-1.5 text-xs font-medium rounded-sm border transition-all cursor-pointer"
+                className="relative px-5 py-2 text-[10px] font-accent tracking-widest font-semibold rounded-full transition-all duration-300 cursor-pointer"
                 style={
                   pkgFilter === f
-                    ? { background: GOLD, borderColor: GOLD, color: DARK }
-                    : { background: "transparent", borderColor: "#d1d5db", color: "#6b7280" }
+                    ? {
+                        background: `linear-gradient(135deg, ${GOLD}, ${BRASS})`,
+                        border: `1px solid ${BRASS}50`,
+                        color: "#0C1519",
+                        boxShadow: `0 0 15px ${GOLD}30`,
+                      }
+                    : {
+                        background: "rgba(58,53,52,0.25)",
+                        border: "1px solid rgba(207,157,123,0.18)",
+                        color: "#D8CFC7",
+                      }
                 }
               >
-                {f}
+                {pkgFilter === f && (
+                  <motion.div
+                    layoutId="pkg-filter-pill"
+                    className="absolute inset-0 rounded-full"
+                    style={{ background: `linear-gradient(135deg, ${GOLD}, ${BRASS})` }}
+                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                  />
+                )}
+                <span className="relative">{f}</span>
               </button>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ── Packages Grid (Immediate transition below hero header) ── */}
+      <section className="pb-20 pt-10 px-6 lg:px-12 relative overflow-hidden" style={{ background: "#162127" }}>
+        {/* Ambient blobs */}
+        <div className="ambient-blob-coffee" style={{ top: "15%", left: "-5%" }} />
+        <div className="ambient-blob-brass" style={{ bottom: "10%", right: "-3%" }} />
+
+        <div className="max-w-7xl mx-auto relative z-10">
+          {/* Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             <AnimatePresence mode="popLayout">
               {filteredPkgs.map((pkg, i) => (
@@ -102,15 +148,22 @@ export function PackagesSection() {
               ))}
             </AnimatePresence>
           </div>
-          <div className="text-center mt-12">
+
+          {/* Bottom CTA */}
+          <motion.div
+            className="text-center mt-14"
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
             <Link
               href="/tours"
-              className="inline-flex items-center gap-2 px-8 py-3 font-semibold rounded-sm text-sm hover:brightness-90 transition-all"
-              style={{ background: GOLD, color: DARK }}
+              className="inline-flex items-center gap-2 px-8 py-4 font-semibold font-accent tracking-widest rounded-sm text-xs transition-all duration-300 btn-glow"
+              style={{ background: `linear-gradient(135deg, ${GOLD}, ${BRASS})`, color: "#0C1519" }}
             >
-              View All Packages <ArrowRight size={14} />
+              Wander Beyond Ordinary <ArrowRight size={14} />
             </Link>
-          </div>
+          </motion.div>
         </div>
       </section>
     </div>

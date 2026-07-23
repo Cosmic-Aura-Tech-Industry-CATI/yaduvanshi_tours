@@ -2,70 +2,134 @@
 
 import { useRef } from "react";
 import Link from "next/link";
-import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
+import { motion } from "motion/react";
+import { ArrowRight } from "lucide-react";
 import { VEHICLES } from "@/data/vehicles";
 import { RentalCard } from "@/components/cards/RentalCard";
-import { SectionHeader } from "@/components/ui/SectionHeader";
 
-const GOLD = "#C9A84C";
-const DARK = "#1A2B1C";
+const BRASS = "#CF9D7B";
+const COFFEE = "#724B39";
+const GOLD = "#E8B96A";
+const IVORY = "#F5F0EA";
+
+// The 6 featured vehicles per spec
+const FEATURED_SLUGS = [
+  "toyota-innova-crysta",
+  "maruti-dzire",
+  "toyota-fortuner",
+  "force-urbania",
+  "bmw-5-series",
+  "maruti-ertiga",
+];
 
 export function VehicleRentalsSection() {
-  const carRef = useRef<HTMLDivElement>(null);
-
-  const scrollCar = (dir: "l" | "r") => {
-    carRef.current?.scrollBy({
-      left: dir === "l" ? -330 : 330,
-      behavior: "smooth",
-    });
-  };
-
-  const featuredVehicles = VEHICLES.filter(
-    (v) =>
-      v.popular ||
-      ["maruti-dzire", "hyundai-creta", "toyota-innova-crysta", "toyota-fortuner"].includes(v.slug)
-  );
+  const featuredVehicles = FEATURED_SLUGS
+    .map((slug) => VEHICLES.find((v) => v.slug === slug))
+    .filter(Boolean) as typeof VEHICLES;
 
   return (
-    <section className="py-20 overflow-hidden" style={{ background: DARK }}>
-      <div className="max-w-7xl mx-auto px-6 lg:px-12">
-        <div className="flex flex-col md:flex-row md:items-start justify-between mb-8">
-          <SectionHeader script="Premium Rides" heading="Car Rentals for Every Journey" light />
-          <div className="flex items-center gap-3 mt-6 md:mt-2">
+    <div id="vehicles-section">
+      {/* ── Hero Header with Full-Bleed Background Image ── */}
+      <section className="relative pt-20 pb-0 px-6 lg:px-12 overflow-hidden z-10" style={{ background: "#0C1519" }}>
+        {/* Full-Bleed Background Image */}
+        <img
+          src="/vehicles/fleet-hero.png"
+          alt="Premium Fleet & Car Rentals Background"
+          className="absolute inset-0 w-full h-full object-cover z-0"
+        />
+        
+        {/* Dark theme gradient overlay for contrast and readability */}
+        <div 
+          className="absolute inset-0 z-10 bg-gradient-to-b from-black/70 via-black/50 to-[#0C1519]"
+        />
+
+        {/* Ambient blobs */}
+        <div className="ambient-blob-brass z-20" style={{ top: "-80px", left: "20%" }} />
+        <div className="ambient-blob-coffee z-20" style={{ bottom: "-60px", right: "15%" }} />
+
+        {/* Top glow divider */}
+        <div className="glow-divider absolute top-0 inset-x-0 z-20" />
+
+        <div className="max-w-7xl mx-auto relative z-30">
+          {/* Header */}
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
+            <div>
+              <motion.p
+                className="font-script text-2xl mb-1"
+                style={{ color: BRASS }}
+                initial={{ opacity: 0, x: -12 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+              >
+                Premium Fleet
+              </motion.p>
+              <motion.h2
+                className="font-display font-bold text-3xl md:text-4xl text-glow-gold"
+                style={{ color: GOLD }}
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.1 }}
+              >
+                Royal Fleet & Car Rentals
+              </motion.h2>
+              <div className="flex items-center gap-2 mt-3">
+                <div className="w-8 h-px" style={{ background: `linear-gradient(to right, ${BRASS}, transparent)` }} />
+                <div className="w-1.5 h-1.5 rotate-45" style={{ background: BRASS, boxShadow: `0 0 6px ${BRASS}60` }} />
+                <div className="w-8 h-px" style={{ background: `linear-gradient(to left, ${BRASS}, transparent)` }} />
+              </div>
+            </div>
             <Link
               href="/vehicles"
-              className="hidden md:flex items-center gap-1.5 text-sm border px-4 py-2 rounded-sm text-white/65 border-white/20 hover:border-[#C9A84C] hover:text-[#C9A84C] transition-all"
+              className="hidden md:inline-flex items-center gap-1.5 text-xs font-accent tracking-widest px-5 py-2.5 rounded-sm transition-all duration-300 glass-panel hover-glow"
+              style={{ color: GOLD }}
             >
-              View All <ArrowRight size={13} />
+              View All <ArrowRight size={12} />
             </Link>
-            <button
-              onClick={() => scrollCar("l")}
-              className="w-10 h-10 rounded-full border flex items-center justify-center transition-all cursor-pointer"
-              style={{ borderColor: `${GOLD}60`, color: GOLD }}
-            >
-              <ChevronLeft size={18} />
-            </button>
-            <button
-              onClick={() => scrollCar("r")}
-              className="w-10 h-10 rounded-full border flex items-center justify-center transition-all cursor-pointer"
-              style={{ borderColor: `${GOLD}60`, color: GOLD }}
-            >
-              <ChevronRight size={18} />
-            </button>
           </div>
         </div>
+      </section>
+
+      {/* ── Fleet Grid (Immediate transition below hero header) ── */}
+      <section className="pb-20 pt-10 px-6 lg:px-12 relative overflow-hidden" style={{ background: "#0C1519" }}>
+        {/* Background grid texture — coffee */}
         <div
-          ref={carRef}
-          className="flex gap-5 overflow-x-auto snap-x snap-mandatory pb-2"
-          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-        >
-          {featuredVehicles.map((v, i) => (
-            <div key={v.slug} className="flex-none w-[280px] snap-start">
-              <RentalCard vehicle={v} index={i} />
-            </div>
-          ))}
+          className="absolute inset-0 pointer-events-none opacity-[0.03]"
+          style={{
+            backgroundImage: `repeating-linear-gradient(0deg, transparent, transparent 29px, ${COFFEE} 30px),
+                              repeating-linear-gradient(90deg, transparent, transparent 29px, ${COFFEE} 30px)`,
+          }}
+        />
+
+        {/* Ambient blobs */}
+        <div className="ambient-blob-brass" style={{ top: "-80px", left: "20%" }} />
+        <div className="ambient-blob-coffee" style={{ bottom: "-60px", right: "15%" }} />
+
+        <div className="max-w-7xl mx-auto relative z-10">
+          {/* Static Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {featuredVehicles.map((v, i) => (
+              <RentalCard key={v.slug} vehicle={v} index={i} />
+            ))}
+          </div>
+
+          {/* Bottom CTA */}
+          <motion.div
+            className="text-center mt-14"
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <Link
+              href="/vehicles"
+              className="inline-flex items-center gap-2 px-8 py-4 font-semibold font-accent tracking-widest rounded-sm text-xs transition-all duration-300 btn-glow"
+              style={{ background: `linear-gradient(135deg, ${GOLD}, ${BRASS})`, color: "#0C1519" }}
+            >
+              Explore Full Fleet <ArrowRight size={14} />
+            </Link>
+          </motion.div>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
   );
 }

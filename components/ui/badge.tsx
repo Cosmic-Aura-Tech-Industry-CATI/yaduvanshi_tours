@@ -18,13 +18,13 @@ const badgeVariants = cva(
         outline:
           "text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground",
         gold:
-          "border-transparent bg-[#C9A84C]/15 text-[#C9A84C] border border-[#C9A84C]/30",
+          "border-transparent bg-[#E8B96A]/15 text-[#E8B96A] border border-[#E8B96A]/30",
         dark:
-          "border-transparent bg-[#1A2B1C] text-white",
+          "border-transparent bg-[#0C1519] text-[#D8CFC7] border border-white/5",
         muted:
-          "border-transparent bg-gray-100 text-gray-600 dark:bg-zinc-800 dark:text-zinc-400",
+          "border-transparent bg-zinc-800 text-zinc-400",
         white:
-          "border-transparent bg-white text-[#1A2B1C] border border-gray-200",
+          "border-transparent bg-[#162127] text-white border border-[#CF9D7B]/20",
       },
     },
     defaultVariants: {

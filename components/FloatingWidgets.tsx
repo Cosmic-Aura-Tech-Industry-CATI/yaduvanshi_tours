@@ -1,87 +1,140 @@
 "use client";
 
-import { useState } from "react";
-import { Phone, MessageCircle, Copy, Check } from "lucide-react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { Phone, X, MessageCircle } from "lucide-react";
 
-const GOLD = "#C9A84C";
-const DARK = "#1A2B1C";
-const PHONE_NUMBER = "+91 98765 43210";
-const DIALER_NUMBER = "+919876543210";
+const BRASS = "#CF9D7B";
+const COFFEE = "#724B39";
+const GOLD = "#E8B96A";
+const IVORY = "#F5F0EA";
 
 export function FloatingWidgets() {
-  const [showCallCard, setShowCallCard] = useState(false);
-  const [copied, setCopied] = useState(false);
+  const [showCall, setShowCall] = useState(false);
+  const [chatOpen, setChatOpen] = useState(false);
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(PHONE_NUMBER);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+  useEffect(() => {
+    const handleState = (e: Event) => {
+      setChatOpen((e as CustomEvent).detail.open);
+    };
+    window.addEventListener("chatbot-state", handleState);
+    return () => window.removeEventListener("chatbot-state", handleState);
+  }, []);
+
+  const toggleChat = () => {
+    window.dispatchEvent(new CustomEvent("toggle-chatbot"));
   };
 
-  const whatsappMessage = encodeURIComponent(
-    "Hi, I am interested in planning a tour or renting a vehicle with Yaduvanshi Tours. Please share options and availability."
-  );
-
   return (
-    <div className="fixed bottom-6 right-6 z-[100] flex flex-col items-end gap-3.5 pointer-events-none">
-      {/* ── Call Widget & Desktop Tooltip Card ── */}
-      <div className="flex items-center gap-3.5 pointer-events-auto">
-        <AnimatePresence>
-          {showCallCard && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9, x: 10 }}
-              animate={{ opacity: 1, scale: 1, x: 0 }}
-              exit={{ opacity: 0, scale: 0.9, x: 10 }}
-              transition={{ duration: 0.2 }}
-              className="bg-[#1A2B1C] text-white p-3.5 rounded-lg shadow-2xl border border-[#C9A84C]/30 flex flex-col gap-2.5 w-60"
+    <>
+      {/* Phone tooltip card — positioned to the left of the Call button */}
+      <AnimatePresence>
+        {showCall && (
+          <motion.div
+            initial={{ opacity: 0, x: 10, scale: 0.9 }}
+            animate={{ opacity: 1, x: 0, scale: 1 }}
+            exit={{ opacity: 0, x: 10, scale: 0.9 }}
+            className="fixed right-[5.5rem] top-[50%] -translate-y-1/2 rounded-xl p-4 shadow-2xl z-[80] glass-panel-strong"
+            style={{ width: 230 }}
+          >
+            <button
+              onClick={() => setShowCall(false)}
+              className="absolute top-2 right-2 text-white/30 hover:text-white transition-colors cursor-pointer"
             >
-              <div className="text-xs text-white/60 font-mono">Customer Support (24x7)</div>
-              <div className="font-display font-semibold text-lg tracking-wide text-white">{PHONE_NUMBER}</div>
-              <div className="flex gap-2">
-                <a
-                  href={`tel:${DIALER_NUMBER}`}
-                  className="flex-1 text-center text-xs font-semibold py-1.5 rounded-sm bg-[#C9A84C] text-[#1A2B1C] hover:brightness-95 transition-all"
-                >
-                  Call Now
-                </a>
-                <button
-                  onClick={handleCopy}
-                  className="px-2.5 rounded-sm border border-white/10 hover:bg-white/5 transition-colors flex items-center justify-center text-white/80"
-                  title="Copy number"
-                >
-                  {copied ? <Check size={14} className="text-green-400" /> : <Copy size={14} />}
-                </button>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+              <X size={14} />
+            </button>
+            <p className="text-[#D8CFC7]/55 text-[11px] mb-2 font-mono">Speak with our concierge:</p>
+            <a href="tel:+919415763552"
+              className="block text-[#E8B96A] font-bold text-sm mb-3 hover:text-white transition-colors font-mono"
+            >
+              +91 94157 63552
+            </a>
+            <a href="tel:+919415763552"
+              className="flex items-center justify-center gap-1.5 w-full py-2.5 text-[10px] font-accent tracking-widest font-semibold rounded-sm transition-all hover:brightness-110 btn-glow"
+              style={{ background: `linear-gradient(135deg, ${GOLD}, ${BRASS})`, color: "#0C1519" }}
+            >
+              <Phone size={12} /> Call Now
+            </a>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
+      {/* Floating Buttons — stacked vertically on the right side at top: 60% — increased button size to w-14 h-14 */}
+      <div 
+        className="fixed right-5 top-[60%] -translate-y-1/2 z-[80] flex flex-col items-center gap-4"
+        style={{ pointerEvents: "auto" }}
+      >
+        {/* Phone button (gold with radar pulse glow) */}
         <motion.button
-          onClick={() => setShowCallCard(!showCallCard)}
-          className="w-12 h-12 rounded-full shadow-lg bg-[#1A2B1C] border border-[#C9A84C]/20 text-[#C9A84C] flex items-center justify-center cursor-pointer hover:bg-[#1A2B1C]/90 transition-colors"
-          whileHover={{ scale: 1.08 }}
-          whileTap={{ scale: 0.95 }}
+          onClick={() => setShowCall((p) => !p)}
+          className="w-14 h-14 rounded-full flex items-center justify-center shadow-lg cursor-pointer pulse-ring-gold"
+          style={{
+            background: `linear-gradient(135deg, ${GOLD}, ${BRASS})`,
+            boxShadow: `0 0 15px rgba(232, 185, 106, 0.35), 0 4px 20px rgba(0,0,0,0.45)`,
+          }}
+          whileHover={{
+            scale: 1.1,
+            boxShadow: `0 0 25px rgba(232, 185, 106, 0.55), 0 4px 30px rgba(0,0,0,0.5)`,
+          }}
+          whileTap={{ scale: 0.92 }}
         >
-          <Phone size={20} className={showCallCard ? "rotate-12 transition-transform" : ""} />
+          <Phone size={20} style={{ color: "#0C1519" }} />
         </motion.button>
-      </div>
 
-      {/* ── WhatsApp Floating Button ── */}
-      <div className="pointer-events-auto">
+        {/* WhatsApp (green with radar pulse glow) */}
         <motion.a
-          href={`https://wa.me/919876543210?text=${whatsappMessage}`}
+          href="https://wa.me/919415763552"
           target="_blank"
           rel="noopener noreferrer"
-          className="w-13 h-13 rounded-full shadow-lg bg-[#25D366] text-white flex items-center justify-center cursor-pointer relative group"
-          whileHover={{ scale: 1.08 }}
-          whileTap={{ scale: 0.95 }}
+          className="w-14 h-14 rounded-full flex items-center justify-center shadow-lg cursor-pointer pulse-ring-green"
+          style={{
+            background: "#25D366",
+            boxShadow: `0 0 15px rgba(37,211,102,0.3), 0 4px 20px rgba(0,0,0,0.3)`,
+            border: "2px solid rgba(37,211,102,0.3)",
+          }}
+          whileHover={{
+            scale: 1.1,
+            boxShadow: `0 0 25px rgba(37,211,102,0.5), 0 4px 30px rgba(0,0,0,0.4)`,
+          }}
+          whileTap={{ scale: 0.92 }}
         >
-          {/* Pulsing ring animation */}
-          <span className="absolute inset-0 rounded-full bg-[#25D366]/40 animate-ping opacity-75 pointer-events-none group-hover:animate-none" />
-          <MessageCircle size={26} className="fill-white text-[#25D366]" />
+          <svg className="w-6 h-6" viewBox="0 0 24 24" fill="white">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+          </svg>
         </motion.a>
+
+        {/* Chatbot trigger button (dark-gold with pulse glow) */}
+        <motion.button
+          onClick={toggleChat}
+          className="w-14 h-14 rounded-full flex items-center justify-center shadow-xl cursor-pointer"
+          style={{
+            background: `linear-gradient(135deg, ${GOLD}, ${BRASS})`,
+            boxShadow: `0 0 12px rgba(207, 157, 123, 0.25)`,
+          }}
+          whileHover={{ 
+            scale: 1.1,
+            boxShadow: `0 0 20px rgba(207, 157, 123, 0.45)`,
+          }}
+          whileTap={{ scale: 0.92 }}
+          animate={{
+            boxShadow: chatOpen
+              ? `0 0 10px rgba(207,157,123,0.3)`
+              : [
+                  `0 0 15px rgba(207,157,123,0.3), 0 0 30px rgba(207,157,123,0.15)`,
+                  `0 0 25px rgba(207,157,123,0.55), 0 0 50px rgba(207,157,123,0.25)`,
+                  `0 0 15px rgba(207,157,123,0.3), 0 0 30px rgba(207,157,123,0.15)`,
+                ],
+          }}
+          transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <AnimatePresence mode="wait">
+            {chatOpen
+              ? <motion.div key="x" initial={{ rotate: -90, scale: 0 }} animate={{ rotate: 0, scale: 1 }} exit={{ rotate: 90, scale: 0 }}><X size={22} style={{ color: "#0C1519" }} /></motion.div>
+              : <motion.div key="c" initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}><MessageCircle size={22} style={{ color: "#0C1519" }} /></motion.div>
+            }
+          </AnimatePresence>
+        </motion.button>
       </div>
-    </div>
+    </>
   );
 }

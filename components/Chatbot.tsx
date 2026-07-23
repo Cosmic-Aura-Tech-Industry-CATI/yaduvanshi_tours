@@ -1,277 +1,178 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { MessageSquare, X, Send, ArrowRight, Bot } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
+import { X, Send, Bot, User } from "lucide-react";
 
-const GOLD = "#C9A84C";
-const DARK = "#1A2B1C";
+const BRASS = "#CF9D7B";
+const COFFEE = "#724B39";
+const GOLD = "#E8B96A";
+const IVORY = "#F5F0EA";
 
-interface Message {
-  sender: "bot" | "user";
+interface Msg {
+  id: number;
+  from: "bot" | "user";
   text: string;
-  options?: string[];
-  formField?: "name" | "phone" | "destination" | "confirm";
 }
 
-const FAQS = [
-  {
-    key: "rates",
-    label: "What are your vehicle rates?",
-    response: "Our vehicle rates start from ₹2,000/day for Maruti Dzire (5-seater sedan) up to ₹25,000/day for luxury BMW 5 Series. We offer local (80km/8hrs limit) and outstation packages.",
-  },
-  {
-    key: "packages",
-    label: "Do you offer tour packages?",
-    response: "Yes! We specialize in premium heritage and pilgrimage packages, including Ayodhya (from ₹5,500/vehicle), Mathura-Vrindavan, Varanasi, and the premium Char Dham Yatra. Prices are calculated per vehicle for maximum group value.",
-  },
-  {
-    key: "custom",
-    label: "Can I customize a package?",
-    // Triggers lead capture flow
-    response: "Absolutely. Let's build your custom plan. May I know your name first?",
-    triggerLead: true,
-  },
-  {
-    key: "inclusion",
-    label: "What's included in the price?",
-    response: "All standard vehicle rentals include fuel, vehicle cost, and professional chauffeur service. High-way tolls, state entry taxes, and parking fees are extra and billed at actuals.",
-  },
+const FAQ: { q: string; a: string }[] = [
+  { q: "What tours do you offer?",     a: "We offer curated spiritual, mountain & cultural tours across India — Char Dham, Manali, Kashmir, Rajasthan & many more!" },
+  { q: "How do I book?",               a: "You can book directly on our site — click 'PLAN MY TRIP' or call us at +91 94157 63552." },
+  { q: "Are vehicles AC?",             a: "Yes! All our vehicles — from Dzire to Fortuner — come fully air-conditioned for your comfort." },
+  { q: "Do you offer wedding cars?",   a: "Absolutely! We have a premium wedding fleet with flower-decorated luxury cars and guest shuttles." },
 ];
 
 export function Chatbot() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      sender: "bot",
-      text: "Namaste! Welcome to Yaduvanshi Tours. How can I assist you today?",
-      options: FAQS.map((faq) => faq.label),
-    },
+  const [open, setOpen] = useState(false);
+  const [msgs, setMsgs] = useState<Msg[]>([
+    { id: 0, from: "bot", text: "Namaste! 🙏 I'm your virtual travel assistant. How can I help you plan your trip?" },
   ]);
-  const [inputValue, setInputValue] = useState("");
-  const [leadData, setLeadData] = useState({
-    name: "",
-    phone: "",
-    destination: "",
-  });
-  const [activeStep, setActiveStep] = useState<"none" | "name" | "phone" | "destination">("none");
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const [input, setInput] = useState("");
+  const endRef = useRef<HTMLDivElement>(null);
 
-  // Auto-scroll to bottom of conversation
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+    endRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [msgs]);
 
-  const handleOptionClick = (optionLabel: string) => {
-    // Add user message
-    const newMessages: Message[] = [...messages, { sender: "user", text: optionLabel }];
-    setMessages(newMessages);
+  // Sync chatbot open state with window events
+  useEffect(() => {
+    const handleToggle = () => setOpen((o) => !o);
+    window.addEventListener("toggle-chatbot", handleToggle);
+    return () => window.removeEventListener("toggle-chatbot", handleToggle);
+  }, []);
 
-    // Find if option corresponds to FAQ
-    const faq = FAQS.find((f) => f.label === optionLabel);
-    if (faq) {
-      setTimeout(() => {
-        if (faq.triggerLead) {
-          setMessages((prev) => [
-            ...prev,
-            { sender: "bot", text: faq.response },
-          ]);
-          setActiveStep("name");
-        } else {
-          setMessages((prev) => [
-            ...prev,
-            {
-              sender: "bot",
-              text: faq.response,
-              options: FAQS.map((f) => f.label),
-            },
-          ]);
-        }
-      }, 600);
-    }
-  };
+  // Broadcast state changes so the floating button trigger icon updates
+  useEffect(() => {
+    window.dispatchEvent(new CustomEvent("chatbot-state", { detail: { open } }));
+  }, [open]);
 
-  const handleSendMessage = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!inputValue.trim()) return;
+  const send = (text: string) => {
+    if (!text.trim()) return;
+    const userMsg: Msg = { id: Date.now(), from: "user", text };
+    setMsgs((p) => [...p, userMsg]);
+    setInput("");
 
-    const userText = inputValue.trim();
-    setMessages((prev) => [...prev, { sender: "user", text: userText }]);
-    setInputValue("");
-
+    // Simple FAQ matching
     setTimeout(() => {
-      if (activeStep === "name") {
-        setLeadData((prev) => ({ ...prev, name: userText }));
-        setMessages((prev) => [
-          ...prev,
-          { sender: "bot", text: `Nice to meet you, ${userText}! Please share your 10-digit mobile number so our team can contact you.` },
-        ]);
-        setActiveStep("phone");
-      } else if (activeStep === "phone") {
-        setLeadData((prev) => ({ ...prev, phone: userText }));
-        setMessages((prev) => [
-          ...prev,
-          { sender: "bot", text: "Great! Where are you planning to travel, and for which dates?" },
-        ]);
-        setActiveStep("destination");
-      } else if (activeStep === "destination") {
-        const finalDest = userText;
-        const updatedLead = { ...leadData, destination: finalDest };
-        setLeadData(updatedLead);
-        setActiveStep("none");
-
-        // Format direct WhatsApp link
-        const waText = encodeURIComponent(
-          `Hi, my name is ${updatedLead.name}. I am looking to book a trip to ${finalDest}. Contact number: ${updatedLead.phone}. Please connect me to an agent.`
-        );
-        const waUrl = `https://wa.me/919876543210?text=${waText}`;
-
-        setMessages((prev) => [
-          ...prev,
-          {
-            sender: "bot",
-            text: `Thank you! I have saved your preferences:\n👤 Name: ${updatedLead.name}\n📞 Phone: ${updatedLead.phone}\n📍 Destination: ${finalDest}\n\nClick below to immediately connect with our travel experts on WhatsApp!`,
-          },
-        ]);
-
-        // Delay showing WhatsApp handoff button
-        setTimeout(() => {
-          setMessages((prev) => [
-            ...prev,
-            {
-              sender: "bot",
-              text: "Connect to live assistant now:",
-              options: ["👉 Click to open WhatsApp"],
-            },
-          ]);
-        }, 600);
-      } else {
-        // Fallback or restart
-        setMessages((prev) => [
-          ...prev,
-          {
-            sender: "bot",
-            text: "I am a simple virtual assistant. You can ask me FAQs or customize a tour package using the menu options below:",
-            options: FAQS.map((f) => f.label),
-          },
-        ]);
-      }
-    }, 600);
-  };
-
-  const handleWhatsappTrigger = (optionText: string) => {
-    if (optionText.includes("WhatsApp")) {
-      const waText = encodeURIComponent(
-        `Hi, my name is ${leadData.name || "Customer"}. I am looking to book a trip to ${leadData.destination || "Varanasi/Ayodhya"}. Contact: ${leadData.phone || ""}. Please assist.`
-      );
-      window.open(`https://wa.me/919876543210?text=${waText}`, "_blank");
-    } else {
-      handleOptionClick(optionText);
-    }
+      const lower = text.toLowerCase();
+      const match = FAQ.find((f) => lower.includes(f.q.split(" ").slice(0, 3).join(" ").toLowerCase()));
+      const reply = match?.a || "Thank you for your question! Our team will get back to you shortly. Meanwhile, you can call us at +91 94157 63552 or WhatsApp for instant help.";
+      setMsgs((p) => [...p, { id: Date.now() + 1, from: "bot", text: reply }]);
+    }, 800);
   };
 
   return (
-    <div className="fixed bottom-6 left-6 z-[100] flex flex-col items-start pointer-events-none">
-      {/* ── Chat Window ── */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 15 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: 15 }}
-            transition={{ duration: 0.25, ease: "easeOut" }}
-            className="bg-[#1A2B1C] text-white rounded-lg shadow-2xl border border-[#C9A84C]/30 flex flex-col w-[350px] max-w-[calc(100vw-32px)] h-[480px] mb-4 pointer-events-auto overflow-hidden"
+    <AnimatePresence>
+      {open && (
+        <motion.div
+          initial={{ opacity: 0, x: 20, scale: 0.9 }}
+          animate={{ opacity: 1, x: 0, scale: 1 }}
+          exit={{ opacity: 0, x: 20, scale: 0.9 }}
+          transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+          className="fixed right-[5.5rem] top-[60%] -translate-y-1/2 w-80 sm:w-96 rounded-2xl overflow-hidden shadow-2xl z-[80] flex flex-col"
+          style={{
+            maxHeight: "75vh",
+            background: "#0C1519",
+            border: `1px solid ${BRASS}20`,
+            boxShadow: `0 0 40px rgba(207, 157, 123, 0.15), 0 20px 60px rgba(0,0,0,0.5)`,
+          }}
+        >
+          {/* Header */}
+          <div
+            className="px-5 py-3.5 flex items-center justify-between flex-shrink-0 relative"
+            style={{ background: "#3A3534" }}
           >
-            {/* Header */}
-            <div className="p-4 border-b border-white/10 flex justify-between items-center" style={{ backgroundColor: "#142115" }}>
-              <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-full bg-[#C9A84C] flex items-center justify-center text-[#1A2B1C]">
-                  <Bot size={18} />
-                </div>
-                <div>
-                  <div className="font-display font-semibold text-sm tracking-wide">Yadu Assistant</div>
-                  <div className="text-[10px] text-green-400 font-mono flex items-center gap-1">
-                    <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" /> Online Support
-                  </div>
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-full flex items-center justify-center glass-panel" style={{ boxShadow: `0 0 10px rgba(207, 157, 123, 0.2)` }}>
+                <Bot size={16} style={{ color: BRASS }} />
+              </div>
+              <div>
+                <div className="text-white text-sm font-semibold">Travel Assistant</div>
+                <div className="text-white/30 text-[10px] font-mono flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-green-400 inline-block" /> Online
                 </div>
               </div>
-              <button onClick={() => setIsOpen(false)} className="text-white/60 hover:text-white cursor-pointer transition-colors p-1">
-                <X size={18} />
-              </button>
             </div>
+            <button onClick={() => setOpen(false)} className="text-white/40 hover:text-white transition-colors p-1 rounded-full hover:bg-white/10 cursor-pointer">
+              <X size={18} />
+            </button>
+            {/* Glow bottom border */}
+            <div className="absolute bottom-0 left-0 right-0 h-px" style={{ background: `linear-gradient(to right, transparent, ${BRASS}40, ${COFFEE}30, transparent)` }} />
+          </div>
 
-            {/* Message Area */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-3.5 scrollbar-thin scrollbar-thumb-white/10">
-              {messages.map((m, idx) => (
-                <div key={idx} className="flex flex-col gap-1">
-                  <div className={`flex ${m.sender === "user" ? "justify-end" : "justify-start"}`}>
-                    <div
-                      className={`max-w-[85%] text-xs p-3 rounded-md leading-relaxed whitespace-pre-line ${
-                        m.sender === "user"
-                          ? "bg-[#C9A84C] text-[#1A2B1C] font-medium"
-                          : "bg-white/5 text-white/90 border border-white/5"
-                      }`}
-                    >
-                      {m.text}
-                    </div>
+          {/* Messages */}
+          <div className="flex-1 overflow-y-auto p-4 space-y-3 custom-scrollbar" style={{ maxHeight: "340px" }}>
+            {msgs.map((m) => (
+              <div key={m.id} className={`flex gap-2 ${m.from === "user" ? "justify-end" : "justify-start"}`}>
+                {m.from === "bot" && (
+                  <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 glass-panel" style={{ boxShadow: `0 0 6px rgba(207,157,123,0.15)` }}>
+                    <Bot size={11} style={{ color: BRASS }} />
                   </div>
-
-                  {/* Render Options / FAQ Buttons */}
-                  {m.options && m.options.length > 0 && (
-                    <div className="flex flex-wrap gap-1.5 mt-1.5 pl-1">
-                      {m.options.map((opt) => (
-                        <button
-                          key={opt}
-                          onClick={() => handleWhatsappTrigger(opt)}
-                          className="text-[11px] text-[#C9A84C] border border-[#C9A84C]/30 bg-[#C9A84C]/5 px-2.5 py-1.5 rounded-sm hover:bg-[#C9A84C] hover:text-[#1A2B1C] hover:border-transparent transition-all cursor-pointer text-left"
-                        >
-                          {opt}
-                        </button>
-                      ))}
-                    </div>
-                  )}
+                )}
+                <div
+                  className="px-3.5 py-2.5 rounded-xl text-xs leading-relaxed max-w-[75%] font-sans"
+                  style={m.from === "user"
+                    ? { background: `linear-gradient(135deg, ${GOLD}, ${BRASS})`, color: "#0C1519" }
+                    : { background: "rgba(58,53,52,0.3)", color: "#D8CFC7", border: `1px solid rgba(207,157,123,0.1)` }}
+                >
+                  {m.text}
                 </div>
+                {m.from === "user" && (
+                  <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 glass-panel">
+                    <User size={11} className="text-white/50" />
+                  </div>
+                )}
+              </div>
+            ))}
+            <div ref={endRef} />
+          </div>
+
+          {/* FAQ pills */}
+          {msgs.length <= 2 && (
+            <div className="px-4 pb-3 flex flex-wrap gap-1.5 font-accent tracking-widest text-[9px]">
+              {FAQ.map((f) => (
+                <button
+                  key={f.q}
+                  onClick={() => send(f.q)}
+                  className="px-2.5 py-1 rounded-full transition-colors cursor-pointer glass-panel"
+                  style={{ color: GOLD }}
+                >
+                  {f.q}
+                </button>
               ))}
-              <div ref={messagesEndRef} />
             </div>
+          )}
 
-            {/* Input Form */}
-            <form onSubmit={handleSendMessage} className="p-3 border-t border-white/10 flex gap-2" style={{ backgroundColor: "#142115" }}>
-              <input
-                type="text"
-                placeholder={
-                  activeStep === "name"
-                    ? "Enter your name..."
-                    : activeStep === "phone"
-                    ? "Enter phone number..."
-                    : activeStep === "destination"
-                    ? "Enter destinations/dates..."
-                    : "Type a message..."
-                }
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                className="flex-1 bg-white/5 border border-white/10 rounded-sm px-3 py-2 text-xs text-white focus:outline-none focus:border-[#C9A84C]/60 font-sans"
-              />
-              <button
-                type="submit"
-                className="w-8 h-8 rounded-sm flex items-center justify-center cursor-pointer transition-all hover:brightness-95"
-                style={{ backgroundColor: GOLD, color: DARK }}
-              >
-                <Send size={12} />
-              </button>
-            </form>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* ── Chat Trigger Button ── */}
-      <motion.button
-        onClick={() => setIsOpen(!isOpen)}
-        className="w-12 h-12 rounded-full shadow-lg bg-[#C9A84C] text-[#1A2B1C] flex items-center justify-center cursor-pointer hover:scale-105 pointer-events-auto"
-        whileTap={{ scale: 0.95 }}
-      >
-        <MessageSquare size={20} className={isOpen ? "rotate-90 transition-transform" : ""} />
-      </motion.button>
-    </div>
+          {/* Input */}
+          <form
+            onSubmit={(e) => { e.preventDefault(); send(input); }}
+            className="p-3 flex gap-2 flex-shrink-0"
+            style={{ borderTop: `1px solid rgba(207,157,123,0.1)` }}
+          >
+            <input
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder="Type your message..."
+              className="flex-1 text-white text-xs px-3 py-2.5 rounded-lg placeholder-white/20 font-mono glass-panel"
+              style={{ outline: "none" }}
+              onFocus={(e) => {
+                e.currentTarget.style.boxShadow = `0 0 15px rgba(232, 185, 106, 0.25)`;
+                e.currentTarget.style.borderColor = `${GOLD}40`;
+              }}
+              onBlur={(e) => {
+                e.currentTarget.style.boxShadow = `0 0 25px rgba(207, 157, 123, 0.12), 0 8px 32px rgba(0, 0, 0, 0.45)`;
+                e.currentTarget.style.borderColor = `rgba(207, 157, 123, 0.18)`;
+              }}
+            />
+            <button type="submit"
+              className="w-9 h-9 rounded-lg flex items-center justify-center transition-all hover:brightness-110 cursor-pointer"
+              style={{ background: `linear-gradient(135deg, ${GOLD}, ${BRASS})` }}
+            >
+              <Send size={13} style={{ color: "#0C1519" }} />
+            </button>
+          </form>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }

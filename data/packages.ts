@@ -9,7 +9,7 @@ export const PACKAGES: TourPackage[] = [
     destinations: ["Ayodhya", "Hanuman Garhi", "Kanak Bhawan", "Saryu River"],
     duration: { days: 2, nights: 1 },
     groupSize: { min: 2, max: 7 },
-    image: "photo-1608958416715-4a5f36e4f35e",
+    image: "/tours/ayodhya-darshan.webp",
     gallery: [
       "photo-1608958416715-4a5f36e4f35e",
       "photo-1544735716-392fe2489ffa",
@@ -80,7 +80,7 @@ export const PACKAGES: TourPackage[] = [
     destinations: ["Mathura", "Vrindavan", "Gokul", "Barsana"],
     duration: { days: 2, nights: 1 },
     groupSize: { min: 2, max: 7 },
-    image: "photo-1545128485-c400e7702796",
+    image: "/tours/mathura-vrindavan.webp",
     gallery: [
       "photo-1545128485-c400e7702796",
       "photo-1599661046289-e31897846e41",
@@ -144,7 +144,7 @@ export const PACKAGES: TourPackage[] = [
     destinations: ["Varanasi", "Sarnath", "Dashashwamedh Ghat"],
     duration: { days: 2, nights: 1 },
     groupSize: { min: 2, max: 7 },
-    image: "photo-1561361513-2d000a50f0db",
+    image: "/tours/kashi-vishwanath.webp",
     gallery: [
       "photo-1561361513-2d000a50f0db",
       "photo-1590001155093-a3c66ab0c3ff",
@@ -210,7 +210,7 @@ export const PACKAGES: TourPackage[] = [
     destinations: ["Kainchi Dham", "Nainital", "Bhimtal"],
     duration: { days: 3, nights: 2 },
     groupSize: { min: 2, max: 7 },
-    image: "photo-1544735716-392fe2489ffa",
+    image: "/tours/neem-karoli-kainchi-dham.webp",
     gallery: [
       "photo-1544735716-392fe2489ffa",
       "photo-1506744038136-46273834b3fb",
@@ -282,7 +282,7 @@ export const PACKAGES: TourPackage[] = [
     destinations: ["Ujjain", "Omkareshwar", "Bhairav Temple"],
     duration: { days: 3, nights: 2 },
     groupSize: { min: 2, max: 7 },
-    image: "photo-1582510003544-4d00b7f74220",
+    image: "/tours/mahakal-omkareshwar.webp",
     gallery: [
       "photo-1582510003544-4d00b7f74220",
       "photo-1596701062351-df5f8af54b85",
@@ -354,7 +354,7 @@ export const PACKAGES: TourPackage[] = [
     destinations: ["Kullu", "Manali", "Solang Valley", "Rohtang Pass"],
     duration: { days: 6, nights: 5 },
     groupSize: { min: 2, max: 7 },
-    image: "photo-1506905925346-21bda4d32df4",
+    image: "/tours/kullu-manali.webp",
     gallery: [
       "photo-1542314831-068cd1dbfeeb",
       "photo-1517824806704-9040b037703b",
@@ -451,7 +451,7 @@ export const PACKAGES: TourPackage[] = [
     destinations: ["Katra", "Vaishno Devi Bhawan", "Srinagar", "Gulmarg", "Sonmarg"],
     duration: { days: 10, nights: 9 },
     groupSize: { min: 2, max: 7 },
-    image: "photo-1595815771614-ade9d652a65d",
+    image: "/tours/vaishno-devi.webp",
     gallery: [
       "photo-1595815771614-ade9d652a65d",
       "photo-1542314831-068cd1dbfeeb",
@@ -581,7 +581,7 @@ export const PACKAGES: TourPackage[] = [
     destinations: ["Yamunotri", "Gangotri", "Kedarnath", "Badrinath", "Haridwar"],
     duration: { days: 10, nights: 9 },
     groupSize: { min: 4, max: 26 },
-    image: "photo-1464822759023-fed622ff2c3b",
+    image: "/tours/char-dham-yatra.webp",
     gallery: [
       "photo-1464822759023-fed622ff2c3b",
       "photo-1544735716-392fe2489ffa",
