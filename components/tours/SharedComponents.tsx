@@ -92,11 +92,11 @@ export function TourCard({ tour }: { tour: TourPackage }) {
       }}
     >
       {/* Visual Image */}
-      <div className="relative h-56 overflow-hidden bg-black/20">
+      <div className="relative h-72 sm:h-80 md:h-[380px] lg:h-[400px] overflow-hidden bg-black/20">
         {images.map((img, idx) => (
           <img
             key={img}
-            src={resolveImg(img, 500, 360)}
+            src={resolveImg(img, 800, 960)}
             alt={tour.name}
             className="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out"
             style={{

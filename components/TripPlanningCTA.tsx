@@ -30,7 +30,7 @@ export function TripPlanningCTA() {
       />
 
       {/* Main Content Area */}
-      <div className="max-w-7xl mx-auto px-6 lg:px-12 w-full relative z-20 py-20">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12 w-full relative z-20 py-24 md:py-32">
         <div className="max-w-2xl text-left space-y-6">
           {/* Overline Label with Horizontal Accent Line */}
           <motion.div
@@ -42,7 +42,7 @@ export function TripPlanningCTA() {
           >
             <div className="w-8 h-0.5" style={{ background: GOLD }} />
             <span 
-              className="text-[10px] font-bold tracking-[0.25em] uppercase font-accent"
+              className="text-xs sm:text-sm md:text-base font-bold tracking-[0.25em] uppercase font-accent"
               style={{ color: GOLD }}
             >
               Let&apos;s Plan Your Trip
@@ -55,7 +55,7 @@ export function TripPlanningCTA() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            className="font-display text-4xl md:text-5xl lg:text-6xl font-bold tracking-wide text-white leading-[1.15]"
+            className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-wide text-white leading-[1.15]"
           >
             Ready to explore <br />
             <span className="italic font-serif" style={{ color: GOLD }}>Incredible India?</span>
@@ -67,7 +67,7 @@ export function TripPlanningCTA() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            className="text-[#D8CFC7]/80 text-sm md:text-base leading-relaxed max-w-xl font-sans"
+            className="text-[#D8CFC7]/80 text-base md:text-lg leading-relaxed max-w-xl font-sans"
           >
             Share your preferred dates, choice destinations, and travel style with us. Our destination experts will craft a personalized itinerary and tailored quote within 24 hours—completely hassle-free and with zero pushy phone calls.
           </motion.p>

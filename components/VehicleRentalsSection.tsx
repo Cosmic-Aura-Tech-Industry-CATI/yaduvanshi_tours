@@ -30,10 +30,10 @@ export function VehicleRentalsSection() {
   return (
     <div id="vehicles-section">
       {/* ── Hero Header with Full-Bleed Background Image ── */}
-      <section className="relative pt-20 pb-0 px-6 lg:px-12 overflow-hidden z-10" style={{ background: "#0C1519" }}>
+      <section className="relative pt-28 sm:pt-32 md:pt-40 pb-12 md:pb-16 min-h-[280px] sm:min-h-[320px] md:min-h-[420px] flex flex-col justify-end px-6 lg:px-12 overflow-hidden z-10" style={{ background: "#0C1519" }}>
         {/* Full-Bleed Background Image */}
         <img
-          src="/vehicles/fleet-hero.png"
+          src="/vehicles/Copilot_20260724_011457.png"
           alt="Premium Fleet & Car Rentals Background"
           className="absolute inset-0 w-full h-full object-cover z-0"
         />
@@ -52,40 +52,31 @@ export function VehicleRentalsSection() {
 
         <div className="max-w-7xl mx-auto relative z-30">
           {/* Header */}
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
-            <div>
-              <motion.p
-                className="font-script text-2xl mb-1"
-                style={{ color: BRASS }}
-                initial={{ opacity: 0, x: -12 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-              >
-                Premium Fleet
-              </motion.p>
-              <motion.h2
-                className="font-display font-bold text-3xl md:text-4xl text-glow-gold"
-                style={{ color: GOLD }}
-                initial={{ opacity: 0, y: 12 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.1 }}
-              >
-                Royal Fleet & Car Rentals
-              </motion.h2>
-              <div className="flex items-center gap-2 mt-3">
-                <div className="w-8 h-px" style={{ background: `linear-gradient(to right, ${BRASS}, transparent)` }} />
-                <div className="w-1.5 h-1.5 rotate-45" style={{ background: BRASS, boxShadow: `0 0 6px ${BRASS}60` }} />
-                <div className="w-8 h-px" style={{ background: `linear-gradient(to left, ${BRASS}, transparent)` }} />
-              </div>
-            </div>
-            <Link
-              href="/vehicles"
-              className="hidden md:inline-flex items-center gap-1.5 text-xs font-accent tracking-widest px-5 py-2.5 rounded-sm transition-all duration-300 glass-panel hover-glow"
-              style={{ color: GOLD }}
+          <div className="mb-10">
+            <motion.p
+              className="font-script text-2xl sm:text-3xl md:text-4xl mb-1"
+              style={{ color: BRASS }}
+              initial={{ opacity: 0, x: -12 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
             >
-              View All <ArrowRight size={12} />
-            </Link>
+              Premium Fleet
+            </motion.p>
+            <motion.h2
+              className="font-display font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-glow-gold"
+              style={{ color: GOLD }}
+              initial={{ opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+            >
+              Royal Fleet & Car Rentals
+            </motion.h2>
+            <div className="flex items-center gap-2 mt-3">
+              <div className="w-8 h-px" style={{ background: `linear-gradient(to right, ${BRASS}, transparent)` }} />
+              <div className="w-1.5 h-1.5 rotate-45" style={{ background: BRASS, boxShadow: `0 0 6px ${BRASS}60` }} />
+              <div className="w-8 h-px" style={{ background: `linear-gradient(to left, ${BRASS}, transparent)` }} />
+            </div>
           </div>
         </div>
       </section>

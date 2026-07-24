@@ -374,7 +374,7 @@ export function Hero() {
 
       {/* ── Main Content Wrapper (Fixed heading text cut by adding padding-top equal to navbar+topbar height + safe 70px buffer, content centered, zero blur) ── */}
       <div
-        className="relative z-10 max-w-7xl mx-auto px-6 lg:px-14 flex flex-col justify-center items-center w-full min-h-full pt-[156px] md:pt-[198px] pb-20 text-center"
+        className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12 flex flex-col justify-center items-center w-full min-h-full pt-[156px] md:pt-[198px] pb-20 text-center"
         style={{ 
           backfaceVisibility: "hidden",
           WebkitFontSmoothing: "subpixel-antialiased",

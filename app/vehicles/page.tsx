@@ -45,12 +45,12 @@ export default function VehiclesPage() {
         style={{ background: `radial-gradient(circle, ${COFFEE}, transparent 70%)` }} />
 
       {/* Header / Hero with Full-Bleed Background Image */}
-      <section className="relative py-16 md:py-20 px-6 overflow-hidden z-10 text-center flex items-center justify-center">
+      <section className="relative py-24 md:py-32 px-6 lg:px-12 overflow-hidden z-10 text-center flex items-center justify-center">
         {/* Full-Bleed Background Image */}
         <div 
           className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage: "url('/vehicles/fleet-hero.png')",
+            backgroundImage: "url('/vehicles/Copilot_20260724_011457.png')",
           }}
         />
         {/* Dark theme gradient overlay for contrast and readability */}
@@ -60,11 +60,11 @@ export default function VehiclesPage() {
 
         {/* Content Layer */}
         <div className="max-w-7xl mx-auto relative z-20">
-          <span className="text-[#E8B96A] font-accent text-xs uppercase tracking-[0.25em] block mb-3 font-semibold">Premium Fleet</span>
-          <h1 className="font-display text-4xl md:text-6xl font-bold tracking-wide text-white">
+          <span className="text-[#E8B96A] font-accent text-xs sm:text-sm md:text-base uppercase tracking-[0.25em] block mb-3 font-semibold">Premium Fleet</span>
+          <h1 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-wide text-white">
             Vehicle <span className="text-[#E8B96A]">Rentals</span>
           </h1>
-          <p className="text-[#D8CFC7]/80 text-sm md:text-base max-w-xl mx-auto mt-5 font-sans leading-relaxed">
+          <p className="text-[#D8CFC7]/80 text-base md:text-lg max-w-2xl mx-auto mt-5 font-sans leading-relaxed">
             Chauffeur-driven premium rides, sedans, SUVs, and luxury multi-seaters for local, outstation, or wedding travel.
           </p>
           <div className="w-24 h-0.5 mx-auto mt-6" style={{ background: `linear-gradient(to right, transparent, ${BRASS}, transparent)` }} />
