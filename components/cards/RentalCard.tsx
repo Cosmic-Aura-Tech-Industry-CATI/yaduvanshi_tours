@@ -10,11 +10,6 @@ const BRASS = "#CF9D7B";
 const GOLD = "#E8B96A";
 const IVORY = "#F5F0EA";
 
-const resolveImg = (src: string, w: number, h: number) =>
-  src.startsWith("/")
-    ? src
-    : `https://images.unsplash.com/${src}?w=${w}&h=${h}&fit=crop&auto=format&q=85`;
-
 const CATEGORY_LABELS: Record<string, string> = {
   sedan: "Sedan",
   mpv: "MPV",
@@ -34,21 +29,6 @@ interface RentalCardProps {
 
 export function RentalCard({ vehicle: v, index = 0 }: RentalCardProps) {
   const [hovered, setHovered] = useState(false);
-
-  const isFeatured = [
-    "bmw-5-series",
-    "force-urbania",
-    "force-urbania-17-seater",
-    "maruti-dzire",
-    "maruti-ertiga",
-    "toyota-fortuner",
-    "toyota-innova-crysta",
-    "honda-city",
-    "hyundai-verna",
-    "mahindra-scorpio",
-    "audi-a6",
-    "mercedes-benz"
-  ].includes(v.slug);
 
   // Dynamic specifications notes tags extraction
   const getExtraTags = (vehicle: Vehicle) => {
@@ -128,6 +108,7 @@ export function RentalCard({ vehicle: v, index = 0 }: RentalCardProps) {
         <img
           src={v.image}
           alt={v.name}
+          loading="lazy"
           className="w-full h-full object-contain transition-transform duration-700 relative z-0"
           style={{ transform: hovered ? "scale(1.05)" : "scale(1)" }}
         />

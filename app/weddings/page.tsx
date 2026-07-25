@@ -206,25 +206,25 @@ export default function WeddingsPage() {
 
       {/* Immersive Header / Hero with Full-Bleed Background Image */}
       <section className="relative py-28 md:py-36 px-6 lg:px-12 overflow-hidden z-10 text-center flex items-center justify-center min-h-[400px] md:min-h-[500px]">
-        {/* Full-Bleed Background Image */}
+        {/* Full-Bleed Background Image — Yaduvanshi Branded Wedding Car */}
         <div 
-          className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
+          className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-80"
           style={{
-            backgroundImage: "url('/vehicles/wedding-hero.png')",
+            backgroundImage: "url('/weddings/yaduvanshi-wedding-car.webp')",
           }}
         />
-        {/* Dark theme gradient overlay for contrast and readability */}
+        {/* Balanced gradient overlay — lets the car shine through while keeping text legible */}
         <div 
-          className="absolute inset-0 z-10 bg-gradient-to-b from-[#0C1519]/85 via-[#0C1519]/75 to-[#0C1519]"
+          className="absolute inset-0 z-10 bg-gradient-to-b from-[#0C1519]/55 via-[#0C1519]/40 to-[#0C1519]"
         />
 
         {/* Content Layer */}
         <div className="max-w-7xl mx-auto relative z-20 space-y-4">
-          <span className="text-[#E8B96A] font-accent text-xs sm:text-sm md:text-base uppercase tracking-[0.25em] block mb-3 font-semibold">Premium Wedding Travel</span>
-          <h1 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-wide text-white">
+          <span className="text-[#E8B96A] font-accent text-xs sm:text-sm md:text-base uppercase tracking-[0.25em] block mb-3 font-semibold drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]">Premium Wedding Travel</span>
+          <h1 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-wide text-white drop-shadow-[0_4px_20px_rgba(0,0,0,0.95)]">
             Tension-Free <span className="text-[#E8B96A]">Wedding Logistics</span>
           </h1>
-          <p className="text-[#D8CFC7]/80 text-base md:text-lg max-w-2xl mx-auto mt-5 font-sans leading-relaxed">
+          <p className="text-[#D8CFC7] text-base md:text-lg max-w-2xl mx-auto mt-5 font-sans leading-relaxed font-medium drop-shadow-[0_2px_12px_rgba(0,0,0,0.95)]">
             Ensure grand arrivals, coordinated airport pickups, and premium decorated rides handled by elite highway chauffeurs.
           </p>
           <div className="w-24 h-0.5 mx-auto mt-6" style={{ background: `linear-gradient(to right, transparent, ${BRASS}, transparent)` }} />

@@ -7,26 +7,31 @@ import { ArrowRight, MessageSquare, Compass } from "lucide-react";
 const BRASS = "#CF9D7B";
 const GOLD = "#E8B96A";
 
-const WHATSAPP_URL = "https://wa.me/917500366888?text=Hello%20Yaduvanshi%20Tours,%20I%20am%20ready%20to%20plan%20a%20customized%20trip%20to%20Incredible%20India.";
+const WHATSAPP_URL = "https://wa.me/918127929551?text=Hello%20Yaduvanshi%20Tours,%20I%20am%20ready%20to%20plan%20a%20customized%20trip%20to%20Incredible%20India.";
 
 export function TripPlanningCTA() {
   return (
     <section className="relative w-full min-h-[500px] flex items-center overflow-hidden z-10">
-      {/* Full-Bleed Background Image */}
+      {/* Full-Bleed Background Image — high quality WebP */}
       <img 
-        src="/destinations/taj-mahal-cta.png"
-        alt="Taj Mahal Sunrise background"
-        className="absolute inset-0 w-full h-full object-cover object-right z-0"
+        src="/destinations/taj-mahal-cta.webp"
+        alt="Taj Mahal background"
+        className="absolute inset-0 w-full h-full object-cover object-center z-0"
+        style={{
+          filter: "brightness(1.08) contrast(1.10) saturate(1.15)",
+        }}
       />
       
-      {/* Dark left-to-right gradient overlay for text readability */}
+      {/* Dark left-to-right gradient overlay — ensures high text legibility on left while photo shines on right */}
       <div 
-        className="absolute inset-0 z-10 bg-gradient-to-r from-black/85 via-black/55 to-black/20"
+        className="absolute inset-0 z-10"
+        style={{ background: "linear-gradient(to right, rgba(12,21,25,0.85) 0%, rgba(12,21,25,0.60) 40%, rgba(12,21,25,0.15) 100%)" }}
       />
       
-      {/* Top and bottom transition gradients to blend seamlessly into the page's dark theme */}
+      {/* Subtle top/bottom page-blend */}
       <div 
-        className="absolute inset-0 z-10 bg-gradient-to-b from-[#0C1519] via-transparent to-[#0C1519]"
+        className="absolute inset-0 z-10"
+        style={{ background: "linear-gradient(to bottom, rgba(12,21,25,0.6) 0%, transparent 25%, transparent 75%, rgba(12,21,25,0.7) 100%)" }}
       />
 
       {/* Main Content Area */}

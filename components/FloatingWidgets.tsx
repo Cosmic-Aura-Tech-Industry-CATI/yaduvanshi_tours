@@ -44,12 +44,12 @@ export function FloatingWidgets() {
               <X size={14} />
             </button>
             <p className="text-[#D8CFC7]/55 text-[11px] mb-2 font-mono">Speak with our concierge:</p>
-            <a href="tel:+919415763552"
+            <a href="tel:+918127929551"
               className="block text-[#E8B96A] font-bold text-sm mb-3 hover:text-white transition-colors font-mono"
             >
-              +91 94157 63552
+              +91 81279 29551
             </a>
-            <a href="tel:+919415763552"
+            <a href="tel:+918127929551"
               className="flex items-center justify-center gap-1.5 w-full py-2.5 text-[10px] font-accent tracking-widest font-semibold rounded-sm transition-all hover:brightness-110 btn-glow"
               style={{ background: `linear-gradient(135deg, ${GOLD}, ${BRASS})`, color: "#0C1519" }}
             >
@@ -83,7 +83,7 @@ export function FloatingWidgets() {
 
         {/* WhatsApp (green with radar pulse glow) */}
         <motion.a
-          href="https://wa.me/919415763552"
+          href="https://wa.me/918127929551"
           target="_blank"
           rel="noopener noreferrer"
           className="w-14 h-14 rounded-full flex items-center justify-center shadow-lg cursor-pointer pulse-ring-green"

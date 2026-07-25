@@ -44,27 +44,26 @@ export default function VehiclesPage() {
       <div className="absolute bottom-1/4 left-0 w-[600px] h-[600px] rounded-full pointer-events-none z-0 opacity-5"
         style={{ background: `radial-gradient(circle, ${COFFEE}, transparent 70%)` }} />
 
-      {/* Header / Hero with Full-Bleed Background Image */}
+      {/* Header / Hero */}
       <section className="relative py-24 md:py-32 px-6 lg:px-12 overflow-hidden z-10 text-center flex items-center justify-center">
-        {/* Full-Bleed Background Image */}
-        <div 
-          className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
-          style={{
-            backgroundImage: "url('/vehicles/Copilot_20260724_011457.png')",
-          }}
+        {/* Hero Background Image - High Visibility */}
+        <div
+          className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-85"
+          style={{ backgroundImage: "url('/images/vehicle-hero-bg.webp')" }}
         />
-        {/* Dark theme gradient overlay for contrast and readability */}
-        <div 
-          className="absolute inset-0 z-10 bg-gradient-to-b from-[#0C1519]/85 via-[#0C1519]/75 to-[#0C1519]"
+
+        {/* Balanced gradient overlay for maximum car visibility without text glare */}
+        <div
+          className="absolute inset-0 z-10 bg-gradient-to-b from-[#0C1519]/50 via-[#0C1519]/35 to-[#0C1519]"
         />
 
         {/* Content Layer */}
         <div className="max-w-7xl mx-auto relative z-20">
-          <span className="text-[#E8B96A] font-accent text-xs sm:text-sm md:text-base uppercase tracking-[0.25em] block mb-3 font-semibold">Premium Fleet</span>
-          <h1 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-wide text-white">
+          <span className="text-[#E8B96A] font-accent text-xs sm:text-sm md:text-base uppercase tracking-[0.25em] block mb-3 font-semibold drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">Premium Fleet</span>
+          <h1 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-wide text-white drop-shadow-[0_4px_16px_rgba(0,0,0,0.95)]">
             Vehicle <span className="text-[#E8B96A]">Rentals</span>
           </h1>
-          <p className="text-[#D8CFC7]/80 text-base md:text-lg max-w-2xl mx-auto mt-5 font-sans leading-relaxed">
+          <p className="text-[#D8CFC7] text-base md:text-lg max-w-2xl mx-auto mt-5 font-sans leading-relaxed drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)] font-medium">
             Chauffeur-driven premium rides, sedans, SUVs, and luxury multi-seaters for local, outstation, or wedding travel.
           </p>
           <div className="w-24 h-0.5 mx-auto mt-6" style={{ background: `linear-gradient(to right, transparent, ${BRASS}, transparent)` }} />
@@ -73,7 +72,7 @@ export default function VehiclesPage() {
 
       <div className="max-w-7xl mx-auto px-6 mt-8 relative z-10">
         {/* Controls Container */}
-        <div 
+        <div
           className="flex flex-col gap-5 p-4 rounded-xl border glass-panel"
           style={{
             background: "rgba(58, 53, 52, 0.25)",
@@ -137,7 +136,7 @@ export default function VehiclesPage() {
             </div>
 
             {/* Pricing Toggle */}
-            <div 
+            <div
               className="flex p-1 rounded-full border w-full lg:w-auto justify-center"
               style={{
                 background: "rgba(22, 33, 39, 0.35)",
@@ -147,7 +146,7 @@ export default function VehiclesPage() {
               {[
                 { id: "local", label: "Local (₹/Day)" },
                 { id: "outstation", label: "Outstation (₹/Km)" },
-                ].map((type) => (
+              ].map((type) => (
                 <button
                   key={type.id}
                   onClick={() => setRentalType(type.id as any)}
@@ -178,7 +177,7 @@ export default function VehiclesPage() {
         </div>
 
         {/* Pricing Guide Callout - Shifted below the fleet grid */}
-        <div 
+        <div
           className="flex items-start gap-3 mt-12 p-5 border rounded-xl text-xs"
           style={{
             background: "rgba(58, 53, 52, 0.15)",
@@ -189,7 +188,7 @@ export default function VehiclesPage() {
           <div>
             <span className="font-semibold block font-display text-white text-sm">Rental Rate Details:</span>
             <span className="text-[#D8CFC7]/60 block mt-1.5 font-sans leading-relaxed">
-              * **Local Package**: Pricing is calculated on standard 8 Hours / 80 Kilometers base packages. 
+              * **Local Package**: Pricing is calculated on standard 8 Hours / 80 Kilometers base packages.
               * **Outstation Package**: Billed per kilometer with a minimum billing of 250km (or 300km for coaches/Urbania) per day. Driver allowances apply extra.
             </span>
           </div>

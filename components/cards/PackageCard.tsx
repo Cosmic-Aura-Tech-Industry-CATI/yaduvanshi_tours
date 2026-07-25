@@ -7,7 +7,6 @@ import { MapPin, Clock, Users, ArrowRight, Heart } from "lucide-react";
 import type { TourPackage } from "@/types";
 
 const BRASS = "#CF9D7B";
-const COFFEE = "#724B39";
 const GOLD = "#E8B96A";
 const IVORY = "#F5F0EA";
 

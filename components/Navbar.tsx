@@ -19,10 +19,10 @@ function WhatsAppIcon(props: React.SVGProps<SVGSVGElement>) {
 }
 
 const INFO_ITEMS = [
-  { icon: Phone,         text: "+91 94157 63552",         href: "tel:+919415763552"             },
-  { icon: WhatsAppIcon,  text: "+91 94157 63552",         href: "https://wa.me/919415763552"    },
-  { icon: Mail,          text: "info@yaduvanshitours.com", href: "mailto:info@yaduvanshitours.com" },
-  { icon: MapPin,        text: "Ayodhya, UP",             href: null                             },
+  { icon: Phone,         text: "+91 81279 29551",              href: "tel:+918127929551"                  },
+  { icon: WhatsAppIcon,  text: "+91 81279 29551",              href: "https://wa.me/918127929551"         },
+  { icon: Mail,          text: "manojyadav20101993@gmail.com", href: "mailto:manojyadav20101993@gmail.com" },
+  { icon: MapPin,        text: "Kanpur, UP",                  href: null                                 },
 ];
 
 const NAV_LINKS = [
@@ -185,7 +185,7 @@ export function Navbar() {
 
         {/* ── Main Navbar ─────────────────────────────────────── */}
         <motion.header
-          className="w-full px-6 lg:px-10 py-4 pointer-events-auto relative"
+          className="w-full px-6 lg:px-10 py-2 pointer-events-auto relative"
           animate={{
             backgroundColor: scrolled ? "rgba(12,21,25,0.92)" : "rgba(12,21,25,0.5)",
             backdropFilter: "blur(16px)",
@@ -197,30 +197,20 @@ export function Navbar() {
           transition={{ duration: 0.35, ease: "easeOut" }}
         >
           <div className="max-w-7xl mx-auto flex items-center justify-between">
-            {/* Logo Left */}
-            <Link href="/" className="flex items-center gap-3 group">
-              <div
-                className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center relative flex-shrink-0"
+            {/* Logo Left — pure transparent gold brand mark */}
+            <Link href="/" className="flex items-center group flex-shrink-0 mr-8">
+              <img
+                src="/images/logo.webp"
+                alt="Yaduvanshi Tour & Travels"
+                className="transition-transform duration-500 group-hover:scale-105"
                 style={{
-                  border: `1.5px solid ${GOLD}`,
-                  boxShadow: `0 0 16px ${GOLD}35`,
-                  background: "rgba(12,21,25,0.7)",
+                  height: "64px",
+                  width: "auto",
+                  display: "block",
+                  filter: "drop-shadow(0 2px 16px rgba(232,185,106,0.48))",
+                  flexShrink: 0,
                 }}
-              >
-                <img
-                  src="/images/logo.png"
-                  alt="Yaduvanshi Tours Logo"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div>
-                <div className="font-display font-bold text-[#E8B96A] text-lg leading-none tracking-wide">
-                  YADUVANSHI
-                </div>
-                <div className="text-[7.5px] tracking-[0.25em] font-accent uppercase mt-1" style={{ color: "#D8CFC7" }}>
-                  Tour &amp; Travel · Ayodhya
-                </div>
-              </div>
+              />
             </Link>
 
             {/* Center Nav Links */}
@@ -315,18 +305,18 @@ export function Navbar() {
           >
             {/* Mobile header */}
             <div className="flex justify-between items-center mb-10">
-              <div className="flex items-center gap-3">
-                <div
-                  className="w-9 h-9 rounded-full overflow-hidden flex items-center justify-center flex-shrink-0"
-                  style={{ border: `1.5px solid ${GOLD}`, boxShadow: `0 0 12px rgba(207,157,123,0.3)` }}
-                >
-                  <img
-                    src="/images/logo.png"
-                    alt="Yaduvanshi Tours Logo"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <span className="font-display font-bold text-white text-lg">Yaduvanshi Tours</span>
+              <div className="flex items-center">
+                <img
+                  src="/images/logo.webp"
+                  alt="Yaduvanshi Tour & Travels"
+                  style={{
+                    height: "74px",
+                    width: "auto",
+                    display: "block",
+                    filter: "drop-shadow(0 2px 10px rgba(232,185,106,0.35))",
+                    flexShrink: 0,
+                  }}
+                />
               </div>
               <button onClick={() => setMobileOpen(false)}
                 className="text-white/60 hover:text-white p-1 rounded transition-colors cursor-pointer">
@@ -410,11 +400,11 @@ export function Navbar() {
                 PLAN MY TRIP <ArrowRight size={14} />
               </Link>
               <div className="grid grid-cols-2 gap-3">
-                <a href="tel:+919415763552"
+                <a href="tel:+918127929551"
                   className="flex items-center justify-center gap-1.5 py-3 rounded-sm text-[10px] font-accent tracking-wider glass-panel text-[#D8CFC7]/60 hover:text-white transition-colors">
                   <Phone size={12} /> Call Us
                 </a>
-                <a href="https://wa.me/919415763552"
+                <a href="https://wa.me/918127929551"
                   target="_blank" rel="noopener noreferrer"
                   className="flex items-center justify-center gap-1.5 py-3 rounded-sm text-[10px] font-accent tracking-wider glass-panel text-[#D8CFC7]/60 hover:text-white transition-colors">
                   <WhatsAppIcon className="w-3.5 h-3.5" /> WhatsApp
