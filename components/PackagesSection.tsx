@@ -18,17 +18,17 @@ const FEATURED_SLUGS = [
   "ayodhya-darshan",
   "mathura-vrindavan",
   "kashi-vishwanath",
-  "neem-karoli-kainchi-dham",
+  "neem-karoli-baba",
   "mahakal-omkareshwar",
-  "kullu-manali",
-  "vaishno-devi-kashmir",
   "char-dham-yatra",
 ];
 
 export function PackagesSection() {
   const [pkgFilter, setPkgFilter] = useState("All");
 
-  const featuredPkgs = PACKAGES.filter((p) => FEATURED_SLUGS.includes(p.slug));
+  const featuredPkgs = FEATURED_SLUGS.map((slug) =>
+    PACKAGES.find((p) => p.slug === slug)
+  ).filter(Boolean) as typeof PACKAGES;
 
   const filteredPkgs =
     pkgFilter === "All"
@@ -38,7 +38,7 @@ export function PackagesSection() {
   return (
     <div id="tours-section">
       {/* ── Hero Header with Full-Bleed Background Image ── */}
-      <section className="relative pt-20 pb-0 px-6 lg:px-12 overflow-hidden z-10" style={{ background: "#162127" }}>
+      <section className="relative pt-28 sm:pt-32 md:pt-40 pb-10 md:pb-14 min-h-[300px] sm:min-h-[340px] md:min-h-[440px] flex flex-col justify-end px-6 lg:px-12 overflow-hidden z-10" style={{ background: "#162127" }}>
         {/* Full-Bleed Background Image */}
         <img
           src="/tours/Copilot_20260719_213737.png"
@@ -60,40 +60,31 @@ export function PackagesSection() {
 
         <div className="max-w-7xl mx-auto relative z-30">
           {/* Header */}
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
-            <div>
-              <motion.p
-                className="font-script text-2xl mb-1"
-                style={{ color: BRASS }}
-                initial={{ opacity: 0, x: -12 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-              >
-                Wander Beyond Ordinary
-              </motion.p>
-              <motion.h2
-                className="font-display font-bold text-3xl md:text-4xl text-glow-gold"
-                style={{ color: GOLD }}
-                initial={{ opacity: 0, y: 12 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.1 }}
-              >
-                Explore Selected Journeys
-              </motion.h2>
-              <div className="flex items-center gap-2 mt-3">
-                <div className="w-8 h-px" style={{ background: `linear-gradient(to right, ${BRASS}, transparent)` }} />
-                <div className="w-1.5 h-1.5 rotate-45" style={{ background: BRASS, boxShadow: `0 0 6px ${BRASS}60` }} />
-                <div className="w-8 h-px" style={{ background: `linear-gradient(to left, ${BRASS}, transparent)` }} />
-              </div>
-            </div>
-            <Link
-              href="/tours"
-              className="hidden md:inline-flex items-center gap-1.5 text-xs font-accent tracking-widest px-5 py-2.5 rounded-sm transition-all duration-300 glass-panel hover-glow"
-              style={{ color: GOLD }}
+          <div className="mb-10">
+            <motion.p
+              className="font-script text-2xl sm:text-3xl md:text-4xl mb-1"
+              style={{ color: BRASS }}
+              initial={{ opacity: 0, x: -12 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
             >
-              View All <ArrowRight size={12} />
-            </Link>
+              Wander Beyond Ordinary
+            </motion.p>
+            <motion.h2
+              className="font-display font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-glow-gold"
+              style={{ color: GOLD }}
+              initial={{ opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+            >
+              Explore Selected Journeys
+            </motion.h2>
+            <div className="flex items-center gap-2 mt-3">
+              <div className="w-8 h-px" style={{ background: `linear-gradient(to right, ${BRASS}, transparent)` }} />
+              <div className="w-1.5 h-1.5 rotate-45" style={{ background: BRASS, boxShadow: `0 0 6px ${BRASS}60` }} />
+              <div className="w-8 h-px" style={{ background: `linear-gradient(to left, ${BRASS}, transparent)` }} />
+            </div>
           </div>
 
           {/* Filter tabs — glass pills */}
@@ -141,7 +132,7 @@ export function PackagesSection() {
 
         <div className="max-w-7xl mx-auto relative z-10">
           {/* Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             <AnimatePresence mode="popLayout">
               {filteredPkgs.map((pkg, i) => (
                 <PackageCard key={pkg.slug} pkg={pkg} index={i} />

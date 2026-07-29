@@ -112,23 +112,23 @@ function ToursContent() {
           <div className="absolute inset-0 bg-gradient-to-r from-[#724B39]/25 via-transparent to-[#CF9D7B]/15" />
         </div>
 
-        <div className="max-w-5xl mx-auto px-6 relative z-10 text-center flex flex-col items-center gap-4">
+        <div className="max-w-7xl mx-auto px-6 lg:px-12 relative z-10 text-center flex flex-col items-center gap-4">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             className="space-y-3"
           >
-            <span className="font-accent text-xs uppercase tracking-[0.3em] font-semibold" style={{ color: GOLD }}>
+            <span className="font-accent text-xs sm:text-sm md:text-base uppercase tracking-[0.3em] font-semibold" style={{ color: GOLD }}>
               Premium Travel Experiences
             </span>
-            <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold text-white tracking-wide leading-tight">
+            <h1 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-wide leading-tight">
               India Tour Packages, <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#E8B96A] via-[#F5F0EA] to-[#CF9D7B]">
                 made easy for you
               </span>
             </h1>
-            <p className="text-[#D8CFC7]/80 text-xs sm:text-sm font-sans max-w-2xl mx-auto leading-relaxed mt-2">
+            <p className="text-[#D8CFC7]/80 text-base md:text-lg font-sans max-w-2xl mx-auto leading-relaxed mt-2">
               Explore 26 meticulously curated spiritual pilgrimage circuits, Himalayan scenic valley retreats, 
               and heritage sand dunes. Fully transparent flat per-vehicle fare bookings with no per-person markup.
             </p>
@@ -294,7 +294,7 @@ function ToursContent() {
           {filteredTours.length > 0 ? (
             <motion.div 
               layout
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
             >
               {filteredTours.map((tour) => (
                 <TourCard key={tour.slug} tour={tour} />

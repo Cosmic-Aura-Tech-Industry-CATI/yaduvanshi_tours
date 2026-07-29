@@ -10,11 +10,6 @@ const BRASS = "#CF9D7B";
 const GOLD = "#E8B96A";
 const IVORY = "#F5F0EA";
 
-const resolveImg = (src: string, w: number, h: number) =>
-  src.startsWith("/")
-    ? src
-    : `https://images.unsplash.com/${src}?w=${w}&h=${h}&fit=crop&auto=format&q=85`;
-
 const CATEGORY_LABELS: Record<string, string> = {
   sedan: "Sedan",
   mpv: "MPV",
@@ -34,21 +29,6 @@ interface RentalCardProps {
 
 export function RentalCard({ vehicle: v, index = 0 }: RentalCardProps) {
   const [hovered, setHovered] = useState(false);
-
-  const isFeatured = [
-    "bmw-5-series",
-    "force-urbania",
-    "force-urbania-17-seater",
-    "maruti-dzire",
-    "maruti-ertiga",
-    "toyota-fortuner",
-    "toyota-innova-crysta",
-    "honda-city",
-    "hyundai-verna",
-    "mahindra-scorpio",
-    "audi-a6",
-    "mercedes-benz"
-  ].includes(v.slug);
 
   // Dynamic specifications notes tags extraction
   const getExtraTags = (vehicle: Vehicle) => {
@@ -111,58 +91,40 @@ export function RentalCard({ vehicle: v, index = 0 }: RentalCardProps) {
         transition: "border 0.3s, box-shadow 0.4s",
       }}
     >
-      {/* Image Area: Pure clean white studio backdrop for featured, clean premium text-card style for others */}
+      {/* Image Area: Pure clean white studio backdrop for all vehicles */}
       <div 
-        className="relative h-64 flex items-center justify-center p-6 overflow-hidden transition-colors duration-300"
-        style={{
-          background: isFeatured ? "#FFFFFF" : "rgba(22, 33, 39, 0.4)"
-        }}
+        className="relative h-64 flex items-center justify-center p-6 overflow-hidden transition-colors duration-300 bg-white"
       >
-        {isFeatured ? (
-          <>
-            {/* Shimmer overlay */}
-            <div
-              className="absolute inset-0 z-10 pointer-events-none"
-              style={{
-                background: `linear-gradient(105deg, transparent 40%, rgba(207, 157, 123, 0.08) 50%, transparent 60%)`,
-                transform: hovered ? "translateX(100%)" : "translateX(-100%)",
-                transition: "transform 0.9s ease",
-              }}
-            />
+        {/* Shimmer overlay */}
+        <div
+          className="absolute inset-0 z-10 pointer-events-none"
+          style={{
+            background: `linear-gradient(105deg, transparent 40%, rgba(207, 157, 123, 0.08) 50%, transparent 60%)`,
+            transform: hovered ? "translateX(100%)" : "translateX(-100%)",
+            transition: "transform 0.9s ease",
+          }}
+        />
 
-            <img
-              src={resolveImg(v.image, 600, 420)}
-              alt={v.name}
-              className="w-full h-full object-contain transition-transform duration-700 relative z-0"
-              style={{ transform: hovered ? "scale(1.04)" : "scale(1)" }}
-            />
-          </>
-        ) : (
-          <div className="flex flex-col items-center justify-center text-center gap-3">
-            <span className="text-4xl filter drop-shadow-[0_0_8px_rgba(232,185,106,0.3)]">🚗</span>
-            <div className="space-y-1">
-              <span className="text-[10px] font-bold uppercase tracking-[0.2em] font-mono block text-[#E8B96A]">
-                {v.brand} {v.name}
-              </span>
-              <span className="text-[9px] font-sans text-[#D8CFC7]/40 block uppercase tracking-wider">
-                Fleet Details Available Below
-              </span>
-            </div>
-          </div>
-        )}
+        <img
+          src={v.image}
+          alt={v.name}
+          loading="lazy"
+          className="w-full h-full object-contain transition-transform duration-700 relative z-0"
+          style={{ transform: hovered ? "scale(1.05)" : "scale(1)" }}
+        />
 
         {/* Popular/Luxury badges on image area */}
-        <div className="absolute top-3 left-3 flex gap-1.5 font-accent tracking-widest text-[8px] z-10">
+        <div className="absolute top-3 left-3 flex gap-1.5 font-accent tracking-widest text-[8px] z-20">
           {v.category === "luxury" && (
             <span
-              className="flex items-center gap-1 px-2.5 py-1 rounded-full font-bold bg-[#0C1519]/75 text-[#E8B96A] border border-[#E8B96A]/20 backdrop-blur-sm"
+              className="flex items-center gap-1 px-2.5 py-1 rounded-full font-bold bg-[#0C1519]/80 text-[#E8B96A] border border-[#E8B96A]/30 backdrop-blur-md shadow-md"
             >
               <Sparkles size={8} /> Luxury
             </span>
           )}
           {v.popular && v.category !== "luxury" && (
             <span
-              className="px-2.5 py-1 rounded-full font-bold uppercase bg-[#0C1519]/75 text-[#F5F0EA] border border-white/10 backdrop-blur-sm"
+              className="px-2.5 py-1 rounded-full font-bold uppercase bg-[#0C1519]/80 text-[#F5F0EA] border border-white/20 backdrop-blur-md shadow-md"
             >
               Popular
             </span>

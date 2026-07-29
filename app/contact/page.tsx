@@ -31,20 +31,20 @@ export default function ContactPage() {
         style={{ background: `radial-gradient(circle, ${COFFEE}, transparent 70%)` }} />
 
       {/* Header */}
-      <section className="relative py-20 px-6 overflow-hidden z-10 text-center">
+      <section className="relative py-20 px-6 lg:px-12 overflow-hidden z-10 text-center">
         <div className="max-w-7xl mx-auto">
-          <span className="text-[#E8B96A] font-accent text-xs uppercase tracking-[0.25em] block mb-3 font-semibold">Connect With Us</span>
+          <span className="text-[#E8B96A] font-accent text-xs sm:text-sm uppercase tracking-[0.25em] block mb-3 font-semibold">Connect With Us</span>
           <h1 className="font-display text-4xl md:text-6xl font-bold tracking-wide text-white">
             Contact <span className="text-[#E8B96A]">Us</span>
           </h1>
-          <p className="text-[#D8CFC7]/60 text-sm md:text-base max-w-xl mx-auto mt-5 font-sans leading-relaxed">
+          <p className="text-[#D8CFC7]/80 text-base md:text-lg max-w-2xl mx-auto mt-5 font-sans leading-relaxed">
             Reach our booking offices directly. We respond within 15 minutes to all custom trip inquiries.
           </p>
           <div className="w-24 h-0.5 mx-auto mt-6" style={{ background: `linear-gradient(to right, transparent, ${BRASS}, transparent)` }} />
         </div>
       </section>
 
-      <div className="max-w-6xl mx-auto px-6 mt-12 grid grid-cols-1 md:grid-cols-2 gap-12 relative z-10">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12 py-12 grid grid-cols-1 md:grid-cols-2 gap-12 relative z-10">
         {/* Left Column: Direct Contacts */}
         <div className="space-y-8">
           <div>
@@ -55,16 +55,10 @@ export default function ContactPage() {
           <div className="space-y-6">
             {[
               {
-                title: "Headquarters (Varanasi Office)",
-                address: "K-45/12, near Kashi Vishwanath Corridor, Varanasi, UP, 221001",
-                phone: "+91 98765 43210",
-                email: "bookings@yaduvanshitours.com",
-              },
-              {
-                title: "Ayodhya Branch Office",
-                address: "Saryu Ghat Road, near Ram Mandir Complex, Ayodhya, UP, 224123",
-                phone: "+91 98765 43211",
-                email: "ayodhya@yaduvanshitours.com",
+                title: "Headquarters (Kanpur Office)",
+                address: "Kanpur, Uttar Pradesh, India",
+                phone: "+91 81279 29551",
+                email: "manojyadav20101993@gmail.com",
               },
             ].map((branch, idx) => (
               <div 

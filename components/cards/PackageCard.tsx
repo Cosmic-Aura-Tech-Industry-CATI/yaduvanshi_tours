@@ -7,7 +7,6 @@ import { MapPin, Clock, Users, ArrowRight, Heart } from "lucide-react";
 import type { TourPackage } from "@/types";
 
 const BRASS = "#CF9D7B";
-const COFFEE = "#724B39";
 const GOLD = "#E8B96A";
 const IVORY = "#F5F0EA";
 
@@ -56,9 +55,9 @@ export function PackageCard({ pkg, index = 0 }: PackageCardProps) {
       }}
     >
       {/* ── Image ── */}
-      <div className="relative h-64 overflow-hidden">
+      <div className="relative h-72 sm:h-80 md:h-[380px] lg:h-[400px] overflow-hidden">
         <img
-          src={resolveImg(pkg.image, 520, 420)}
+          src={resolveImg(pkg.image, 800, 960)}
           alt={pkg.title}
           className="w-full h-full object-cover transition-transform duration-700 ease-out"
           style={{ transform: hovered ? "scale(1.08)" : "scale(1)" }}
@@ -116,7 +115,7 @@ export function PackageCard({ pkg, index = 0 }: PackageCardProps) {
       </div>
 
       {/* ── Content ── */}
-      <div className="p-4 flex flex-col flex-1">
+      <div className="p-5 flex flex-col flex-1">
         <h3
           className="font-display font-semibold text-lg leading-tight mb-2 transition-colors duration-300"
           style={{ color: hovered ? GOLD : IVORY }}

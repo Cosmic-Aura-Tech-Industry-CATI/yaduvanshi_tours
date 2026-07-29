@@ -25,8 +25,19 @@ const cinzel = Cinzel({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://yaduvanshitours.com"),
   title: "Yaduvanshi Tours & Travels — Wander Beyond Ordinary",
   description: "Unveil India's Soul. We craft earthy-luxury, cinematic travel experiences across India's royal destinations.",
+  icons: {
+    icon: "/icon.png",
+    shortcut: "/icon.png",
+    apple: "/images/logo.png",
+  },
+  openGraph: {
+    title: "Yaduvanshi Tours & Travels — Wander Beyond Ordinary",
+    description: "Unveil India's Soul. We craft earthy-luxury, cinematic travel experiences across India's royal destinations.",
+    images: ["/images/logo.png"],
+  },
 };
 
 export default function RootLayout({

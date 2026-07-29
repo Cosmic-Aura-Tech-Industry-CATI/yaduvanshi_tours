@@ -92,12 +92,13 @@ export function TourCard({ tour }: { tour: TourPackage }) {
       }}
     >
       {/* Visual Image */}
-      <div className="relative h-56 overflow-hidden bg-black/20">
+      <div className="relative h-72 sm:h-80 md:h-[380px] lg:h-[400px] overflow-hidden bg-black/20">
         {images.map((img, idx) => (
           <img
             key={img}
-            src={resolveImg(img, 500, 360)}
+            src={resolveImg(img, 800, 960)}
             alt={tour.name}
+            loading="lazy"
             className="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out"
             style={{
               opacity: currentImgIdx === idx ? 1 : 0,
@@ -205,8 +206,6 @@ export function CountUpNumber({ end, suffix = "" }: { end: string; suffix?: stri
   useEffect(() => {
     if (!isInView) return;
     let start = 0;
-    const duration = 1500;
-    const stepTime = Math.abs(Math.floor(duration / numericEnd));
     const increment = Math.max(Math.floor(numericEnd / 60), 1);
 
     const timer = setInterval(() => {
