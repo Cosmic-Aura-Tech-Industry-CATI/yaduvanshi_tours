@@ -22,10 +22,10 @@ const resolveImg = (src: string, w: number, h: number) =>
     : `https://images.unsplash.com/${src}?w=${w}&h=${h}&fit=crop&auto=format&q=85`;
 
 const GALLERY_IMGS = [
-  { src: "/weddings/wedding-car.webp",     alt: "Decorated luxury wedding car" },
-  { src: "/weddings/wedding-couple.webp",  alt: "Bridal grand entry" },
-  { src: "/weddings/wedding-convoy.webp",  alt: "Wedding convoy" },
-  { src: "/weddings/wedding-car.webp",     alt: "Wedding fleet" },
+  { src: "/weddings/wedding-car-decor-1.webp", alt: "Yaduvanshi Travels - Floral luxury wedding car decor" },
+  { src: "/weddings/wedding-couple.webp",       alt: "Bridal grand entry" },
+  { src: "/weddings/wedding-convoy.webp",       alt: "Wedding convoy" },
+  { src: "/weddings/wedding-car-decor-2.webp", alt: "Yaduvanshi Travels - Premium wedding convoy arrival" },
 ];
 
 export function WeddingSection() {
@@ -37,10 +37,6 @@ export function WeddingSection() {
 
       {/* Top glow divider */}
       <div className="glow-divider absolute top-0 inset-x-0" />
-
-      {/* Decorative corner ornament — brass glow */}
-      <div className="absolute top-8 right-8 text-5xl opacity-15 select-none pointer-events-none text-glow-gold-strong" style={{ color: BRASS }}>✦</div>
-      <div className="absolute bottom-8 left-8 text-3xl opacity-15 select-none pointer-events-none text-glow-gold" style={{ color: BRASS }}>✦</div>
 
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-14 items-center relative z-10">
         {/* ── Images grid ── */}
@@ -83,19 +79,33 @@ export function WeddingSection() {
             </div>
           </div>
 
-          {/* Floating badge — glass */}
+          {/* Floating badge — enhanced contrast & gold glow border */}
           <motion.div
-            className="absolute -bottom-4 -right-4 lg:right-4 rounded-2xl px-5 py-4 shadow-xl glass-panel-strong"
+            className="absolute -bottom-4 -right-4 lg:right-4 rounded-2xl px-5 py-3.5 shadow-2xl backdrop-blur-md z-20"
+            style={{
+              background: "rgba(12, 21, 25, 0.92)",
+              border: `1.5px solid ${GOLD}60`,
+              boxShadow: `0 8px 32px rgba(0, 0, 0, 0.75), 0 0 16px ${GOLD}25`,
+            }}
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ delay: 0.4, type: "spring", stiffness: 200 }}
           >
-            <div className="flex items-center gap-2 text-white">
-              <Crown size={16} style={{ color: GOLD }} />
+            <div className="flex items-center gap-3">
+              <div
+                className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
+                style={{ background: `${GOLD}18`, border: `1px solid ${GOLD}40` }}
+              >
+                <Crown size={18} style={{ color: GOLD, filter: "drop-shadow(0 0 4px rgba(232,185,106,0.6))" }} />
+              </div>
               <div>
-                <div className="text-xs font-bold font-accent tracking-wider text-[#E8B96A]">500+ Weddings</div>
-                <div className="text-[10px] text-[#D8CFC7]/40 font-mono">Served since 2010</div>
+                <div className="text-xs sm:text-sm font-bold font-accent tracking-wider" style={{ color: GOLD }}>
+                  500+ Weddings
+                </div>
+                <div className="text-[11px] font-sans font-medium text-[#D8CFC7]/85">
+                  Served since 2010
+                </div>
               </div>
             </div>
           </motion.div>
@@ -156,7 +166,7 @@ export function WeddingSection() {
               Explore Wedding Fleet <ArrowRight size={14} />
             </Link>
             <a
-              href="https://wa.me/919415763552"
+              href="https://wa.me/918127929551"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center justify-center gap-2 px-7 py-4 font-semibold rounded-sm transition-colors glass-panel hover:bg-white/5"

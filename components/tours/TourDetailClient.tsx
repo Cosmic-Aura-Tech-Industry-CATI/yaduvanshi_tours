@@ -1,15 +1,14 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import Link from "next/link";
 import { motion, AnimatePresence } from "motion/react";
 import { 
-  Clock, MapPin, Calendar, Star, Check, X, 
-  ChevronDown, Send, Loader2, Info, Compass, Shield
+  MapPin, Star, Check, X, 
+  ChevronDown, Send, Loader2, Info
 } from "lucide-react";
 import { type TourPackage, TOUR_PRICING } from "@/data/tours";
 import { 
-  RegionBadge, PriceTag, formatIndianCurrency, 
+  RegionBadge, formatIndianCurrency, 
   TourCard, resolveImg 
 } from "@/components/tours/SharedComponents";
 

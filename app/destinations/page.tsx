@@ -19,13 +19,13 @@ export default function DestinationsPage() {
         style={{ background: `radial-gradient(circle, ${COFFEE}, transparent 70%)` }} />
 
       {/* Header */}
-      <section className="relative py-20 px-6 overflow-hidden z-10 text-center">
+      <section className="relative py-20 px-6 lg:px-12 overflow-hidden z-10 text-center">
         <div className="max-w-7xl mx-auto">
-          <span className="text-[#E8B96A] font-accent text-xs uppercase tracking-[0.25em] block mb-3 font-semibold">Sacred Paths & Valleys</span>
+          <span className="text-[#E8B96A] font-accent text-xs sm:text-sm uppercase tracking-[0.25em] block mb-3 font-semibold">Sacred Paths & Valleys</span>
           <h1 className="font-display text-4xl md:text-6xl font-bold tracking-wide text-white">
             Top <span className="text-[#E8B96A]">Destinations</span>
           </h1>
-          <p className="text-[#D8CFC7]/60 text-sm md:text-base max-w-xl mx-auto mt-5 font-sans leading-relaxed">
+          <p className="text-[#D8CFC7]/80 text-base md:text-lg max-w-2xl mx-auto mt-5 font-sans leading-relaxed">
             Click pins on our custom illustrated map below to instantly pan to regions, see starting prices, and select pilgrimage route details.
           </p>
           <div className="w-24 h-0.5 mx-auto mt-6" style={{ background: `linear-gradient(to right, transparent, ${BRASS}, transparent)` }} />
@@ -33,7 +33,7 @@ export default function DestinationsPage() {
       </section>
 
       {/* Illustrated Map Section */}
-      <section className="max-w-7xl mx-auto px-6 mt-10 relative z-10">
+      <section className="max-w-7xl mx-auto px-6 lg:px-12 py-10 relative z-10">
         <div className="text-center mb-6">
           <span className="text-[#D8CFC7]/40 text-xs font-mono uppercase tracking-wider">Interactive Vector Guide</span>
         </div>
@@ -41,7 +41,7 @@ export default function DestinationsPage() {
       </section>
 
       {/* Destinations detail grid */}
-      <section className="max-w-7xl mx-auto px-6 mt-20 relative z-10">
+      <section className="max-w-7xl mx-auto px-6 lg:px-12 py-16 relative z-10">
         <div className="text-left mb-10">
           <h2 className="font-display text-3xl font-bold text-white">Explore Our Featured Regions</h2>
           <p className="text-[#D8CFC7]/50 text-xs mt-2 font-sans">Vetted pilgrimage circuits and hill valleys.</p>

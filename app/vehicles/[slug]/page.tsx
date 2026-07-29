@@ -28,7 +28,7 @@ export default function VehicleDetailPage({ params }: VehicleDetailPageProps) {
 
   const similarVehicles = VEHICLES.filter(
     (vehicle) => vehicle.category === v.category && vehicle.slug !== v.slug
-  ).slice(0, 4);
+  ).slice(0, 3);
 
   const isFeatured = [
     "bmw-5-series",
@@ -316,7 +316,7 @@ export default function VehicleDetailPage({ params }: VehicleDetailPageProps) {
             <div className="w-16 h-0.5" style={{ background: `linear-gradient(to right, ${BRASS}, transparent)` }} />
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {similarVehicles.map((similarVehicle, idx) => (
               <Link
                 key={similarVehicle.slug}

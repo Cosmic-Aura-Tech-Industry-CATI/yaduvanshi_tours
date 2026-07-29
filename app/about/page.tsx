@@ -27,13 +27,13 @@ export default function AboutPage() {
         style={{ background: `radial-gradient(circle, ${COFFEE}, transparent 70%)` }} />
 
       {/* Header */}
-      <section className="relative py-20 px-6 overflow-hidden z-10 text-center">
+      <section className="relative py-20 px-6 lg:px-12 overflow-hidden z-10 text-center">
         <div className="max-w-7xl mx-auto">
-          <span className="text-[#E8B96A] font-accent text-xs uppercase tracking-[0.25em] block mb-3 font-semibold">Our Legacy</span>
+          <span className="text-[#E8B96A] font-accent text-xs sm:text-sm uppercase tracking-[0.25em] block mb-3 font-semibold">Our Legacy</span>
           <h1 className="font-display text-4xl md:text-6xl font-bold tracking-wide text-white">
             About <span className="text-[#E8B96A]">Yaduvanshi</span>
           </h1>
-          <p className="text-[#D8CFC7]/60 text-sm md:text-base max-w-xl mx-auto mt-5 font-sans leading-relaxed">
+          <p className="text-[#D8CFC7]/80 text-base md:text-lg max-w-2xl mx-auto mt-5 font-sans leading-relaxed">
             Crafting reliable, comfortable, and sacred travel experiences across the Indian subcontinent since 2010.
           </p>
           <div className="w-24 h-0.5 mx-auto mt-6" style={{ background: `linear-gradient(to right, transparent, ${BRASS}, transparent)` }} />
@@ -41,7 +41,7 @@ export default function AboutPage() {
       </section>
 
       {/* Narrative Section */}
-      <section className="max-w-5xl mx-auto px-6 relative z-10 space-y-6">
+      <section className="max-w-7xl mx-auto px-6 lg:px-12 relative z-10 space-y-6 py-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           <div className="space-y-5">
             <span className="text-[#CF9D7B] font-accent text-xs uppercase tracking-[0.2em] block font-semibold">Yaduvanshi Journey</span>

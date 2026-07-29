@@ -1,11 +1,10 @@
 "use client";
 
 import { motion } from "motion/react";
-import { UserCheck, Headphones, Wrench, Sparkles, Shield } from "lucide-react";
+import { UserCheck, Headphones, Wrench, Sparkles } from "lucide-react";
 
 const BRASS = "#CF9D7B";
 const GOLD = "#E8B96A";
-const IVORY = "#F5F0EA";
 
 const features = [
   {
@@ -45,7 +44,7 @@ export function WhyOurFleetSection() {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] as any }
+      transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }
     }
   };
 
