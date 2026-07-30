@@ -8,7 +8,8 @@ export interface TourPackage {
   destinations: string[];          // ["Shimla", "Manali", "Solang Valley"]
   duration: { days: number; nights: number };
   groupSize: { min: number; max: number };
-  image: string;                   // Unsplash photo ID
+  image: string;                   // Main photo URL / ID
+  images?: string[];               // Array of 3 WebP image paths for auto-rotating carousel
   gallery: string[];               // Additional Unsplash IDs
   pricePerPerson: number;          // INR
   packagePrice: number;            // INR (group base price)

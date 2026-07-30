@@ -22,12 +22,12 @@ const QUICK_LINKS = [
 ];
 
 const TOP_DESTINATIONS = [
-  { label: "Himachal Pradesh", href: "/destinations/himachal-pradesh" },
-  { label: "Kashmir",          href: "/destinations/kashmir" },
-  { label: "Rajasthan",        href: "/destinations/rajasthan" },
-  { label: "Goa",              href: "/destinations/goa" },
-  { label: "Kerala",           href: "/destinations/kerala" },
-  { label: "Agra & Taj Mahal", href: "/destinations/agra" },
+  "Himachal Pradesh",
+  "Kashmir",
+  "Rajasthan",
+  "Goa",
+  "Kerala",
+  "Agra & Taj Mahal",
 ];
 
 export function Footer() {
@@ -60,32 +60,22 @@ export function Footer() {
       <div className="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
         {/* Prominent Centered Brand Header */}
         <div className="flex flex-col items-center text-center mb-16 relative z-10 pt-4">
-          <Link href="/" className="flex flex-col items-center gap-4 group">
-            {/* Larger logo icon */}
-            <motion.div
-              whileHover={{ scale: 1.08 }}
-              className="relative w-16 h-16 flex items-center justify-center rounded-full bg-[#162127]/80 border border-[#CF9D7B]/30"
+          <Link href="/" className="flex flex-col items-center gap-2 group">
+            {/* Premium brand signature — height-driven, auto-width, no empty margins */}
+            <motion.img
+              src="/images/logo.webp"
+              alt="Yaduvanshi Tour & Travels"
+              whileHover={{ scale: 1.03 }}
               style={{
-                boxShadow: "0 0 25px rgba(207, 157, 123, 0.15)",
-                filter: "drop-shadow(0 0 15px rgba(232, 185, 106, 0.25))"
+                height: "260px",
+                width: "auto",
+                maxWidth: "88vw",
+                display: "block",
+                filter: "drop-shadow(0 8px 36px rgba(232,185,106,0.60))",
               }}
-            >
-              <svg viewBox="0 0 32 32" className="w-10 h-10" fill="none">
-                <polygon points="16,3 29,27 3,27" stroke={BRASS} strokeWidth="2" strokeLinejoin="round" />
-                <polygon points="16,10 23,23 9,23" fill={GOLD} opacity="0.45" />
-              </svg>
-            </motion.div>
-            
-            <div>
-              <h3 className="font-display font-bold text-white text-3xl md:text-4xl tracking-widest uppercase transition-all group-hover:text-[#E8B96A] text-glow-gold-strong">
-                Yaduvanshi
-              </h3>
-              <p className="text-[10px] sm:text-xs tracking-[0.35em] font-accent uppercase mt-1.5 transition-all text-[#CF9D7B] font-semibold">
-                Tours & Travels
-              </p>
-            </div>
+            />
           </Link>
-          <div className="w-48 h-px mt-8" style={{ background: `linear-gradient(to right, transparent, ${BRASS}50, transparent)` }} />
+          <div className="w-80 h-px mt-8 mb-2" style={{ background: `linear-gradient(to right, transparent, ${BRASS}65, transparent)` }} />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
@@ -151,16 +141,10 @@ export function Footer() {
             <h4 className="text-white font-semibold text-sm mb-5 font-display">Top Destinations</h4>
             <ul className="space-y-2.5 font-sans">
               {TOP_DESTINATIONS.map((d) => (
-                <li key={d.label}>
-                  <Link href={d.href}
-                    className="text-sm text-[#D8CFC7]/50 hover:text-[#E8B96A] transition-colors duration-200 relative group inline-block"
-                  >
-                    {d.label}
-                    <span
-                      className="absolute -bottom-0.5 left-0 h-px w-0 group-hover:w-full transition-all duration-300"
-                      style={{ background: `linear-gradient(to right, ${GOLD}, ${BRASS})`, boxShadow: `0 0 4px ${GOLD}30` }}
-                    />
-                  </Link>
+                <li key={d}>
+                  <span className="text-sm text-[#D8CFC7]/50 inline-block cursor-default">
+                    {d}
+                  </span>
                 </li>
               ))}
             </ul>
@@ -171,9 +155,9 @@ export function Footer() {
             <h4 className="text-white font-semibold text-sm mb-5 font-display">Contact Info</h4>
             <div className="space-y-3 mb-7 font-sans">
               {[
-                { Icon: Phone,  text: "+91 94157 63552" },
-                { Icon: Mail,   text: "info@yaduvanshitours.com" },
-                { Icon: MapPin, text: "Ayodhya, Uttar Pradesh – 224001" },
+                { Icon: Phone,  text: "+91 81279 29551" },
+                { Icon: Mail,   text: "manojyadav20101993@gmail.com" },
+                { Icon: MapPin, text: "Kanpur, Uttar Pradesh, India" },
               ].map(({ Icon, text }) => (
                 <div key={text} className="flex items-start gap-2 text-[#D8CFC7]/50 text-xs">
                   <Icon size={13} className="mt-0.5 flex-shrink-0" style={{ color: BRASS }} />

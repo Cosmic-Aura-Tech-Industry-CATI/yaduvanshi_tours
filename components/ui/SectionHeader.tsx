@@ -1,6 +1,5 @@
 const BRASS = "#CF9D7B";
 const GOLD = "#E8B96A";
-const IVORY = "#F5F0EA";
 
 interface SectionHeaderProps {
   script?: string;
