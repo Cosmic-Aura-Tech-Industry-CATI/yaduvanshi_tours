@@ -11,9 +11,6 @@ const BRASS = "#CF9D7B";
 const COFFEE = "#724B39";
 const GOLD = "#E8B96A";
 
-const IMG = (id: string, w: number, h: number) =>
-  `https://images.unsplash.com/${id}?w=${w}&h=${h}&fit=crop&auto=format&q=85`;
-
 interface VehicleDetailPageProps {
   params: Promise<{ slug: string }>;
 }
@@ -30,21 +27,6 @@ export default function VehicleDetailPage({ params }: VehicleDetailPageProps) {
   const similarVehicles = VEHICLES.filter(
     (vehicle) => vehicle.category === v.category && vehicle.slug !== v.slug
   ).slice(0, 3);
-
-  const isFeatured = [
-    "bmw-5-series",
-    "force-urbania",
-    "force-urbania-17-seater",
-    "maruti-dzire",
-    "maruti-ertiga",
-    "toyota-fortuner",
-    "toyota-innova-crysta",
-    "honda-city",
-    "hyundai-verna",
-    "mahindra-scorpio",
-    "audi-a6",
-    "mercedes-benz"
-  ].includes(v.slug);
 
   const [activeTab, setActiveTab] = useState<"pricing" | "specs" | "terms">("pricing");
 
@@ -65,12 +47,13 @@ export default function VehicleDetailPage({ params }: VehicleDetailPageProps) {
       {/* Hero Showcase */}
       <div className="relative h-[300px] md:h-[450px] bg-black/80 text-white overflow-hidden z-10">
         <Image
-          src={isFeatured ? IMG(v.image, 1600, 900) : "/vehicles/fleet-hero.png"}
+          src={v.image}
           alt={v.name}
           fill
           priority
           sizes="100vw"
-          className="object-cover opacity-60"
+          className="object-contain opacity-90 p-8 md:p-16"
+          style={{ background: "#fff" }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[#0C1519] to-transparent" />
         <div className="absolute bottom-10 left-0 right-0 px-6 max-w-7xl mx-auto">
@@ -329,7 +312,7 @@ export default function VehicleDetailPage({ params }: VehicleDetailPageProps) {
               >
                 <div>
                   <div className="aspect-[4/3] rounded-lg overflow-hidden relative mb-4">
-                    {["bmw-5-series", "force-urbania", "force-urbania-17-seater", "maruti-dzire", "maruti-ertiga", "toyota-fortuner", "toyota-innova-crysta"].includes(similarVehicle.slug) ? (
+                    {similarVehicle.image ? (
                       <div className="bg-white w-full h-full flex items-center justify-center p-3">
                         <Image
                           src={similarVehicle.image}
