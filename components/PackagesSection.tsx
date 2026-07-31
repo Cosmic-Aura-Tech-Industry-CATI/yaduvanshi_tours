@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion, AnimatePresence, useInView } from "motion/react";
 import { ArrowRight } from "lucide-react";
 import { PACKAGES } from "@/data/packages";
@@ -40,10 +41,12 @@ export function PackagesSection() {
       {/* ── Hero Header with Full-Bleed Background Image ── */}
       <section className="relative pt-28 sm:pt-32 md:pt-40 pb-10 md:pb-14 min-h-[300px] sm:min-h-[340px] md:min-h-[440px] flex flex-col justify-end px-6 lg:px-12 overflow-hidden z-10" style={{ background: "#162127" }}>
         {/* Full-Bleed Background Image */}
-        <img
-          src="/tours/Copilot_20260719_213737.png"
+        <Image
+          src="/tours/Copilot_20260719_213737.webp"
           alt="Popular Tour Packages Hero Background"
-          className="absolute inset-0 w-full h-full object-cover z-0"
+          fill
+          sizes="100vw"
+          className="object-cover z-0"
         />
         
         {/* Dark theme gradient overlay for contrast and readability */}

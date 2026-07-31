@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "motion/react";
 import { ArrowRight, Heart, UserCheck, Sparkles } from "lucide-react";
 
@@ -89,9 +90,11 @@ function WeddingFleetCard({ car, idx }: { car: typeof WEDDING_FLEET[0]; idx: num
           }}
         />
 
-        <img
+        <Image
           src={car.image}
           alt={car.name}
+          fill
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           className="w-full h-full object-contain transition-transform duration-700 relative z-0"
           style={{ transform: hovered ? "scale(1.05)" : "scale(1)" }}
         />

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import Image from "next/image";
 import { AnimatePresence, motion } from "motion/react";
 import { X, ChevronLeft, ChevronRight, ZoomIn } from "lucide-react";
 import { GALLERY_ITEMS } from "@/data/gallery";
@@ -14,8 +15,82 @@ const IVORY = "#F5F0EA";
 const IMG = (id: string, w: number, h: number) =>
   `https://images.unsplash.com/${id}?w=${w}&h=${h}&fit=crop&auto=format&q=85`;
 
+interface IndexedGalleryItem {
+  item: (typeof GALLERY_ITEMS)[0];
+  originalIndex: number;
+}
+
+function getBalancedColumns(items: typeof GALLERY_ITEMS, numCols: number): IndexedGalleryItem[][] {
+  const cols: IndexedGalleryItem[][] = Array.from({ length: numCols }, () => []);
+  const heights = Array(numCols).fill(0);
+
+  items.forEach((item, index) => {
+    let minCol = 0;
+    for (let i = 1; i < numCols; i++) {
+      if (heights[i] < heights[minCol]) {
+        minCol = i;
+      }
+    }
+    cols[minCol].push({ item, originalIndex: index });
+    heights[minCol] += item.tall ? 420 : 280;
+  });
+
+  return cols;
+}
+
 export function GallerySection() {
   const [lightbox, setLightbox] = useState<number | null>(null);
+
+  const desktopCols = getBalancedColumns(GALLERY_ITEMS, 4);
+  const tabletCols = getBalancedColumns(GALLERY_ITEMS, 3);
+  const mobileCols = getBalancedColumns(GALLERY_ITEMS, 2);
+
+  const renderCard = ({ item, originalIndex }: IndexedGalleryItem) => (
+    <motion.div
+      key={item.id}
+      initial={{ opacity: 0, y: 22 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ delay: originalIndex * 0.05, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+      viewport={{ once: true }}
+      onClick={() => setLightbox(originalIndex)}
+      className="cursor-pointer overflow-hidden rounded-xl group relative corner-brackets hover-glow border border-[#CF9D7B]/15 hover:border-[#E8B96A]/50 transition-colors duration-300"
+      style={{ background: "rgba(58,53,52,0.25)" }}
+    >
+      <Image
+        src={item.image || IMG(item.unsplashId, 420, item.tall ? 580 : 340)}
+        alt={item.caption}
+        width={420}
+        height={item.tall ? 580 : 340}
+        sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+        className="w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.07]"
+      />
+
+      {/* Hover overlay — Chinese Black / Coffee gradient */}
+      <div className="absolute inset-0 bg-gradient-to-t from-[#0C1519]/90 via-[#724B39]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl flex items-end">
+        <div className="p-4 w-full flex items-center justify-between">
+          <div>
+            <span className="text-[#F5F0EA] text-xs font-semibold font-display block">
+              {item.caption}
+            </span>
+            <span className="text-[#D8CFC7]/40 text-[9px] font-mono block mt-0.5">
+              Click to expand
+            </span>
+          </div>
+          <ZoomIn size={14} className="flex-shrink-0" style={{ color: BRASS }} />
+        </div>
+      </div>
+    </motion.div>
+  );
+
+  const renderColumnGrid = (cols: IndexedGalleryItem[][], wrapperClassName: string) => (
+    <div className={`gap-4 ${wrapperClassName}`}>
+      {cols.map((colItems, colIdx) => (
+        <div key={colIdx} className="flex flex-col gap-4">
+          {colItems.map(renderCard)}
+        </div>
+      ))}
+    </div>
+  );
 
   return (
     <section className="py-20 px-6 lg:px-12 relative overflow-hidden" style={{ background: "#0C1519" }}>
@@ -55,45 +130,16 @@ export function GallerySection() {
           </div>
         </div>
 
-        {/* Masonry grid */}
-        <div className="columns-2 md:columns-3 lg:columns-5 gap-4">
-          {GALLERY_ITEMS.map((item, i) => (
-            <motion.div
-              key={item.id}
-              initial={{ opacity: 0, y: 22 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.06, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-              viewport={{ once: true }}
-              onClick={() => setLightbox(i)}
-              className="break-inside-avoid mb-4 cursor-pointer overflow-hidden rounded-xl group relative corner-brackets hover-glow border border-[#CF9D7B]/15 hover:border-[#E8B96A]/50 transition-colors duration-300"
-              style={{ background: "rgba(58,53,52,0.25)" }}
-            >
-              <img
-                src={IMG(item.unsplashId, 420, item.tall ? 580 : 340)}
-                alt={item.caption}
-                className="w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.07]"
-              />
-
-              {/* Hover overlay — Chinese Black / Coffee gradient */}
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0C1519]/90 via-[#724B39]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl flex items-end">
-                <div className="p-4 w-full flex items-center justify-between">
-                  <div>
-                    <span className="text-[#F5F0EA] text-xs font-semibold font-display block">
-                      {item.caption}
-                    </span>
-                    <span className="text-[#D8CFC7]/40 text-[9px] font-mono block mt-0.5">
-                      Click to expand
-                    </span>
-                  </div>
-                  <ZoomIn size={14} className="flex-shrink-0" style={{ color: BRASS }} />
-                </div>
-              </div>
-            </motion.div>
-          ))}
+        {/* Masonry grid — Responsive Balanced Columns with Bottom Fade Finish */}
+        <div className="relative">
+          {renderColumnGrid(desktopCols, "hidden lg:grid grid-cols-4")}
+          {renderColumnGrid(tabletCols, "hidden md:grid lg:hidden grid-cols-3")}
+          {renderColumnGrid(mobileCols, "grid md:hidden grid-cols-2")}
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[#0C1519] via-[#0C1519]/50 to-transparent z-10" />
         </div>
 
         {/* View More button */}
-        <div className="text-center mt-12">
+        <div className="text-center mt-10 relative z-20">
           <Link
             href="/about#gallery"
             className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-xs font-bold font-accent tracking-widest border border-[#CF9D7B]/30 hover:border-[#E8B96A] text-[#E8B96A] transition-all hover:bg-white/5 hover:shadow-[0_0_15px_rgba(232,185,106,0.15)]"
@@ -142,9 +188,12 @@ export function GallerySection() {
               onClick={(e) => e.stopPropagation()}
               className="max-w-4xl w-full"
             >
-              <img
-                src={IMG(GALLERY_ITEMS[lightbox].unsplashId, 1200, 800)}
+              <Image
+                src={GALLERY_ITEMS[lightbox].image || IMG(GALLERY_ITEMS[lightbox].unsplashId, 1200, 800)}
                 alt={GALLERY_ITEMS[lightbox].caption}
+                width={1200}
+                height={800}
+                sizes="(max-width: 1024px) 100vw, 1200px"
                 className="max-h-[78vh] w-auto mx-auto rounded-2xl object-contain shadow-2xl"
                 style={{
                   border: `1px solid ${BRASS}30`,

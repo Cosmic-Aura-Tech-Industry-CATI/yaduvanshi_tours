@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Poppins, Cinzel } from "next/font/google";
+import dynamic from "next/dynamic";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { Chatbot } from "@/components/Chatbot";
-import { FloatingWidgets } from "@/components/FloatingWidgets";
 import "./globals.css";
+
+const Chatbot = dynamic(() => import("@/components/Chatbot").then((mod) => mod.Chatbot));
+const FloatingWidgets = dynamic(() => import("@/components/FloatingWidgets").then((mod) => mod.FloatingWidgets));
 
 const cormorant = Cormorant_Garamond({
   variable: "--font-display",

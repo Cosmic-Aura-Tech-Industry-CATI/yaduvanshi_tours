@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "motion/react";
 import { MapPin, Clock, Users, ArrowRight, Heart } from "lucide-react";
 import type { TourPackage } from "@/types";
@@ -56,9 +57,11 @@ export function PackageCard({ pkg, index = 0 }: PackageCardProps) {
     >
       {/* ── Image ── */}
       <div className="relative h-72 sm:h-80 md:h-[380px] lg:h-[400px] overflow-hidden">
-        <img
+        <Image
           src={resolveImg(pkg.image, 800, 960)}
           alt={pkg.title}
+          fill
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           className="w-full h-full object-cover transition-transform duration-700 ease-out"
           style={{ transform: hovered ? "scale(1.08)" : "scale(1)" }}
         />

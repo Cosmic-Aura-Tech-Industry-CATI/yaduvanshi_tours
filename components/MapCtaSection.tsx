@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, useMemo } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion, AnimatePresence, useInView } from "motion/react";
 import { ArrowRight, Calendar, Clock, MapPin, Compass } from "lucide-react";
 import { geoMercator, geoPath } from "d3-geo";
@@ -119,6 +120,23 @@ const PINS_DATA = FEATURED_10_PINS.map((pin) => {
     slug: tour.slug,
   };
 });
+
+const getLabelOffset = (id: string, labelWidth: number) => {
+  switch (id) {
+    case "rajasthan-heritage":
+      return { xOffset: -labelWidth - 12, yOffset: -8 };
+    case "mahakal-omkareshwar":
+      return { xOffset: -labelWidth - 12, yOffset: -8 };
+    case "dwarka-somnath":
+      return { xOffset: -labelWidth - 12, yOffset: -8 };
+    case "ayodhya-darshan":
+      return { xOffset: 12, yOffset: -12 };
+    case "kashi-vishwanath":
+      return { xOffset: 12, yOffset: 4 };
+    default:
+      return { xOffset: 12, yOffset: -8 };
+  }
+};
 
 export function MapCtaSection() {
   const [geoData, setGeoData] = useState<any>(null);
@@ -363,8 +381,9 @@ export function MapCtaSection() {
                           {(() => {
                             const labelText = d.label;
                             const labelWidth = Math.max(90, labelText.length * 6.2);
-                            const lx = cx + 12;
-                            const ly = cy - 8;
+                            const { xOffset, yOffset } = getLabelOffset(d.id, labelWidth);
+                            const lx = cx + xOffset;
+                            const ly = cy + yOffset;
                             return (
                               <g>
                                 <rect
@@ -401,6 +420,119 @@ export function MapCtaSection() {
                       </g>
                     );
                   })}
+
+                  {/* ── Kanpur, UP Office Pin Marker (Combined Spacing/Overlaps Fix) ── */}
+                  {(() => {
+                    const coords = projection([80.3319, 26.4499]); // Kanpur, UP coordinates
+                    if (!coords) return null;
+                    const [cx, cy] = coords;
+                    const mapsUrl = "https://maps.app.goo.gl/7DFN9oMZv8Uixd466";
+                    const lx = 160;
+                    const ly = 240;
+                    const labelWidth = 156;
+                    const labelHeight = 18;
+
+                    return (
+                      <a
+                        href={mapsUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="cursor-pointer group focus:outline-none"
+                        aria-label="Open office location in Google Maps"
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") {
+                            window.open(mapsUrl, "_blank", "noopener,noreferrer");
+                          }
+                        }}
+                      >
+                        {/* Outer pulsing glow indicator - larger for prominence */}
+                        {isSectionInView && (
+                          <motion.circle
+                            cx={cx}
+                            cy={cy}
+                            r={28}
+                            fill="none"
+                            stroke={GOLD}
+                            strokeWidth={2}
+                            style={{
+                              transformOrigin: `${cx}px ${cy}px`,
+                              willChange: "transform, opacity",
+                            }}
+                            animate={{
+                              scale: [0.8, 1.8, 0.8],
+                              opacity: [0.7, 0, 0.7],
+                            }}
+                            transition={{ repeat: Infinity, duration: 2.2, ease: "easeInOut" }}
+                          />
+                        )}
+
+                        {/* Stylized Location Pin Icon (📍 shape) - larger and with stronger shadow */}
+                        <g transform={`translate(${cx}, ${cy})`}>
+                          {/* Shadow ellipse */}
+                          <ellipse cx="0" cy="2" rx="6" ry="1.8" fill="black" opacity="0.5" />
+                          
+                          {/* Pin path (larger pin shape) */}
+                          <path
+                            d="M0 -24 C-6 -24 -11 -19 -11 -13 C-11 -5.5 0 0 0 0 C0 0 11 -5.5 11 -13 C11 -19 6 -24 0 -24 Z M0 -10.5 C-1.8 -10.5 -3.2 -11.9 -3.2 -13.7 C-3.2 -15.5 -1.8 -16.9 0 -16.9 C1.8 -16.9 3.2 -15.5 3.2 -13.7 C3.2 -11.9 1.8 -10.5 0 -10.5 Z"
+                            fill={GOLD}
+                            stroke="#0C1519"
+                            strokeWidth={1.2}
+                            className="transition-all duration-300 group-hover:scale-110 group-hover:fill-[#FFF5E6]"
+                            style={{
+                              transformOrigin: "0px 0px",
+                              filter: "drop-shadow(0 3px 6px rgba(232, 185, 106, 0.7))",
+                            }}
+                          />
+                        </g>
+
+                        {/* Dashed diagonal leader line pointing to the label */}
+                        <line
+                          x1={cx}
+                          y1={cy}
+                          x2={lx + labelWidth}
+                          y2={ly + labelHeight / 2}
+                          stroke={GOLD}
+                          strokeWidth={1}
+                          strokeDasharray="2 2"
+                          className="opacity-75 transition-all duration-300 group-hover:stroke-white group-hover:opacity-100"
+                        />
+
+                        {/* Office Label - moved outside the map graphic as a callout box */}
+                        <g className="transition-all duration-300">
+                          {(() => {
+                            const labelText = "KANPUR, UP — OUR OFFICE";
+                            return (
+                              <g>
+                                <rect
+                                  x={lx}
+                                  y={ly}
+                                  width={labelWidth}
+                                  height={labelHeight}
+                                  rx={4}
+                                  fill="rgba(12,21,25,0.95)"
+                                  stroke={GOLD}
+                                  strokeWidth={1.6}
+                                  className="transition-colors duration-300 group-hover:bg-[#162127]"
+                                />
+                                <text
+                                  x={lx + labelWidth / 2}
+                                  y={ly + 12}
+                                  textAnchor="middle"
+                                  fontSize="9"
+                                  fontWeight="800"
+                                  fontFamily="sans-serif"
+                                  fill={GOLD}
+                                  className="transition-colors duration-300 group-hover:fill-white uppercase tracking-wider"
+                                >
+                                  {labelText}
+                                </text>
+                              </g>
+                            );
+                          })()}
+                        </g>
+                      </a>
+                    );
+                  })()}
                 </svg>
               ) : (
                 <div className="h-[450px] flex flex-col items-center justify-center gap-4 text-center">
@@ -442,9 +574,11 @@ export function MapCtaSection() {
               >
                 {/* Image — full frame display, no crop */}
                 <div className="relative aspect-[16/10] w-full overflow-hidden bg-black/60">
-                  <img
+                  <Image
                     src={activeDest.image}
                     alt={activeDest.name}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 360px"
                     className="w-full h-full object-cover object-center transition-all duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0C1519] via-transparent to-transparent opacity-85" />

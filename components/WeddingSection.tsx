@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "motion/react";
 import { ArrowRight, Flower2, MessageCircle, Crown } from "lucide-react";
 
@@ -49,31 +50,39 @@ export function WeddingSection() {
         >
           <div className="grid grid-cols-12 gap-4">
             <div className="col-span-8 rounded-2xl overflow-hidden h-72 sm:h-96 shadow-xl group relative corner-brackets border border-[#CF9D7B]/20 hover:border-[#CF9D7B]/45 transition-colors duration-300">
-              <img
+              <Image
                 src={resolveImg(GALLERY_IMGS[0].src, 750, 550)}
                 alt={GALLERY_IMGS[0].alt}
+                fill
+                sizes="(max-width: 1024px) 66vw, 44vw"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#0C1519]/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             </div>
             <div className="col-span-4 rounded-2xl overflow-hidden h-40 sm:h-52 self-end shadow-lg group relative glass-panel border border-[#CF9D7B]/20 hover:border-[#CF9D7B]/45 transition-colors duration-300">
-              <img
+              <Image
                 src={resolveImg(GALLERY_IMGS[1].src, 450, 450)}
                 alt={GALLERY_IMGS[1].alt}
+                fill
+                sizes="(max-width: 1024px) 33vw, 22vw"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
               />
             </div>
             <div className="col-span-4 rounded-2xl overflow-hidden h-40 sm:h-52 self-start shadow-lg group relative glass-panel border border-[#CF9D7B]/20 hover:border-[#CF9D7B]/45 transition-colors duration-300">
-              <img
+              <Image
                 src={resolveImg(GALLERY_IMGS[2].src, 450, 450)}
                 alt={GALLERY_IMGS[2].alt}
+                fill
+                sizes="(max-width: 1024px) 33vw, 22vw"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
               />
             </div>
             <div className="col-span-8 rounded-2xl overflow-hidden h-48 sm:h-64 shadow-xl group relative corner-brackets border border-[#CF9D7B]/20 hover:border-[#CF9D7B]/45 transition-colors duration-300">
-              <img
+              <Image
                 src={resolveImg(GALLERY_IMGS[3].src, 750, 500)}
                 alt={GALLERY_IMGS[3].alt}
+                fill
+                sizes="(max-width: 1024px) 66vw, 44vw"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
               />
             </div>
@@ -166,7 +175,7 @@ export function WeddingSection() {
               Explore Wedding Fleet <ArrowRight size={14} />
             </Link>
             <a
-              href="https://wa.me/918127929551"
+              href={`https://wa.me/918127929551?text=${encodeURIComponent("Hello Yaduvanshi Tours and Travels, I am interested in booking a wedding vehicle.")}`}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center justify-center gap-2 px-7 py-4 font-semibold rounded-sm transition-colors glass-panel hover:bg-white/5"

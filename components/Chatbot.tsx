@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import Link from "next/link";
 import { motion, AnimatePresence } from "motion/react";
 import { X, Send, Bot, User } from "lucide-react";
 
@@ -16,11 +17,48 @@ interface Msg {
 }
 
 const FAQ: { q: string; a: string }[] = [
-  { q: "What tours do you offer?",     a: "We offer curated spiritual, mountain & cultural tours across India — Char Dham, Manali, Kashmir, Rajasthan & many more!" },
-  { q: "How do I book?",               a: "You can book directly on our site — click 'PLAN MY TRIP' or call us at +91 94157 63552." },
-  { q: "Are vehicles AC?",             a: "Yes! All our vehicles — from Dzire to Fortuner — come fully air-conditioned for your comfort." },
-  { q: "Do you offer wedding cars?",   a: "Absolutely! We have a premium wedding fleet with flower-decorated luxury cars and guest shuttles." },
+  { q: "What tours do you offer?", a: "We offer curated pilgrimage, mountain, and heritage tour packages across India—including Kashi (Varanasi), Ayodhya, Char Dham Yatra, Kashmir, Himachal Pradesh, Rajasthan, Goa, Kerala, and Gujarat. You can explore all our active packages and book them directly on our [Tour Packages](/tours) page." },
+  { q: "How do I book a vehicle?", a: "We provide chauffeur-driven premium vehicle rentals for local travel, outstations, and events. Our fleet includes Hatchbacks, Sedans (Dzire, Etios), SUVs (Innova Crysta, Fortuner), and Multi-seaters (Tempo Traveller, Force Urbania, Luxury Buses). You can view details on our [Vehicle Rentals](/vehicles) page." },
+  { q: "Do you offer wedding cars?", a: "Make your special day grand with our premium wedding car services! We offer flower-decorated luxury wedding cars, family group shuttles, and elegant guest convoys. View our options and book on our [Wedding Travel](/weddings) page." },
+  { q: "How do I book or plan a trip?", a: "You can easily book or plan your custom itinerary directly by filling out our quick [Plan Your Trip](/inquiry) form, or call/WhatsApp our travel desk for booking assistance." },
 ];
+
+function renderMessageText(text: string) {
+  const parts = [];
+  const regex = /\[([^\]]+)\]\(([^)]+)\)/g;
+  let match;
+  let lastIndex = 0;
+
+  while ((match = regex.exec(text)) !== null) {
+    const textBefore = text.substring(lastIndex, match.index);
+    if (textBefore) parts.push(textBefore);
+    
+    const label = match[1];
+    const url = match[2];
+    const isExternal = url.startsWith("http") || url.startsWith("tel") || url.startsWith("mailto");
+    
+    if (isExternal) {
+      parts.push(
+        <a key={match.index} href={url} target="_blank" rel="noopener noreferrer" className="underline hover:text-[#E8B96A] transition-colors font-semibold">
+          {label}
+        </a>
+      );
+    } else {
+      parts.push(
+        <Link key={match.index} href={url} className="underline hover:text-[#E8B96A] transition-colors font-semibold">
+          {label}
+        </Link>
+      );
+    }
+    
+    lastIndex = regex.lastIndex;
+  }
+  
+  const textAfter = text.substring(lastIndex);
+  if (textAfter) parts.push(textAfter);
+
+  return parts.length > 0 ? parts : text;
+}
 
 export function Chatbot() {
   const [open, setOpen] = useState(false);
@@ -55,8 +93,86 @@ export function Chatbot() {
     // Simple FAQ matching
     setTimeout(() => {
       const lower = text.toLowerCase();
-      const match = FAQ.find((f) => lower.includes(f.q.split(" ").slice(0, 3).join(" ").toLowerCase()));
-      const reply = match?.a || "Thank you for your question! Our team will get back to you shortly. Meanwhile, you can call us at +91 94157 63552 or WhatsApp for instant help.";
+      let reply = "";
+
+      // 1. Tour Packages matching
+      if (
+        lower.includes("tour") ||
+        lower.includes("package") ||
+        lower.includes("yatra") ||
+        lower.includes("destination") ||
+        lower.includes("holiday") ||
+        lower.includes("kedarnath") ||
+        lower.includes("ayodhya") ||
+        lower.includes("varanasi") ||
+        lower.includes("kashi") ||
+        lower.includes("kashmir") ||
+        lower.includes("manali")
+      ) {
+        reply = "We offer curated pilgrimage, mountain, and heritage tour packages across India—including Kashi (Varanasi), Ayodhya, Char Dham Yatra, Kashmir, Himachal Pradesh, Rajasthan, Goa, Kerala, and Gujarat. You can explore all our active packages and book them directly on our [Tour Packages](/tours) page.";
+      }
+      // 2. Vehicle Rental matching
+      else if (
+        lower.includes("car") ||
+        lower.includes("vehicle") ||
+        lower.includes("cab") ||
+        lower.includes("taxi") ||
+        lower.includes("rental") ||
+        lower.includes("rent") ||
+        lower.includes("dzire") ||
+        lower.includes("fortuner") ||
+        lower.includes("innova") ||
+        lower.includes("tempo") ||
+        lower.includes("traveller") ||
+        lower.includes("urbania") ||
+        lower.includes("fleet")
+      ) {
+        // Special sub-check for wedding cars so we route to wedding if they ask "wedding car"
+        if (lower.includes("wedding") || lower.includes("marriage")) {
+          reply = "Make your special day grand with our premium wedding car services! We offer flower-decorated luxury wedding cars, family group shuttles, and elegant guest convoys. View our options and book on our [Wedding Travel](/weddings) page.";
+        } else {
+          reply = "We provide chauffeur-driven premium vehicle rentals for local travel, outstations, and events. Our fleet includes Hatchbacks, Sedans (Dzire, Etios), SUVs (Innova Crysta, Fortuner), and Multi-seaters (Tempo Traveller, Force Urbania, Luxury Buses). You can view details on our [Vehicle Rentals](/vehicles) page.";
+        }
+      }
+      // 3. Wedding Car Booking matching
+      else if (
+        lower.includes("wedding") ||
+        lower.includes("marriage") ||
+        lower.includes("bride") ||
+        lower.includes("groom") ||
+        lower.includes("convoy") ||
+        lower.includes("doli")
+      ) {
+        reply = "Make your special day grand with our premium wedding car services! We offer flower-decorated luxury wedding cars, family group shuttles, and elegant guest convoys. View our options and book on our [Wedding Travel](/weddings) page.";
+      }
+      // 4. Booking/Planning/Pricing
+      else if (
+        lower.includes("book") ||
+        lower.includes("reserve") ||
+        lower.includes("price") ||
+        lower.includes("pricing") ||
+        lower.includes("cost") ||
+        lower.includes("inquire") ||
+        lower.includes("inquiry") ||
+        lower.includes("plan")
+      ) {
+        reply = "You can easily book or plan your custom itinerary directly by filling out our quick [Plan Your Trip](/inquiry) form, or call/WhatsApp our travel desk for booking assistance.";
+      }
+      // 5. Contact/Location/Address
+      else if (
+        lower.includes("location") ||
+        lower.includes("address") ||
+        lower.includes("office") ||
+        lower.includes("where") ||
+        lower.includes("kanpur")
+      ) {
+        reply = "Our main booking office is located near Ramadevi Chauraha, Kanpur, Uttar Pradesh, India. You can find detailed maps and contact details on our [Contact Us](/contact) page.";
+      }
+
+      if (!reply) {
+        reply = "Thank you for your question! Our team will get back to you shortly. Meanwhile, you can call us at +91 94157 63552 or WhatsApp for instant help.";
+      }
+
       setMsgs((p) => [...p, { id: Date.now() + 1, from: "bot", text: reply }]);
     }, 800);
   };
@@ -115,7 +231,7 @@ export function Chatbot() {
                     ? { background: `linear-gradient(135deg, ${GOLD}, ${BRASS})`, color: "#0C1519" }
                     : { background: "rgba(58,53,52,0.3)", color: "#D8CFC7", border: `1px solid rgba(207,157,123,0.1)` }}
                 >
-                  {m.text}
+                  {renderMessageText(m.text)}
                 </div>
                 {m.from === "user" && (
                   <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 glass-panel">

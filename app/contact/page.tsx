@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { Phone, Mail, MapPin, CheckCircle, Send, ShieldAlert } from "lucide-react";
+import Image from "next/image";
+import { motion } from "motion/react";
+import { Phone, Mail, MapPin, CheckCircle, Send, Clock, Navigation } from "lucide-react";
 
 const BRASS = "#CF9D7B";
 const COFFEE = "#724B39";
@@ -23,21 +25,60 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="bg-[#0C1519] min-h-screen pt-28 pb-20 text-[#D8CFC7] overflow-hidden relative">
+    <div className="bg-[#0C1519] min-h-screen pb-20 text-[#D8CFC7] overflow-hidden relative">
       {/* Background blobs for firelight depth */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full pointer-events-none z-0 opacity-10"
         style={{ background: `radial-gradient(circle, ${BRASS}, transparent 70%)` }} />
       <div className="absolute bottom-1/4 left-0 w-[600px] h-[600px] rounded-full pointer-events-none z-0 opacity-5"
         style={{ background: `radial-gradient(circle, ${COFFEE}, transparent 70%)` }} />
 
-      {/* Header */}
-      <section className="relative py-20 px-6 lg:px-12 overflow-hidden z-10 text-center">
-        <div className="max-w-7xl mx-auto">
-          <span className="text-[#E8B96A] font-accent text-xs sm:text-sm uppercase tracking-[0.25em] block mb-3 font-semibold">Connect With Us</span>
-          <h1 className="font-display text-4xl md:text-6xl font-bold tracking-wide text-white">
+      {/* Header / Hero Section */}
+      <section className="relative min-h-[40vh] flex items-center justify-center pt-32 pb-16 px-6 lg:px-12 overflow-hidden text-center bg-black">
+        {/* Background Image Wrapper */}
+        <motion.div
+          initial={{ opacity: 0, filter: "blur(4px)" }}
+          animate={{ opacity: 1, filter: "blur(0px)" }}
+          transition={{ duration: 1.8, ease: "easeOut" }}
+          className="absolute inset-0 w-full h-full z-[1]"
+        >
+          <Image
+            src="/images/contact-hero-bg.webp"
+            alt="Contact us office location background"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-center"
+          />
+        </motion.div>
+
+        {/* Darker cinematic overlays (Matching homepage + bottom fade merge) */}
+        <div 
+          className="absolute inset-0 z-[2]"
+          style={{ background: "linear-gradient(to bottom, rgba(12,21,25,0.65), rgba(12,21,25,0.35), #0C1519)" }} 
+        />
+        <div
+          className="absolute inset-0 z-[2]"
+          style={{ background: "radial-gradient(circle at center, transparent 30%, rgba(0,0,0,0.4) 70%, rgba(0,0,0,0.85) 100%)" }}
+        />
+        {/* Smooth bottom merge divider matching other pages */}
+        <div 
+          className="absolute inset-x-0 bottom-0 h-20 z-[3] pointer-events-none"
+          style={{ background: "linear-gradient(to top, #0C1519, transparent)" }}
+        />
+
+        {/* Ambient glow blobs */}
+        <div className="absolute bottom-0 left-0 z-[3] pointer-events-none"
+          style={{ width: 600, height: 400, background: `radial-gradient(ellipse at bottom left, ${BRASS}20, transparent 70%)` }} />
+        <div className="absolute top-20 right-10 z-[3] pointer-events-none"
+          style={{ width: 500, height: 500, background: `radial-gradient(ellipse at top right, ${COFFEE}15, transparent 70%)` }} />
+
+        {/* Content Container */}
+        <div className="max-w-7xl mx-auto relative z-10">
+          <span className="text-[#E8B96A] font-accent text-xs sm:text-sm uppercase tracking-[0.25em] block mb-3 font-semibold drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">Connect With Us</span>
+          <h1 className="font-display text-4xl md:text-6xl font-bold tracking-wide text-white drop-shadow-[0_4px_16px_rgba(0,0,0,0.95)]">
             Contact <span className="text-[#E8B96A]">Us</span>
           </h1>
-          <p className="text-[#D8CFC7]/80 text-base md:text-lg max-w-2xl mx-auto mt-5 font-sans leading-relaxed">
+          <p className="text-[#D8CFC7] text-base md:text-lg max-w-2xl mx-auto mt-5 font-sans leading-relaxed drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)] font-medium">
             Reach our booking offices directly. We respond within 15 minutes to all custom trip inquiries.
           </p>
           <div className="w-24 h-0.5 mx-auto mt-6" style={{ background: `linear-gradient(to right, transparent, ${BRASS}, transparent)` }} />
@@ -56,24 +97,28 @@ export default function ContactPage() {
             {[
               {
                 title: "Headquarters (Kanpur Office)",
-                address: "Kanpur, Uttar Pradesh, India",
+                address: "Ramadevi Chauraha, Kanpur, Uttar Pradesh, India",
                 phone: "+91 81279 29551",
                 email: "manojyadav20101993@gmail.com",
+                hours: "9:00 AM – 9:00 PM (Daily)",
+                mapsUrl: "https://maps.app.goo.gl/7DFN9oMZv8Uixd466",
               },
             ].map((branch, idx) => (
               <div 
                 key={idx} 
-                className="p-6 rounded-xl border space-y-4 glass-panel"
+                className="p-8 rounded-xl border space-y-5 glass-panel"
                 style={{
                   background: "rgba(58, 53, 52, 0.25)",
                   borderColor: "rgba(207, 157, 123, 0.15)",
                 }}
               >
-                <h3 className="font-display font-semibold text-white text-base">{branch.title}</h3>
+                <h3 className="font-display font-semibold text-white text-base border-b pb-3" style={{ borderColor: "rgba(207, 157, 123, 0.1)" }}>
+                  {branch.title}
+                </h3>
                 <div className="space-y-3.5 text-xs text-[#D8CFC7]/75 font-sans">
                   <div className="flex items-start gap-3">
                     <MapPin size={15} className="text-[#E8B96A] flex-shrink-0 mt-0.5" />
-                    <span>{branch.address}</span>
+                    <span className="leading-relaxed">{branch.address}</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <Phone size={15} className="text-[#E8B96A] flex-shrink-0" />
@@ -87,26 +132,38 @@ export default function ContactPage() {
                       {branch.email}
                     </a>
                   </div>
+                  <div className="flex items-center gap-3">
+                    <Clock size={15} className="text-[#E8B96A] flex-shrink-0" />
+                    <span>Business Hours: {branch.hours}</span>
+                  </div>
+                </div>
+                <div className="pt-2">
+                  <a
+                    href={branch.mapsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border text-xs font-semibold font-accent tracking-widest uppercase transition-all duration-300"
+                    style={{
+                      borderColor: "rgba(207, 157, 123, 0.25)",
+                      color: "#E8B96A",
+                      background: "rgba(232, 185, 106, 0.05)",
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = "rgba(232, 185, 106, 0.15)";
+                      e.currentTarget.style.borderColor = "#E8B96A";
+                      e.currentTarget.style.color = "#FFF";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = "rgba(232, 185, 106, 0.05)";
+                      e.currentTarget.style.borderColor = "rgba(207, 157, 123, 0.25)";
+                      e.currentTarget.style.color = "#E8B96A";
+                    }}
+                  >
+                    <Navigation size={12} className="animate-pulse" /> Get Directions
+                  </a>
                 </div>
               </div>
             ))}
-          </div>
-
-          {/* Map API Key Requirement block */}
-          <div 
-            className="p-5 rounded-xl border text-xs space-y-3 flex items-start gap-3.5"
-            style={{
-              background: "rgba(58, 53, 52, 0.15)",
-              borderColor: "rgba(207, 157, 123, 0.15)",
-            }}
-          >
-            <ShieldAlert size={18} className="text-[#E8B96A] flex-shrink-0 mt-0.5" />
-            <div>
-              <span className="font-semibold block font-display text-white text-sm">Dynamic Map API Keys Note:</span>
-              <p className="text-[#D8CFC7]/60 text-[11px] mt-1 font-sans leading-relaxed">
-                `[MAP_API_KEY_REQUIREMENT]` — Dynamic embeds require a valid Google Maps API Key initialized. Currently rendered as local vector vectors to ensure zero dependency costs.
-              </p>
-            </div>
           </div>
         </div>
 

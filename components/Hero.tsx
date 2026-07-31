@@ -11,7 +11,7 @@ const COFFEE = "#724B39";
 const GOLD = "#E8B96A";
 
 const TRUST_STATS = [
-  { value: "10,000+", label: "Happy Travelers", emoji: "✈️" },
+  { value: "1000+", label: "Happy Travelers", emoji: "✈️" },
   { value: "40+", label: "Destinations", emoji: "🗺️" },
   { value: "15+", label: "Years Experience", emoji: "🏆" },
   { value: "24/7", label: "Support", emoji: "🛡️" },
