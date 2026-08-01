@@ -95,6 +95,7 @@ export interface Destination {
 export interface GalleryItem {
   id: string;
   unsplashId: string;
+  image?: string;                  // Optional local image path
   caption: string;
   location: string;
   tall: boolean;                   // for masonry

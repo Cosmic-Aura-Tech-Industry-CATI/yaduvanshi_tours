@@ -1,8 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "motion/react";
 import { Phone, X, MessageCircle } from "lucide-react";
+import { TOURS_DATA } from "@/data/tours";
 
 const BRASS = "#CF9D7B";
 const COFFEE = "#724B39";
@@ -12,6 +14,31 @@ const IVORY = "#F5F0EA";
 export function FloatingWidgets() {
   const [showCall, setShowCall] = useState(false);
   const [chatOpen, setChatOpen] = useState(false);
+  const pathname = usePathname();
+
+  let whatsappMessage = "Hello Yaduvanshi Tours and Travels, I have a query.";
+  if (pathname) {
+    if (pathname.startsWith("/vehicles")) {
+      whatsappMessage = "Hello Yaduvanshi Tours and Travels, I am interested in booking a vehicle.";
+    } else if (pathname.startsWith("/tours/")) {
+      const slug = pathname.split("/").pop();
+      const tour = TOURS_DATA.find((t) => t.slug === slug);
+      if (tour) {
+        whatsappMessage = `Hello Yaduvanshi Tours and Travels, I am interested in ${tour.name} tour package.`;
+      } else {
+        whatsappMessage = "Hello Yaduvanshi Tours and Travels, I am interested in a tour package.";
+      }
+    } else if (pathname.startsWith("/tours")) {
+      whatsappMessage = "Hello Yaduvanshi Tours and Travels, I am interested in a tour package.";
+    } else if (pathname.startsWith("/weddings")) {
+      whatsappMessage = "Hello Yaduvanshi Tours and Travels, I am interested in booking a wedding vehicle.";
+    } else if (pathname.startsWith("/contact")) {
+      whatsappMessage = "Hello Yaduvanshi Tours and Travels, I would like more information.";
+    } else if (pathname !== "/") {
+      whatsappMessage = "Hello Yaduvanshi Tours and Travels, I would like more information.";
+    }
+  }
+  const whatsappUrl = `https://wa.me/918127929551?text=${encodeURIComponent(whatsappMessage)}`;
 
   useEffect(() => {
     const handleState = (e: Event) => {
@@ -83,7 +110,7 @@ export function FloatingWidgets() {
 
         {/* WhatsApp (green with radar pulse glow) */}
         <motion.a
-          href="https://wa.me/918127929551"
+          href={whatsappUrl}
           target="_blank"
           rel="noopener noreferrer"
           className="w-14 h-14 rounded-full flex items-center justify-center shadow-lg cursor-pointer pulse-ring-green"

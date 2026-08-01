@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "motion/react";
 import { MapPin, ArrowRight } from "lucide-react";
 import { DESTINATIONS } from "@/data/destinations";
@@ -38,9 +39,11 @@ export function DestinationsSection() {
               style={{ height: i === 0 ? 380 : 178 }}
             >
               <Link href={`/destinations/${d.slug}`}>
-                <img
+                <Image
                   src={IMG(d.image, 600, i === 0 ? 760 : 360)}
                   alt={d.name}
+                  fill
+                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/65 to-transparent" />

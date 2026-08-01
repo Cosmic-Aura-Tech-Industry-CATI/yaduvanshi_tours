@@ -28,7 +28,7 @@ function AnimatedCounter({ to, suffix = "" }: { to: number; suffix?: string }) {
 export function StatsSection() {
   const STATS = [
     { label: "Years on Road", to: 15, suffix: "+" },
-    { label: "Happy Travelers", to: 10000, suffix: "+" },
+    { label: "Happy Travelers", to: 1000, suffix: "+" },
     { label: "Tour Packages", to: 50, suffix: "+" },
     { label: "Vehicles in Fleet", to: 200, suffix: "+" },
   ];

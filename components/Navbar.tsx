@@ -2,9 +2,11 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence, useSpring } from "motion/react";
 import { Menu, X, ChevronDown, Phone, Mail, MapPin, ArrowRight } from "lucide-react";
+import { TOURS_DATA } from "@/data/tours";
 
 const GOLD = "#E8B96A";
 const IVORY = "#F5F0EA";
@@ -122,6 +124,32 @@ export function Navbar() {
   const [toursExpanded, setToursExpanded] = useState(false);
   const pathname = usePathname();
 
+  const getWhatsAppUrl = () => {
+    let msg = "Hello Yaduvanshi Tours and Travels, I have a query.";
+    if (pathname) {
+      if (pathname.startsWith("/vehicles")) {
+        msg = "Hello Yaduvanshi Tours and Travels, I am interested in booking a vehicle.";
+      } else if (pathname.startsWith("/tours/")) {
+        const slug = pathname.split("/").pop();
+        const tour = TOURS_DATA.find((t) => t.slug === slug);
+        if (tour) {
+          msg = `Hello Yaduvanshi Tours and Travels, I am interested in ${tour.name} tour package.`;
+        } else {
+          msg = "Hello Yaduvanshi Tours and Travels, I am interested in a tour package.";
+        }
+      } else if (pathname.startsWith("/tours")) {
+        msg = "Hello Yaduvanshi Tours and Travels, I am interested in a tour package.";
+      } else if (pathname.startsWith("/weddings")) {
+        msg = "Hello Yaduvanshi Tours and Travels, I am interested in booking a wedding vehicle.";
+      } else if (pathname.startsWith("/contact")) {
+        msg = "Hello Yaduvanshi Tours and Travels, I would like more information.";
+      } else if (pathname !== "/") {
+        msg = "Hello Yaduvanshi Tours and Travels, I would like more information.";
+      }
+    }
+    return `https://wa.me/918127929551?text=${encodeURIComponent(msg)}`;
+  };
+
   useEffect(() => {
     if (!mobileOpen) {
       setToursExpanded(false);
@@ -156,9 +184,13 @@ export function Navbar() {
             >
               <div className="max-w-7xl mx-auto px-6 lg:px-10 flex items-center justify-between py-2 text-[10px] font-accent tracking-wider gap-6">
                 <div className="flex items-center gap-5 flex-wrap">
-                  {INFO_ITEMS.map((item, i) =>
-                    item.href ? (
-                      <a key={i} href={item.href}
+                  {INFO_ITEMS.map((item, i) => {
+                    const isWhatsApp = item.href?.startsWith("https://wa.me");
+                    const href = isWhatsApp ? getWhatsAppUrl() : item.href;
+                    return href ? (
+                      <a key={i} href={href}
+                        target={isWhatsApp ? "_blank" : undefined}
+                        rel={isWhatsApp ? "noopener noreferrer" : undefined}
                         className="flex items-center gap-1.5 text-[#D8CFC7]/85 hover:text-white transition-colors">
                         <item.icon className="w-3.5 h-3.5" style={{ color: GOLD }} />
                         {item.text}
@@ -168,8 +200,8 @@ export function Navbar() {
                         <item.icon className="w-3.5 h-3.5" style={{ color: GOLD }} />
                         {item.text}
                       </span>
-                    )
-                  )}
+                    );
+                  })}
                 </div>
                 <div className="flex items-center flex-shrink-0">
                   <Link href="/inquiry"
@@ -199,13 +231,14 @@ export function Navbar() {
           <div className="max-w-7xl mx-auto flex items-center justify-between">
             {/* Logo Left — pure transparent gold brand mark */}
             <Link href="/" className="flex items-center group flex-shrink-0 mr-8">
-              <img
+              <Image
                 src="/images/logo.webp"
                 alt="Yaduvanshi Tour & Travels"
+                width={94}
+                height={64}
+                priority
                 className="transition-transform duration-500 group-hover:scale-105"
                 style={{
-                  height: "64px",
-                  width: "auto",
                   display: "block",
                   filter: "drop-shadow(0 2px 16px rgba(232,185,106,0.48))",
                   flexShrink: 0,
@@ -306,12 +339,13 @@ export function Navbar() {
             {/* Mobile header */}
             <div className="flex justify-between items-center mb-10">
               <div className="flex items-center">
-                <img
+                <Image
                   src="/images/logo.webp"
                   alt="Yaduvanshi Tour & Travels"
+                  width={108}
+                  height={74}
+                  priority
                   style={{
-                    height: "74px",
-                    width: "auto",
                     display: "block",
                     filter: "drop-shadow(0 2px 10px rgba(232,185,106,0.35))",
                     flexShrink: 0,
@@ -404,7 +438,7 @@ export function Navbar() {
                   className="flex items-center justify-center gap-1.5 py-3 rounded-sm text-[10px] font-accent tracking-wider glass-panel text-[#D8CFC7]/60 hover:text-white transition-colors">
                   <Phone size={12} /> Call Us
                 </a>
-                <a href="https://wa.me/918127929551"
+                <a href={getWhatsAppUrl()}
                   target="_blank" rel="noopener noreferrer"
                   className="flex items-center justify-center gap-1.5 py-3 rounded-sm text-[10px] font-accent tracking-wider glass-panel text-[#D8CFC7]/60 hover:text-white transition-colors">
                   <WhatsAppIcon className="w-3.5 h-3.5" /> WhatsApp

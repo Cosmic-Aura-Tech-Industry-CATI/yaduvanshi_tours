@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useMemo, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
+import Image from "next/image";
 import { motion, AnimatePresence } from "motion/react";
 import { 
   Search, Check, X, MapPin, 
@@ -99,13 +100,13 @@ function ToursContent() {
       <section className="relative min-h-[55vh] pt-36 pb-20 flex items-center justify-center overflow-hidden">
         {/* Background Collage / India travel image overlay */}
         <div className="absolute inset-0">
-          <motion.img
-            src="/tours/india-collage-hero.png"
+          <Image
+            src="/tours/india-collage-hero.webp"
             alt="Majestic India Tour Pilgrimage Collage"
-            className="w-full h-full object-cover"
-            initial={{ scale: 1 }}
-            animate={{ scale: 1.06 }}
-            transition={{ duration: 15, ease: "linear", repeat: Infinity, repeatType: "reverse" }}
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover"
           />
           {/* Dark theme matching overlays */}
           <div className="absolute inset-0 bg-gradient-to-b from-[#0C1519]/40 via-black/75 to-[#0C1519]" />

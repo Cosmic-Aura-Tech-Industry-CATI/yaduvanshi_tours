@@ -2,21 +2,24 @@
 
 import { motion } from "motion/react";
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight, MessageSquare, Compass } from "lucide-react";
 
 const BRASS = "#CF9D7B";
 const GOLD = "#E8B96A";
 
-const WHATSAPP_URL = "https://wa.me/918127929551?text=Hello%20Yaduvanshi%20Tours,%20I%20am%20ready%20to%20plan%20a%20customized%20trip%20to%20Incredible%20India.";
+const WHATSAPP_URL = `https://wa.me/918127929551?text=${encodeURIComponent("Hello Yaduvanshi Tours and Travels, I am ready to plan a customized trip to India.")}`;
 
 export function TripPlanningCTA() {
   return (
     <section className="relative w-full min-h-[500px] flex items-center overflow-hidden z-10">
       {/* Full-Bleed Background Image — high quality WebP */}
-      <img 
+      <Image 
         src="/destinations/taj-mahal-cta.webp"
         alt="Taj Mahal background"
-        className="absolute inset-0 w-full h-full object-cover object-center z-0"
+        fill
+        sizes="100vw"
+        className="object-cover object-center z-0"
         style={{
           filter: "brightness(1.08) contrast(1.10) saturate(1.15)",
         }}

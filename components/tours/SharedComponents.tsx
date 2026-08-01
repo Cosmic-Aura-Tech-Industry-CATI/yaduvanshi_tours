@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { motion, useInView } from "motion/react";
 import { Star, Clock, ArrowRight } from "lucide-react";
 import { useEffect, useState, useRef } from "react";
@@ -93,19 +94,27 @@ export function TourCard({ tour }: { tour: TourPackage }) {
     >
       {/* Visual Image */}
       <div className="relative h-72 sm:h-80 md:h-[380px] lg:h-[400px] overflow-hidden bg-black/20">
-        {images.map((img, idx) => (
-          <img
-            key={img}
-            src={resolveImg(img, 800, 960)}
-            alt={tour.name}
-            loading="lazy"
-            className="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out"
-            style={{
-              opacity: currentImgIdx === idx ? 1 : 0,
-              zIndex: currentImgIdx === idx ? 10 : 0,
-            }}
-          />
-        ))}
+        {images.map((img, idx) => {
+          const isActive = currentImgIdx === idx;
+          const isNext = (currentImgIdx + 1) % images.length === idx;
+          if (!isActive && !isNext) return null;
+
+          return (
+            <Image
+              key={img}
+              src={resolveImg(img, 800, 960)}
+              alt={tour.name}
+              fill
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              loading={isActive ? "eager" : "lazy"}
+              className="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out"
+              style={{
+                opacity: isActive ? 1 : 0,
+                zIndex: isActive ? 10 : 0,
+              }}
+            />
+          );
+        })}
         {/* Layer of gradient overlay on top of slide */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent z-20 pointer-events-none" />
         
