@@ -1,14 +1,13 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
-import { motion, AnimatePresence } from "motion/react";
-import { Phone, Mail, MapPin, Check, Send } from "lucide-react";
+import Image from "next/image";
+import { motion } from "motion/react";
+import { Phone, Mail, MapPin } from "lucide-react";
 
 const BRASS = "#CF9D7B";
 const COFFEE = "#724B39";
 const GOLD = "#E8B96A";
-const IVORY = "#F5F0EA";
 
 const QUICK_LINKS = [
   { label: "Home",             href: "/" },
@@ -31,17 +30,6 @@ const TOP_DESTINATIONS = [
 ];
 
 export function Footer() {
-  const [email, setEmail] = useState("");
-  const [done, setDone]   = useState(false);
-
-  const submit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email.trim()) return;
-    setDone(true);
-    setEmail("");
-    setTimeout(() => setDone(false), 4000);
-  };
-
   return (
     <footer className="pt-14 pb-6 relative overflow-hidden" style={{ background: "#080E11" }}>
       {/* Glowing top border */}
@@ -62,18 +50,25 @@ export function Footer() {
         <div className="flex flex-col items-center text-center mb-16 relative z-10 pt-4">
           <Link href="/" className="flex flex-col items-center gap-2 group">
             {/* Premium brand signature — height-driven, auto-width, no empty margins */}
-            <motion.img
-              src="/images/logo.webp"
-              alt="Yaduvanshi Tour & Travels"
+            <motion.div
               whileHover={{ scale: 1.03 }}
               style={{
+                position: "relative",
                 height: "260px",
-                width: "auto",
+                width: "380px",
                 maxWidth: "88vw",
                 display: "block",
                 filter: "drop-shadow(0 8px 36px rgba(232,185,106,0.60))",
               }}
-            />
+            >
+              <Image
+                src="/images/logo.webp"
+                alt="Yaduvanshi Tour & Travels"
+                fill
+                sizes="(max-width: 768px) 88vw, 380px"
+                className="object-contain"
+              />
+            </motion.div>
           </Link>
           <div className="w-80 h-px mt-8 mb-2" style={{ background: `linear-gradient(to right, transparent, ${BRASS}65, transparent)` }} />
         </div>
@@ -150,10 +145,10 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Contact + Newsletter */}
+          {/* Contact Info */}
           <div>
             <h4 className="text-white font-semibold text-sm mb-5 font-display">Contact Info</h4>
-            <div className="space-y-3 mb-7 font-sans">
+            <div className="space-y-3 font-sans">
               {[
                 { Icon: Phone,  text: "+91 81279 29551" },
                 { Icon: Mail,   text: "manojyadav20101993@gmail.com" },
@@ -165,50 +160,28 @@ export function Footer() {
                 </div>
               ))}
             </div>
-
-            <h4 className="text-white font-semibold text-sm mb-2 font-display">Newsletter</h4>
-            <p className="text-[#D8CFC7]/30 text-xs mb-3 font-sans">Get exclusive deals & travel tips in your inbox.</p>
-            <form onSubmit={submit} className="flex gap-2">
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Your email address"
-                className="flex-1 text-white text-xs px-3 py-2.5 rounded-sm placeholder-white/20 transition-all font-mono glass-panel"
-                style={{
-                  outline: "none",
-                }}
-                onFocus={(e) => {
-                  e.currentTarget.style.boxShadow = `0 0 20px rgba(232, 185, 106, 0.35), 0 0 40px rgba(232, 185, 106, 0.15)`;
-                  e.currentTarget.style.borderColor = `${GOLD}50`;
-                }}
-                onBlur={(e) => {
-                  e.currentTarget.style.boxShadow = `0 0 25px rgba(207, 157, 123, 0.25), 0 8px 32px rgba(0, 0, 0, 0.45)`;
-                  e.currentTarget.style.borderColor = `rgba(207, 157, 123, 0.18)`;
-                }}
-              />
-              <button type="submit"
-                className="w-10 h-10 flex items-center justify-center rounded-sm hover:brightness-110 flex-shrink-0 transition-all cursor-pointer"
-                style={{ background: `linear-gradient(135deg, ${GOLD}, ${BRASS})` }}
-              >
-                <AnimatePresence mode="wait">
-                  {done
-                    ? <motion.div key="ok"   initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}><Check size={16} style={{ color: "#0C1519" }} /></motion.div>
-                    : <motion.div key="send" initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}><Send  size={15} style={{ color: "#0C1519" }} /></motion.div>
-                  }
-                </AnimatePresence>
-              </button>
-            </form>
           </div>
         </div>
 
         {/* Bottom bar */}
         <div className="pt-6 flex flex-col md:flex-row justify-between items-center gap-4" style={{ borderTop: `1px solid rgba(207, 157, 123, 0.15)` }}>
           <p className="text-xs text-[#D8CFC7]/25 font-sans">© {new Date().getFullYear()} Yaduvanshi Tours & Travels. All rights reserved.</p>
-          <div className="flex gap-5 font-sans">
-            {["Privacy Policy", "Terms & Conditions"].map((l) => (
-              <a key={l} href="#" className="text-xs text-[#D8CFC7]/25 hover:text-white/50 transition-colors">{l}</a>
-            ))}
+          <div className="flex items-center gap-2 font-sans">
+            <span className="text-xs text-[#D8CFC7]/25">Designed &amp; Developed by</span>
+            <a
+              href="https://dimisi.tech/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center transition-opacity hover:opacity-80"
+            >
+              <Image
+                src="/images/dimisi-logo.webp"
+                alt="DIMISI"
+                width={60}
+                height={20}
+                style={{ filter: "drop-shadow(0 0 4px rgba(207,157,123,0.3))" }}
+              />
+            </a>
           </div>
         </div>
       </div>

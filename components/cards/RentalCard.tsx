@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "motion/react";
 import { Users, ArrowRight, Sparkles } from "lucide-react";
 import type { Vehicle, RentalType } from "@/types";
@@ -105,10 +106,11 @@ export function RentalCard({ vehicle: v, index = 0 }: RentalCardProps) {
           }}
         />
 
-        <img
+        <Image
           src={v.image}
           alt={v.name}
-          loading="lazy"
+          fill
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           className="w-full h-full object-contain transition-transform duration-700 relative z-0"
           style={{ transform: hovered ? "scale(1.05)" : "scale(1)" }}
         />

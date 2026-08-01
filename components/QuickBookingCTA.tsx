@@ -10,7 +10,7 @@ const IVORY = "#F5F0EA";
 
 // Replace with client's actual contact number/link details
 const CONTACT_PHONE = "+918127929551";
-const WHATSAPP_URL = "https://wa.me/918127929551?text=Hello%20Yaduvanshi%20Tours,%20I%20am%20interested%20in%20booking%2520a%20vehicle.";
+const WHATSAPP_URL = `https://wa.me/918127929551?text=${encodeURIComponent("Hello Yaduvanshi Tours and Travels, I am interested in booking a vehicle.")}`;
 
 export function QuickBookingCTA() {
   return (

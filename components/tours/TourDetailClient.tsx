@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "motion/react";
 import { 
   MapPin, Star, Check, X, 
@@ -120,17 +121,24 @@ export function TourDetailClient({ tour, relatedTours }: ClientProps) {
       {/* ── 1. IMAGE GALLERY HERO ── */}
       <section className="relative h-[60vh] md:h-[70vh] w-full overflow-hidden bg-black/80 z-10">
         <AnimatePresence mode="wait">
-          <motion.img
+          <motion.div
             key={activeImg}
-            src={resolveImg(activeImg, 1600, 900)}
-            alt={tour.name}
             initial={{ opacity: 0 }}
             animate={{ opacity: 0.7 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4 }}
-            className="w-full h-full object-cover cursor-zoom-in"
+            className="absolute inset-0 w-full h-full cursor-zoom-in"
             onClick={() => setLightboxOpen(true)}
-          />
+          >
+            <Image
+              src={resolveImg(activeImg, 1600, 900)}
+              alt={tour.name}
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover"
+            />
+          </motion.div>
         </AnimatePresence>
 
         {/* Text Overlays */}
@@ -169,9 +177,11 @@ export function TourDetailClient({ tour, relatedTours }: ClientProps) {
               className="relative w-24 h-16 rounded-lg overflow-hidden border-2 flex-shrink-0 transition-all cursor-pointer"
               style={{ borderColor: activeImg === img ? GOLD : "transparent" }}
             >
-              <img
+              <Image
                 src={resolveImg(img, 150, 100)}
                 alt="Thumbnail"
+                width={96}
+                height={64}
                 className="w-full h-full object-cover"
               />
             </button>
@@ -533,9 +543,11 @@ export function TourDetailClient({ tour, relatedTours }: ClientProps) {
               exit={{ scale: 0.95 }}
               className="relative max-w-4xl max-h-[85vh] overflow-hidden rounded-xl border border-white/15"
             >
-              <img
+              <Image
                 src={resolveImg(activeImg, 1200, 800)}
                 alt={tour.name}
+                width={1200}
+                height={800}
                 className="w-full h-full object-contain"
               />
               <button

@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
-import { motion } from "motion/react";
-import { Star, Quote } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import Image from "next/image";
+import { motion, AnimatePresence, useInView } from "motion/react";
+import { Star, ChevronLeft, ChevronRight, Quote } from "lucide-react";
 import { REVIEWS } from "@/data/reviews";
 
 const BRASS = "#CF9D7B";
@@ -63,10 +64,12 @@ function TestiCard({ review }: { review: (typeof REVIEWS)[0] }) {
 
         {/* Author details */}
         <div className="flex items-center gap-3">
-          <img
+          <Image
             src={AVATAR_URL(review.avatarId)}
             alt={review.name}
-            className="w-9 h-9 rounded-full object-cover flex-shrink-0"
+            width={36}
+            height={36}
+            className="rounded-full object-cover flex-shrink-0"
             style={{
               border: `2px solid transparent`,
               backgroundImage: `linear-gradient(#0C1519, #0C1519), linear-gradient(135deg, ${BRASS}, ${COFFEE})`,
@@ -140,7 +143,7 @@ export function TestimonialsSection() {
               <Star key={i} size={13} className="fill-current" style={{ color: GOLD }} />
             ))}
           </div>
-          <span className="text-[#D8CFC7]/50 text-xs font-mono">4.9 / 5 · 10,000+ guest stories</span>
+          <span className="text-[#D8CFC7]/50 text-xs font-mono">4.9 / 5 · 1000+ guest stories</span>
         </motion.div>
       </div>
 
@@ -187,7 +190,7 @@ export function TestimonialsSection() {
         transition={{ delay: 0.3 }}
       >
         {[
-          { num: "10,000+", label: "Happy Travellers" },
+          { num: "1000+", label: "Happy Travellers" },
           { num: "4.9★", label: "Average Rating" },
           { num: "15+", label: "Years Experience" },
           { num: "100%", label: "Verified Reviews" },
