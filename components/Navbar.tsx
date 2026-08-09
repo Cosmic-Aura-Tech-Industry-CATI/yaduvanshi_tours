@@ -250,7 +250,7 @@ export function Navbar() {
             <nav className="hidden lg:flex items-center gap-5">
               {NAV_LINKS.map((link) => {
                 const isActive = link.sub
-                  ? pathname.startsWith("/tours")
+                  ? pathname?.startsWith("/tours")
                   : pathname === link.to;
 
                 if (link.sub) {
@@ -367,14 +367,14 @@ export function Navbar() {
                   transition={{ delay: i * 0.055, duration: 0.36, ease: [0.22, 1, 0.36, 1] }}
                 >
                   {link.sub ? (
-                    <div className="block border-b" style={{ borderColor: pathname.startsWith("/tours") ? `${GOLD}40` : "rgba(255,255,255,0.06)" }}>
+                    <div className="block border-b" style={{ borderColor: pathname?.startsWith("/tours") ? `${GOLD}40` : "rgba(255,255,255,0.06)" }}>
                       <button
                         onClick={() => setToursExpanded(!toursExpanded)}
                         className="w-full flex items-center justify-between py-3.5 text-xl font-display font-semibold text-white/80 hover:text-white transition-colors cursor-pointer text-left bg-transparent border-0 focus:outline-none"
-                        style={{ color: pathname.startsWith("/tours") ? GOLD : undefined }}
+                        style={{ color: pathname?.startsWith("/tours") ? GOLD : undefined }}
                       >
                         <div className="flex items-center">
-                          {pathname.startsWith("/tours") && (
+                          {pathname?.startsWith("/tours") && (
                             <span className="inline-block w-1.5 h-1.5 rounded-full mr-2 -mb-0.5" style={{ background: GOLD }} />
                           )}
                           {link.label}

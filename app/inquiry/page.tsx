@@ -321,10 +321,10 @@ function InquiryForm() {
   const searchParams = useSearchParams();
 
   /* ── Resolve context from query params ─────────────────────── */
-  const qType = searchParams.get("type");
-  const qPackage = searchParams.get("package");
-  const qVehicle = searchParams.get("vehicle");
-  const qRental = searchParams.get("rental");
+  const qType = searchParams?.get("type");
+  const qPackage = searchParams?.get("package");
+  const qVehicle = searchParams?.get("vehicle");
+  const qRental = searchParams?.get("rental");
 
   // Determine the resolved type
   const resolvedType = qType === "vehicle"

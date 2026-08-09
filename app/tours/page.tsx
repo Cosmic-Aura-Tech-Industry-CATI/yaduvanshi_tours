@@ -34,15 +34,15 @@ function ToursContent() {
 
   // Sync filter states with URL search params
   useEffect(() => {
-    const regionParam = searchParams.get("region");
+    const regionParam = searchParams?.get("region");
     if (regionParam) {
       setSelectedRegion(regionParam);
     }
-    const destinationParam = searchParams.get("destination");
+    const destinationParam = searchParams?.get("destination");
     if (destinationParam) {
       setSearchQuery(destinationParam);
     }
-    const durationParam = searchParams.get("duration");
+    const durationParam = searchParams?.get("duration");
     if (durationParam) {
       setSelectedDurations([durationParam]);
     }

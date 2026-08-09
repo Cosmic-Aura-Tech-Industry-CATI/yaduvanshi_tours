@@ -7,14 +7,11 @@ import { motion } from "motion/react";
 import { MapPin, Clock, Users, ArrowRight, Heart } from "lucide-react";
 import type { TourPackage } from "@/types";
 
+import { buildImageUrl, handleImageError } from "@/lib/imageUtils";
+
 const BRASS = "#CF9D7B";
 const GOLD = "#E8B96A";
 const IVORY = "#F5F0EA";
-
-const resolveImg = (src: string, w: number, h: number) =>
-  src.startsWith("/")
-    ? src
-    : `https://images.unsplash.com/${src}?w=${w}&h=${h}&fit=crop&auto=format&q=85`;
 
 // Pricing data per spec
 const PKG_PRICING: Record<string, { fiveSeater?: string; sevenSeater?: string; special?: { label: string; price: string }[] }> = {
@@ -58,12 +55,13 @@ export function PackageCard({ pkg, index = 0 }: PackageCardProps) {
       {/* ── Image ── */}
       <div className="relative h-72 sm:h-80 md:h-[380px] lg:h-[400px] overflow-hidden">
         <Image
-          src={resolveImg(pkg.image, 800, 960)}
+          src={buildImageUrl(pkg.image, 800, 960)}
           alt={pkg.title}
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           className="w-full h-full object-cover transition-transform duration-700 ease-out"
           style={{ transform: hovered ? "scale(1.08)" : "scale(1)" }}
+          onError={handleImageError}
         />
 
         {/* Shimmer sweep — brass */}
