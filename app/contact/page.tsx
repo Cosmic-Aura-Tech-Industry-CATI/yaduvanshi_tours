@@ -3,7 +3,8 @@
 import { useState } from "react";
 import Image from "next/image";
 import { motion } from "motion/react";
-import { Phone, Mail, MapPin, CheckCircle, Send, Clock, Navigation } from "lucide-react";
+import { Phone, Mail, MapPin, CheckCircle, Send, Clock, Navigation, Loader2 } from "lucide-react";
+import emailjs from "@emailjs/browser";
 
 const BRASS = "#CF9D7B";
 const COFFEE = "#724B39";
@@ -16,12 +17,46 @@ export default function ContactPage() {
     phone: "",
     message: "",
   });
+  const [website, setWebsite] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (website) return;
     if (!formData.name || !formData.phone) return;
-    setSubmitted(true);
+
+    setIsSubmitting(true);
+    setErrorMessage(null);
+
+    const templateParams = {
+      form_type: "Contact",
+      name: formData.name || "",
+      phone: formData.phone || "",
+      email: formData.email || "",
+      package: "",
+      vehicle: "",
+      dates: "",
+      travelers: "",
+      budget: "",
+      message: formData.message || "",
+    };
+
+    try {
+      await emailjs.send(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
+        templateParams,
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
+      );
+      setSubmitted(true);
+    } catch (err) {
+      console.error("EmailJS error:", err);
+      setErrorMessage("Failed to send message. Please try again or contact us directly.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -187,10 +222,26 @@ export default function ContactPage() {
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-5">
+              <input
+                type="text"
+                name="website"
+                value={website}
+                onChange={(e) => setWebsite(e.target.value)}
+                style={{ display: "none" }}
+                tabIndex={-1}
+                autoComplete="off"
+              />
+
               <div>
                 <h3 className="font-display font-semibold text-xl text-white">Send Us a Message</h3>
                 <p className="text-[#D8CFC7]/50 text-[11px] font-sans mt-1">Quick response guaranteed.</p>
               </div>
+
+              {errorMessage && (
+                <div className="p-3 rounded-lg bg-red-950/50 border border-red-500/30 text-red-300 text-xs font-sans">
+                  {errorMessage}
+                </div>
+              )}
 
               <div className="space-y-4">
                 <div>
@@ -242,14 +293,23 @@ export default function ContactPage() {
 
               <button
                 type="submit"
-                className="w-full py-3.5 rounded-full font-bold font-accent tracking-widest text-xs text-center flex items-center justify-center gap-2 cursor-pointer transition-all hover:brightness-110"
+                disabled={isSubmitting}
+                className="w-full py-3.5 rounded-full font-bold font-accent tracking-widest text-xs text-center flex items-center justify-center gap-2 cursor-pointer transition-all hover:brightness-110 disabled:opacity-50 disabled:cursor-not-allowed"
                 style={{
                   background: `linear-gradient(135deg, ${GOLD}, ${BRASS})`,
                   color: "#0C1519",
                   boxShadow: `0 4px 15px rgba(232,185,106,0.2)`
                 }}
               >
-                Send Inquiry Message <Send size={11} />
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="animate-spin" size={14} /> Sending...
+                  </>
+                ) : (
+                  <>
+                    Send Inquiry Message <Send size={11} />
+                  </>
+                )}
               </button>
             </form>
           )}

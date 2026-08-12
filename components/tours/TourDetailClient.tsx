@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "motion/react";
+import emailjs from "@emailjs/browser";
 import { 
   MapPin, Star, Check, X, 
   ChevronDown, Send, Loader2, Info
@@ -39,12 +40,14 @@ export function TourDetailClient({ tour, relatedTours }: ClientProps) {
     travelers: "2",
     message: ""
   });
+  const [website, setWebsite] = useState("");
   
   const [isPending, startTransition] = useTransition();
   const [formStatus, setFormStatus] = useState<"idle" | "success" | "error">("idle");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (website) return;
     if (!formData.name || !formData.phone) {
       alert("Please fill in your Name and Phone number.");
       return;
@@ -52,31 +55,36 @@ export function TourDetailClient({ tour, relatedTours }: ClientProps) {
 
     setFormStatus("idle");
     
+    const templateParams = {
+      form_type: "Package Booking",
+      name: formData.name || "",
+      phone: formData.phone || "",
+      email: formData.email || "",
+      package: tour.name || "",
+      vehicle: "",
+      dates: formData.travelDate || "",
+      travelers: formData.travelers || "",
+      budget: "",
+      message: formData.message || "",
+    };
+    
     startTransition(async () => {
       try {
-        const response = await fetch("/api/inquiry", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            ...formData,
-            subject: `Inquiry: ${tour.name}`,
-            packageSlug: tour.slug
-          })
+        await emailjs.send(
+          process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+          process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
+          templateParams,
+          process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
+        );
+        setFormStatus("success");
+        setFormData({
+          name: "",
+          phone: "",
+          email: "",
+          travelDate: "",
+          travelers: "2",
+          message: ""
         });
-
-        if (response.ok) {
-          setFormStatus("success");
-          setFormData({
-            name: "",
-            phone: "",
-            email: "",
-            travelDate: "",
-            travelers: "2",
-            message: ""
-          });
-        } else {
-          setFormStatus("error");
-        }
       } catch (err) {
         console.error("Inquiry error:", err);
         setFormStatus("error");
@@ -362,6 +370,15 @@ export function TourDetailClient({ tour, relatedTours }: ClientProps) {
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-4">
+              <input
+                type="text"
+                name="website"
+                value={website}
+                onChange={(e) => setWebsite(e.target.value)}
+                style={{ display: "none" }}
+                tabIndex={-1}
+                autoComplete="off"
+              />
               <div className="space-y-1">
                 <label className="text-[10px] font-accent text-[#D8CFC7]/50 uppercase tracking-wider block">Full Name *</label>
                 <input
