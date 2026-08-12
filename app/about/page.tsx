@@ -7,15 +7,11 @@ import { Shield, Award, Users, Star, Quote, X, ChevronLeft, ChevronRight, ZoomIn
 import { REVIEWS } from "@/data/reviews";
 import { GALLERY_ITEMS } from "@/data/gallery";
 
+import { buildImageUrl, handleImageError } from "@/lib/imageUtils";
+
 const BRASS = "#CF9D7B";
 const COFFEE = "#724B39";
 const GOLD = "#E8B96A";
-
-const IMG = (id: string, w: number, h: number) =>
-  `https://images.unsplash.com/${id}?w=${w}&h=${h}&fit=crop&auto=format&q=85`;
-
-const AVATAR_URL = (id: string) =>
-  `https://images.unsplash.com/${id}?w=80&h=80&fit=crop&auto=format&q=80`;
 
 interface IndexedGalleryItem {
   item: (typeof GALLERY_ITEMS)[0];
@@ -55,12 +51,13 @@ export default function AboutPage() {
       style={{ background: "rgba(58,53,52,0.25)" }}
     >
       <Image
-        src={item.image || IMG(item.unsplashId, 420, item.tall ? 580 : 340)}
+        src={buildImageUrl(item.image || item.unsplashId, 420, item.tall ? 580 : 340)}
         alt={item.caption}
         width={420}
         height={item.tall ? 580 : 340}
         sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
         className="w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.07]"
+        onError={handleImageError}
       />
       <div className="absolute inset-0 bg-gradient-to-t from-[#0C1519]/90 via-[#724B39]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl flex items-end">
         <div className="p-3 w-full flex items-center justify-between">
@@ -237,17 +234,14 @@ export default function AboutPage() {
               transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
               className="flex flex-col w-full group"
             >
-              {/* Photo Frame with bottom merge-fade gradient overlay */}
-              <div className="relative aspect-[3/4] w-full rounded-2xl overflow-hidden shadow-2xl">
+              {/* Photo Frame */}
+              <div className="relative aspect-[3/4] w-full rounded-2xl overflow-hidden shadow-2xl border border-[#CF9D7B]/25">
                 <Image
-                  src="/images/manoj-yadav.webp"
+                  src="/images/manoj-yadav-v2.webp"
                   alt="Manoj Yadav - Founder"
                   fill
                   sizes="(max-width: 1024px) 100vw, 420px"
                   className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
-                />
-                <div 
-                  className="absolute inset-0 bg-gradient-to-t from-[#0C1519] via-[#0C1519]/25 to-transparent pointer-events-none z-10"
                 />
               </div>
               
@@ -271,17 +265,14 @@ export default function AboutPage() {
               transition={{ duration: 0.6, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
               className="flex flex-col w-full group"
             >
-              {/* Photo Frame with bottom merge-fade gradient overlay */}
-              <div className="relative aspect-[3/4] w-full rounded-2xl overflow-hidden shadow-2xl">
+              {/* Photo Frame */}
+              <div className="relative aspect-[3/4] w-full rounded-2xl overflow-hidden shadow-2xl border border-[#CF9D7B]/25">
                 <Image
-                  src="/images/anirudh-yadav.webp"
+                  src="/images/anirudh-yadav-v2.webp"
                   alt="Anirudh Yadav - Next Generation"
                   fill
                   sizes="(max-width: 1024px) 100vw, 420px"
                   className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
-                />
-                <div 
-                  className="absolute inset-0 bg-gradient-to-t from-[#0C1519] via-[#0C1519]/25 to-transparent pointer-events-none z-10"
                 />
               </div>
               
@@ -423,11 +414,12 @@ export default function AboutPage() {
               <div className="mt-5 pt-4 border-t border-white/5 flex items-center justify-between text-[10px] font-mono text-[#D8CFC7]/50">
                 <div className="flex items-center gap-3">
                   <Image
-                    src={AVATAR_URL(rev.avatarId)}
+                    src={buildImageUrl(rev.avatarId, 80, 80)}
                     alt={rev.name}
                     width={32}
                     height={32}
                     className="rounded-full object-cover border border-[#CF9D7B]/30"
+                    onError={handleImageError}
                   />
                   <div>
                     <span className="font-semibold text-white block">{rev.name}</span>
@@ -484,12 +476,13 @@ export default function AboutPage() {
             className="max-w-4xl w-full text-center"
           >
             <Image
-              src={GALLERY_ITEMS[lightbox].image || IMG(GALLERY_ITEMS[lightbox].unsplashId, 1200, 800)}
+              src={buildImageUrl(GALLERY_ITEMS[lightbox].image || GALLERY_ITEMS[lightbox].unsplashId, 1200, 800)}
               alt={GALLERY_ITEMS[lightbox].caption}
               width={1200}
               height={800}
               sizes="(max-width: 1024px) 100vw, 1200px"
               className="max-h-[78vh] w-auto mx-auto rounded-2xl object-contain shadow-2xl border border-[#CF9D7B]/30"
+              onError={handleImageError}
             />
             <p className="text-white text-sm font-display mt-4 tracking-wide font-semibold">{GALLERY_ITEMS[lightbox].caption}</p>
             <p className="text-[#D8CFC7]/50 text-xs font-mono mt-1">{GALLERY_ITEMS[lightbox].location}</p>

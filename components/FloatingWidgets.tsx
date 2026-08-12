@@ -45,10 +45,20 @@ export function FloatingWidgets() {
       setChatOpen((e as CustomEvent).detail.open);
     };
     window.addEventListener("chatbot-state", handleState);
-    return () => window.removeEventListener("chatbot-state", handleState);
+
+    // Listen for chatbot requesting call popup to close
+    const handleCloseCall = () => setShowCall(false);
+    window.addEventListener("close-call-popup", handleCloseCall);
+
+    return () => {
+      window.removeEventListener("chatbot-state", handleState);
+      window.removeEventListener("close-call-popup", handleCloseCall);
+    };
   }, []);
 
   const toggleChat = () => {
+    // Close call popup before opening chatbot
+    setShowCall(false);
     window.dispatchEvent(new CustomEvent("toggle-chatbot"));
   };
 
@@ -93,7 +103,15 @@ export function FloatingWidgets() {
       >
         {/* Phone button (gold with radar pulse glow) */}
         <motion.button
-          onClick={() => setShowCall((p) => !p)}
+          onClick={() => {
+            setShowCall((p) => {
+              if (!p) {
+                // Opening call popup — close chatbot if open
+                window.dispatchEvent(new CustomEvent("close-chatbot"));
+              }
+              return !p;
+            });
+          }}
           className="w-14 h-14 rounded-full flex items-center justify-center shadow-lg cursor-pointer pulse-ring-gold"
           style={{
             background: `linear-gradient(135deg, ${GOLD}, ${BRASS})`,

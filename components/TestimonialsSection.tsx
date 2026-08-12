@@ -7,13 +7,12 @@ import { motion, AnimatePresence, useInView } from "motion/react";
 import { Star, ChevronLeft, ChevronRight, Quote } from "lucide-react";
 import { REVIEWS } from "@/data/reviews";
 
+import { buildImageUrl, handleImageError } from "@/lib/imageUtils";
+
 const BRASS = "#CF9D7B";
 const COFFEE = "#724B39";
 const GOLD = "#E8B96A";
 const IVORY = "#F5F0EA";
-
-const AVATAR_URL = (id: string) =>
-  `https://images.unsplash.com/${id}?w=80&h=80&fit=crop&auto=format&q=80`;
 
 /* Duplicate reviews once for seamless infinite looping */
 const ROW_ITEMS = [...REVIEWS, ...REVIEWS];
@@ -65,7 +64,7 @@ function TestiCard({ review }: { review: (typeof REVIEWS)[0] }) {
         {/* Author details */}
         <div className="flex items-center gap-3">
           <Image
-            src={AVATAR_URL(review.avatarId)}
+            src={buildImageUrl(review.avatarId, 80, 80)}
             alt={review.name}
             width={36}
             height={36}
@@ -77,6 +76,7 @@ function TestiCard({ review }: { review: (typeof REVIEWS)[0] }) {
               backgroundClip: "padding-box, border-box",
               boxShadow: `0 0 10px rgba(207,157,123,0.25)`,
             }}
+            onError={handleImageError}
           />
           <div className="min-w-0">
             <div className="text-white text-xs font-semibold font-display truncate">{review.name}</div>

@@ -7,13 +7,12 @@ import { AnimatePresence, motion } from "motion/react";
 import { X, ChevronLeft, ChevronRight, ZoomIn } from "lucide-react";
 import { GALLERY_ITEMS } from "@/data/gallery";
 
+import { buildImageUrl, handleImageError } from "@/lib/imageUtils";
+
 const BRASS = "#CF9D7B";
 const COFFEE = "#724B39";
 const GOLD = "#E8B96A";
 const IVORY = "#F5F0EA";
-
-const IMG = (id: string, w: number, h: number) =>
-  `https://images.unsplash.com/${id}?w=${w}&h=${h}&fit=crop&auto=format&q=85`;
 
 interface IndexedGalleryItem {
   item: (typeof GALLERY_ITEMS)[0];
@@ -57,12 +56,13 @@ export function GallerySection() {
       style={{ background: "rgba(58,53,52,0.25)" }}
     >
       <Image
-        src={item.image || IMG(item.unsplashId, 420, item.tall ? 580 : 340)}
+        src={buildImageUrl(item.image || item.unsplashId, 420, item.tall ? 580 : 340)}
         alt={item.caption}
         width={420}
         height={item.tall ? 580 : 340}
         sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
         className="w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.07]"
+        onError={handleImageError}
       />
 
       {/* Hover overlay — Chinese Black / Coffee gradient */}
@@ -189,7 +189,7 @@ export function GallerySection() {
               className="max-w-4xl w-full"
             >
               <Image
-                src={GALLERY_ITEMS[lightbox].image || IMG(GALLERY_ITEMS[lightbox].unsplashId, 1200, 800)}
+                src={buildImageUrl(GALLERY_ITEMS[lightbox].image || GALLERY_ITEMS[lightbox].unsplashId, 1200, 800)}
                 alt={GALLERY_ITEMS[lightbox].caption}
                 width={1200}
                 height={800}
@@ -199,6 +199,7 @@ export function GallerySection() {
                   border: `1px solid ${BRASS}30`,
                   boxShadow: `0 0 40px rgba(207,157,123,0.2), 0 20px 60px rgba(0,0,0,0.5)`,
                 }}
+                onError={handleImageError}
               />
               <div className="text-center mt-4">
                 <p className="text-white/60 text-sm font-mono">{GALLERY_ITEMS[lightbox].caption}</p>
