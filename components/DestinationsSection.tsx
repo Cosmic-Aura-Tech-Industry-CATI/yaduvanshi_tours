@@ -7,10 +7,9 @@ import { MapPin, ArrowRight } from "lucide-react";
 import { DESTINATIONS } from "@/data/destinations";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 
-const GOLD = "#C9A84C";
+import { buildImageUrl, handleImageError } from "@/lib/imageUtils";
 
-const IMG = (id: string, w: number, h: number) =>
-  `https://images.unsplash.com/${id}?w=${w}&h=${h}&fit=crop&auto=format&q=85`;
+const GOLD = "#C9A84C";
 
 export function DestinationsSection() {
   return (
@@ -40,11 +39,12 @@ export function DestinationsSection() {
             >
               <Link href={`/destinations/${d.slug}`}>
                 <Image
-                  src={IMG(d.image, 600, i === 0 ? 760 : 360)}
+                  src={buildImageUrl(d.image, 600, i === 0 ? 760 : 360)}
                   alt={d.name}
                   fill
                   sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  onError={handleImageError}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/65 to-transparent" />
                 <div className="absolute bottom-3 left-3 right-3">

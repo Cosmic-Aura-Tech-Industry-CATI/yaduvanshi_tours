@@ -32,11 +32,19 @@ function ToursContent() {
   const [searchQuery, setSearchQuery] = useState("");
   const [priceInput, setPriceInput] = useState<number>(190000);
 
-  // Sync region state with URL search param
+  // Sync filter states with URL search params
   useEffect(() => {
-    const regionParam = searchParams.get("region");
+    const regionParam = searchParams?.get("region");
     if (regionParam) {
       setSelectedRegion(regionParam);
+    }
+    const destinationParam = searchParams?.get("destination");
+    if (destinationParam) {
+      setSearchQuery(destinationParam);
+    }
+    const durationParam = searchParams?.get("duration");
+    if (durationParam) {
+      setSelectedDurations([durationParam]);
     }
   }, [searchParams]);
 
@@ -46,9 +54,13 @@ function ToursContent() {
       // Region Match
       if (selectedRegion !== "all" && tour.region !== selectedRegion) return false;
       
-      // Search Query Match
-      if (searchQuery && !tour.name.toLowerCase().includes(searchQuery.toLowerCase()) && !tour.tagline.toLowerCase().includes(searchQuery.toLowerCase())) {
-        return false;
+      // Search Query Match — also checks destinations array
+      if (searchQuery) {
+        const q = searchQuery.toLowerCase();
+        const nameMatch = tour.name.toLowerCase().includes(q);
+        const taglineMatch = tour.tagline.toLowerCase().includes(q);
+        const destMatch = tour.destinations.some((d) => d.toLowerCase().includes(q));
+        if (!nameMatch && !taglineMatch && !destMatch) return false;
       }
 
       // Duration Match

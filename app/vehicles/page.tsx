@@ -1,12 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo, memo } from "react";
 import { VEHICLES } from "@/data/vehicles";
 import { RentalCard } from "@/components/cards/RentalCard";
 import { WhyOurFleetSection } from "@/components/WhyOurFleetSection";
 import { QuickBookingCTA } from "@/components/QuickBookingCTA";
 import { Info } from "lucide-react";
-import type { RentalType } from "@/types";
+import type { Vehicle, RentalType } from "@/types";
 
 const BRASS = "#CF9D7B";
 const COFFEE = "#724B39";
@@ -14,27 +14,51 @@ const GOLD = "#E8B96A";
 
 const CATEGORIES = ["All", "Hatchback", "Sedan", "SUV", "MPV", "Luxury", "Tempo-Traveller", "Urbania", "Bus"];
 
+// Memoized vehicle grid — only re-renders when filteredVehicles or rentalType change
+const VehicleGrid = memo(function VehicleGrid({
+  vehicles,
+  rentalType,
+}: {
+  vehicles: Vehicle[];
+  rentalType: RentalType;
+}) {
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-10">
+      {vehicles.map((vehicle, idx) => (
+        <RentalCard
+          key={vehicle.slug}
+          vehicle={vehicle}
+          rentalType={rentalType}
+          index={idx}
+        />
+      ))}
+    </div>
+  );
+});
+
 export default function VehiclesPage() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [rentalType, setRentalType] = useState<RentalType>("local");
   const [activeSeats, setActiveSeats] = useState("All");
   const [selfDriveOnly, setSelfDriveOnly] = useState(false);
 
-  const filteredVehicles = VEHICLES.filter((vehicle) => {
-    const matchesCategory =
-      activeCategory === "All" ||
-      vehicle.category.toLowerCase() === activeCategory.toLowerCase();
+  const filteredVehicles = useMemo(() => {
+    return VEHICLES.filter((vehicle) => {
+      const matchesCategory =
+        activeCategory === "All" ||
+        vehicle.category.toLowerCase() === activeCategory.toLowerCase();
 
-    const matchesSeats =
-      activeSeats === "All" ||
-      (activeSeats === "4-5" && vehicle.seats <= 5) ||
-      (activeSeats === "6-7" && vehicle.seats >= 6 && vehicle.seats <= 7) ||
-      (activeSeats === "12+" && vehicle.seats >= 12);
+      const matchesSeats =
+        activeSeats === "All" ||
+        (activeSeats === "4-5" && vehicle.seats <= 5) ||
+        (activeSeats === "6-7" && vehicle.seats >= 6 && vehicle.seats <= 7) ||
+        (activeSeats === "12+" && vehicle.seats >= 12);
 
-    const matchesSelfDrive = !selfDriveOnly || vehicle.selfDriveAvailable;
+      const matchesSelfDrive = !selfDriveOnly || vehicle.selfDriveAvailable;
 
-    return matchesCategory && matchesSeats && matchesSelfDrive;
-  });
+      return matchesCategory && matchesSeats && matchesSelfDrive;
+    });
+  }, [activeCategory, activeSeats, selfDriveOnly]);
 
   return (
     <div className="bg-[#0C1519] min-h-screen pt-28 pb-20 text-[#D8CFC7] overflow-hidden relative">
@@ -164,17 +188,8 @@ export default function VehiclesPage() {
           </div>
         </div>
 
-        {/* Fleet Grid - Positioned immediately below filter row */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-10">
-          {filteredVehicles.map((vehicle, idx) => (
-            <RentalCard
-              key={vehicle.slug}
-              vehicle={vehicle}
-              rentalType={rentalType}
-              index={idx}
-            />
-          ))}
-        </div>
+        {/* Fleet Grid - Memoized component to prevent unnecessary re-renders */}
+        <VehicleGrid vehicles={filteredVehicles} rentalType={rentalType} />
 
         {/* Pricing Guide Callout - Shifted below the fleet grid */}
         <div

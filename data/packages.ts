@@ -11,9 +11,9 @@ export const PACKAGES: TourPackage[] = [
     groupSize: { min: 2, max: 7 },
     image: "/tours/ayodhya-darshan.webp",
     gallery: [
-      "photo-1608958416715-4a5f36e4f35e",
       "photo-1544735716-392fe2489ffa",
-      "photo-1561361513-2d000a50f0db",
+      "photo-1599661046289-e31897846e41",
+      "photo-1605649487212-47bdab064df7",
     ],
     pricePerPerson: 5500, // Starts from per vehicle base
     packagePrice: 5500, // Per vehicle price
@@ -146,9 +146,9 @@ export const PACKAGES: TourPackage[] = [
     groupSize: { min: 2, max: 7 },
     image: "/tours/kashi-vishwanath.webp",
     gallery: [
-      "photo-1561361513-2d000a50f0db",
-      "photo-1590001155093-a3c66ab0c3ff",
       "photo-1605649487212-47bdab064df7",
+      "photo-1590001155093-a3c66ab0c3ff",
+      "photo-1582510003544-4d00b7f74220",
     ],
     pricePerPerson: 10500,
     packagePrice: 10500,
@@ -285,7 +285,7 @@ export const PACKAGES: TourPackage[] = [
     image: "/tours/mahakal-omkareshwar.webp",
     gallery: [
       "photo-1582510003544-4d00b7f74220",
-      "photo-1596701062351-df5f8af54b85",
+      "photo-1599661046289-e31897846e41",
       "photo-1503177119275-0aa32b3a9368",
     ],
     pricePerPerson: 20000,
@@ -585,7 +585,7 @@ export const PACKAGES: TourPackage[] = [
     gallery: [
       "photo-1464822759023-fed622ff2c3b",
       "photo-1544735716-392fe2489ffa",
-      "photo-1596701062351-df5f8af54b85",
+      "photo-1506905925346-21bda4d32df4",
     ],
     pricePerPerson: 140000,
     packagePrice: 140000, // Starts from flat package price for 17-seat Tempo Traveller
