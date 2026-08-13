@@ -6,6 +6,7 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "motion/react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import emailjs from "@emailjs/browser";
 import { z } from "zod";
 import {
   CheckCircle2,
@@ -321,10 +322,10 @@ function InquiryForm() {
   const searchParams = useSearchParams();
 
   /* ── Resolve context from query params ─────────────────────── */
-  const qType = searchParams.get("type");
-  const qPackage = searchParams.get("package");
-  const qVehicle = searchParams.get("vehicle");
-  const qRental = searchParams.get("rental");
+  const qType = searchParams?.get("type");
+  const qPackage = searchParams?.get("package");
+  const qVehicle = searchParams?.get("vehicle");
+  const qRental = searchParams?.get("rental");
 
   // Determine the resolved type
   const resolvedType = qType === "vehicle"
@@ -353,6 +354,8 @@ function InquiryForm() {
   const [direction, setDirection] = useState(1);
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [website, setWebsite] = useState("");
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const {
     register,
@@ -418,24 +421,59 @@ function InquiryForm() {
 
   /* ── Submit ────────────────────────────────────────────────── */
   const onSubmit = async (data: FormData) => {
+    if (website) return;
+
     setSubmitting(true);
-    try {
-      await fetch("/api/inquiry", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...data,
-          timestamp: new Date().toISOString(),
-          source: "inquiry-form-v2",
-        }),
-      });
-    } catch {
-      // Silently handle — we still show success since there's no backend DB
+    setErrorMessage(null);
+
+    let form_type: "Package Booking" | "Wedding Travel" | "Vehicle Rental";
+    if (data.type === "wedding") {
+      form_type = "Wedding Travel";
+    } else if (data.type === "vehicle") {
+      form_type = "Vehicle Rental";
+    } else {
+      form_type = "Package Booking";
     }
-    setSubmitting(false);
-    setDirection(1);
-    setStep(4);
-    setSubmitted(true);
+
+    const pkg = PACKAGES.find((p) => p.slug === data.packageSlug);
+    const packageName = data.type === "tour"
+      ? (pkg ? pkg.title : "")
+      : (data.type === "custom" ? (data.customDestination ? `Custom: ${data.customDestination}` : "") : "");
+
+    const veh = VEHICLES.find((v) => v.slug === data.vehicleSlug);
+    const vehicleName = data.type === "wedding"
+      ? (data.weddingVehicle || (veh ? veh.name : ""))
+      : (data.type === "vehicle" ? (veh ? veh.name : "") : "");
+
+    const templateParams = {
+      form_type,
+      name: data.name || "",
+      phone: data.phone || "",
+      email: data.email || "",
+      package: packageName,
+      vehicle: vehicleName,
+      dates: data.startDate || "",
+      travelers: data.passengers || "",
+      budget: data.budget || "",
+      message: data.notes || "",
+    };
+
+    try {
+      await emailjs.send(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
+        templateParams,
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
+      );
+      setDirection(1);
+      setStep(4);
+      setSubmitted(true);
+    } catch (err) {
+      console.error("EmailJS submission error:", err);
+      setErrorMessage("Failed to send inquiry via email. Please try again or contact us directly.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   /* ── WhatsApp handoff message ──────────────────────────────── */
@@ -580,6 +618,15 @@ function InquiryForm() {
 
             <div className="p-6 sm:p-8 md:p-10">
               <form onSubmit={handleSubmit(onSubmit)}>
+                <input
+                  type="text"
+                  name="website"
+                  value={website}
+                  onChange={(e) => setWebsite(e.target.value)}
+                  style={{ display: "none" }}
+                  tabIndex={-1}
+                  autoComplete="off"
+                />
                 <AnimatePresence mode="wait" custom={direction}>
                   {/* ═══ STEP 1: Category Selection ═══ */}
                   {step === 1 && (
@@ -1126,6 +1173,12 @@ function InquiryForm() {
                     </motion.div>
                   )}
                 </AnimatePresence>
+
+                {errorMessage && (
+                  <div className="p-3 rounded-lg bg-red-950/50 border border-red-500/30 text-red-300 text-xs font-sans mt-4">
+                    {errorMessage}
+                  </div>
+                )}
 
                 {/* ── Navigation buttons ─────────────────────── */}
                 {!submitted && (

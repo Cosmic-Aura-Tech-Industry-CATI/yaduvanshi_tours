@@ -75,13 +75,22 @@ export function Chatbot() {
   // Sync chatbot open state with window events
   useEffect(() => {
     const handleToggle = () => setOpen((o) => !o);
+    const handleClose = () => setOpen(false);
     window.addEventListener("toggle-chatbot", handleToggle);
-    return () => window.removeEventListener("toggle-chatbot", handleToggle);
+    window.addEventListener("close-chatbot", handleClose);
+    return () => {
+      window.removeEventListener("toggle-chatbot", handleToggle);
+      window.removeEventListener("close-chatbot", handleClose);
+    };
   }, []);
 
   // Broadcast state changes so the floating button trigger icon updates
   useEffect(() => {
     window.dispatchEvent(new CustomEvent("chatbot-state", { detail: { open } }));
+    // When chatbot opens, close the call popup
+    if (open) {
+      window.dispatchEvent(new CustomEvent("close-call-popup"));
+    }
   }, [open]);
 
   const send = (text: string) => {

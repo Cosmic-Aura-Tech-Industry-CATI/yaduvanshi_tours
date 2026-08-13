@@ -5,6 +5,8 @@ import Image from "next/image";
 import { motion } from "motion/react";
 import { ArrowRight, Flower2, MessageCircle, Crown } from "lucide-react";
 
+import { buildImageUrl, handleImageError } from "@/lib/imageUtils";
+
 const BRASS = "#CF9D7B";
 const COFFEE = "#724B39";
 const GOLD = "#E8B96A";
@@ -16,11 +18,6 @@ const FEATURES = [
   "Verified, uniformed royal chauffeurs",
   "24/7 dedicated wedding transport desk",
 ];
-
-const resolveImg = (src: string, w: number, h: number) =>
-  src.startsWith("/")
-    ? src
-    : `https://images.unsplash.com/${src}?w=${w}&h=${h}&fit=crop&auto=format&q=85`;
 
 const GALLERY_IMGS = [
   { src: "/weddings/wedding-car-decor-1.webp", alt: "Yaduvanshi Travels - Floral luxury wedding car decor" },
@@ -51,39 +48,43 @@ export function WeddingSection() {
           <div className="grid grid-cols-12 gap-4">
             <div className="col-span-8 rounded-2xl overflow-hidden h-72 sm:h-96 shadow-xl group relative corner-brackets border border-[#CF9D7B]/20 hover:border-[#CF9D7B]/45 transition-colors duration-300">
               <Image
-                src={resolveImg(GALLERY_IMGS[0].src, 750, 550)}
+                src={buildImageUrl(GALLERY_IMGS[0].src, 750, 550)}
                 alt={GALLERY_IMGS[0].alt}
                 fill
                 sizes="(max-width: 1024px) 66vw, 44vw"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                onError={handleImageError}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#0C1519]/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             </div>
             <div className="col-span-4 rounded-2xl overflow-hidden h-40 sm:h-52 self-end shadow-lg group relative glass-panel border border-[#CF9D7B]/20 hover:border-[#CF9D7B]/45 transition-colors duration-300">
               <Image
-                src={resolveImg(GALLERY_IMGS[1].src, 450, 450)}
+                src={buildImageUrl(GALLERY_IMGS[1].src, 450, 450)}
                 alt={GALLERY_IMGS[1].alt}
                 fill
                 sizes="(max-width: 1024px) 33vw, 22vw"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                onError={handleImageError}
               />
             </div>
             <div className="col-span-4 rounded-2xl overflow-hidden h-40 sm:h-52 self-start shadow-lg group relative glass-panel border border-[#CF9D7B]/20 hover:border-[#CF9D7B]/45 transition-colors duration-300">
               <Image
-                src={resolveImg(GALLERY_IMGS[2].src, 450, 450)}
+                src={buildImageUrl(GALLERY_IMGS[2].src, 450, 450)}
                 alt={GALLERY_IMGS[2].alt}
                 fill
                 sizes="(max-width: 1024px) 33vw, 22vw"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                onError={handleImageError}
               />
             </div>
             <div className="col-span-8 rounded-2xl overflow-hidden h-48 sm:h-64 shadow-xl group relative corner-brackets border border-[#CF9D7B]/20 hover:border-[#CF9D7B]/45 transition-colors duration-300">
               <Image
-                src={resolveImg(GALLERY_IMGS[3].src, 750, 500)}
+                src={buildImageUrl(GALLERY_IMGS[3].src, 750, 500)}
                 alt={GALLERY_IMGS[3].alt}
                 fill
                 sizes="(max-width: 1024px) 66vw, 44vw"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                onError={handleImageError}
               />
             </div>
           </div>

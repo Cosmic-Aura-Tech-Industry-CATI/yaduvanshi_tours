@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useMemo } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
 import { motion, AnimatePresence, useScroll, useTransform, useSpring } from "motion/react";
+import { useRouter } from "next/navigation";
 import { Search, MapPin, Calendar as CalendarIcon, Clock, Users, ChevronDown, Minus, Plus, Loader2 } from "lucide-react";
 
 const BRASS = "#CF9D7B";
@@ -17,20 +18,33 @@ const TRUST_STATS = [
   { value: "24/7", label: "Support", emoji: "🛡️" },
 ];
 
-const DESTINATIONS_LIST = [
-  "Kashmir",
-  "Himachal",
-  "Rajasthan",
-  "Kerala",
-  "Goa",
-  "Ladakh",
-  "Nainital",
-  "Agra",
-  "Varanasi",
-  "Munnar",
-  "Kutch",
-  "Gulmarg",
-  "Manali"
+const TOUR_PACKAGES = [
+  { name: "Ayodhya Darshan Tour", slug: "ayodhya-darshan" },
+  { name: "Mathura-Vrindavan Pilgrimage", slug: "mathura-vrindavan" },
+  { name: "Chitrakoot Pilgrimage Tour", slug: "chitrakoot-tour" },
+  { name: "Khatu Shyam Ji - Salasar Balaji", slug: "khatu-shyam-ji" },
+  { name: "Mahakal - Omkareshwar - Bhairav", slug: "mahakal-omkareshwar" },
+  { name: "Kashi Vishwanath & Ganga Aarti", slug: "kashi-vishwanath" },
+  { name: "Prayagraj Sangam Tour", slug: "prayagraj-sangam" },
+  { name: "Haridwar - Rishikesh Spiritual Getaway", slug: "haridwar-rishikesh" },
+  { name: "Nainital Lake Escapade", slug: "nainital-tour" },
+  { name: "Mussoorie - Queen of Hills", slug: "mussoorie-tour" },
+  { name: "Neem Karoli Baba Kainchi Dham", slug: "neem-karoli-kainchi-dham" },
+  { name: "Kullu Manali Valley Explorer", slug: "kullu-manali" },
+  { name: "Shimla Hill Station Retreat", slug: "shimla-tour" },
+  { name: "Vaishno Devi - Gulmarg - Sonmarg", slug: "vaishno-devi" },
+  { name: "Jaipur Royal Pink City Tour", slug: "jaipur-tour" },
+  { name: "Rajasthan Heritage Grand Tour", slug: "rajasthan-heritage" },
+  { name: "Goa Beach & Heritage Tour", slug: "goa-tour" },
+  { name: "Kerala Backwaters & Hills", slug: "kerala-tour" },
+  { name: "Amritsar Golden Temple Tour", slug: "amritsar-wagah" },
+  { name: "Ujjain - Indore Weekend Tour", slug: "ujjain-indore" },
+  { name: "Dwarka - Somnath Pilgrimage", slug: "dwarka-somnath" },
+  { name: "Rameshwaram - Madurai Temple Tour", slug: "rameshwaram-madurai" },
+  { name: "Leh Ladakh Adventure Yatra", slug: "leh-ladakh" },
+  { name: "Mumbai City Showcase", slug: "mumbai-tour" },
+  { name: "Kashmir Paradise Valley Tour", slug: "kashmir-paradise" },
+  { name: "Char Dham Yatra (Uttarakhand)", slug: "char-dham-yatra" },
 ];
 
 const QUICK_DESTS = ["Kashmir", "Himachal", "Rajasthan", "Kerala", "Goa", "Ladakh"];
@@ -181,10 +195,11 @@ export function Hero() {
   }, [prefersReducedMotion]);
 
   // Autocomplete suggestions based on input
-  const filteredDestinations = useMemo(() => {
-    if (!destination) return DESTINATIONS_LIST;
-    return DESTINATIONS_LIST.filter((d) =>
-      d.toLowerCase().includes(destination.toLowerCase())
+  const filteredPackages = useMemo(() => {
+    if (!destination) return TOUR_PACKAGES;
+    const q = destination.toLowerCase();
+    return TOUR_PACKAGES.filter((pkg) =>
+      pkg.name.toLowerCase().includes(q)
     );
   }, [destination]);
 
@@ -276,6 +291,8 @@ export function Hero() {
   };
 
   // Search Action Execution
+  const router = useRouter();
+
   const handleSearchSubmit = () => {
     if (!destination.trim()) {
       setDestError(true);
@@ -285,14 +302,36 @@ export function Hero() {
     }
 
     setIsSearching(true);
+
+    // Check if the user selected an exact tour package
+    const exactMatch = TOUR_PACKAGES.find(
+      (pkg) => pkg.name.toLowerCase() === destination.trim().toLowerCase()
+    );
+
     setTimeout(() => {
       setIsSearching(false);
-      // Smooth scroll target PackagesSection
-      const element = document.getElementById("tours-section");
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth" });
+      if (exactMatch) {
+        // Navigate directly to that package's detail page
+        router.push(`/tours/${exactMatch.slug}`);
+      } else {
+        // General search — navigate to /tours with filter query params
+        const params = new URLSearchParams();
+        params.set("destination", destination.trim());
+
+        // Map duration to the filter range format used by /tours
+        if (duration && duration !== "Auto") {
+          const daysNum = parseInt(duration);
+          if (!isNaN(daysNum)) {
+            if (daysNum <= 2) params.set("duration", "1-2");
+            else if (daysNum <= 4) params.set("duration", "3-4");
+            else if (daysNum <= 7) params.set("duration", "5-7");
+            else params.set("duration", "8+");
+          }
+        }
+
+        router.push(`/tours?${params.toString()}`);
       }
-    }, 850);
+    }, 500);
   };
 
   // Safe horizontal positioning clamping for the Date Calendar
@@ -669,29 +708,29 @@ export function Hero() {
                     position: "absolute",
                     top: destCoords.top,
                     left: destCoords.left,
-                    width: Math.max(destCoords.width, 320),
+                    width: Math.max(destCoords.width, 360),
                   }}
                 >
-                  <ul className="max-h-56 overflow-y-auto py-1 custom-scrollbar text-xs font-sans">
-                    {filteredDestinations.length > 0 ? (
-                      filteredDestinations.map((d) => (
+                  <ul className="max-h-[300px] overflow-y-auto py-1 custom-scrollbar text-xs font-sans">
+                    {filteredPackages.length > 0 ? (
+                      filteredPackages.map((pkg) => (
                         <li
-                          key={d}
+                          key={pkg.slug}
                           onClick={(e) => {
                             e.stopPropagation();
-                            setDestination(d);
+                            setDestination(pkg.name);
                             setActiveDropdown(null);
                           }}
                           className="px-4 py-3 flex items-center gap-3 hover:bg-white/5 text-[#D8CFC7] hover:text-[#E8B96A] cursor-pointer transition-colors"
                         >
                           <MapPin size={13} className="text-[#E8B96A] flex-shrink-0" />
-                          <span className="font-semibold text-white/90">{d}</span>
+                          <span className="font-semibold text-white/90">{pkg.name}</span>
                         </li>
                       ))
                     ) : (
                       <li className="px-4 py-4 text-[#D8CFC7]/40 text-center flex flex-col items-center gap-1.5">
-                        <span>No matches found</span>
-                        <span className="text-[10px] opacity-75">Try searching another destination</span>
+                        <span>No matching packages found</span>
+                        <span className="text-[10px] opacity-75">Try a different destination or package name</span>
                       </li>
                     )}
                   </ul>

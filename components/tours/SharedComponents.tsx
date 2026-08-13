@@ -10,11 +10,10 @@ import { type TourPackage, TOUR_PRICING } from "@/data/tours";
 const GOLD = "#E8B96A";
 const BRASS = "#CF9D7B";
 
-// Image resolver for both local assets and Unsplash CDN keys
-export const resolveImg = (src: string, w: number, h: number) =>
-  src.startsWith("/")
-    ? src
-    : `https://images.unsplash.com/${src}?w=${w}&h=${h}&fit=crop&auto=format&q=85`;
+import { buildImageUrl, handleImageError } from "@/lib/imageUtils";
+
+// Export buildImageUrl as resolveImg for backwards compatibility
+export const resolveImg = (src: string, w: number, h: number) => buildImageUrl(src, w, h);
 
 // Region Badge with premium themed colors
 export function RegionBadge({ region }: { region: TourPackage["region"] }) {
@@ -102,7 +101,7 @@ export function TourCard({ tour }: { tour: TourPackage }) {
           return (
             <Image
               key={img}
-              src={resolveImg(img, 800, 960)}
+              src={buildImageUrl(img, 800, 960)}
               alt={tour.name}
               fill
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
@@ -112,6 +111,7 @@ export function TourCard({ tour }: { tour: TourPackage }) {
                 opacity: isActive ? 1 : 0,
                 zIndex: isActive ? 10 : 0,
               }}
+              onError={handleImageError}
             />
           );
         })}

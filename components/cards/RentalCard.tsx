@@ -110,6 +110,7 @@ export function RentalCard({ vehicle: v, index = 0 }: RentalCardProps) {
           src={v.image}
           alt={v.name}
           fill
+          loading="lazy"
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           className="w-full h-full object-contain transition-transform duration-700 relative z-0"
           style={{ transform: hovered ? "scale(1.05)" : "scale(1)" }}
