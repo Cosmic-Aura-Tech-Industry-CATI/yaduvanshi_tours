@@ -175,7 +175,7 @@ export function Chatbot() {
         lower.includes("where") ||
         lower.includes("kanpur")
       ) {
-        reply = "Our main booking office is located near Ramadevi Chauraha, Kanpur, Uttar Pradesh, India. You can find detailed maps and contact details on our [Contact Us](/contact) page.";
+        reply = "Our main booking office is located at Ramadevi Chauraha, Kanpur, UP. You can find detailed maps and contact details on our [Contact Us](/contact) page.";
       }
 
       if (!reply) {

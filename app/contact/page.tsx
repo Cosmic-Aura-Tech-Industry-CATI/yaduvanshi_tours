@@ -132,7 +132,7 @@ export default function ContactPage() {
             {[
               {
                 title: "Headquarters (Kanpur Office)",
-                address: "Ramadevi Chauraha, Kanpur, Uttar Pradesh, India",
+                address: "Ramadevi Chauraha, Kanpur, UP",
                 phone: "+91 81279 29551",
                 email: "manojyadav20101993@gmail.com",
                 hours: "9:00 AM – 9:00 PM (Daily)",
@@ -197,6 +197,34 @@ export default function ContactPage() {
                     <Navigation size={12} className="animate-pulse" /> Get Directions
                   </a>
                 </div>
+
+                {/* Embedded Google Map */}
+                <motion.div
+                  initial={{ opacity: 0, y: 15 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, ease: "easeOut" }}
+                  className="pt-3 w-full"
+                >
+                  <div
+                    className="w-full h-[380px] rounded-xl overflow-hidden border relative"
+                    style={{
+                      borderColor: "rgba(207, 157, 123, 0.25)",
+                      boxShadow: "0 8px 32px rgba(0, 0, 0, 0.36), 0 0 20px rgba(232, 185, 106, 0.1)",
+                    }}
+                  >
+                    <iframe
+                      src="https://www.google.com/maps?q=Rudra+Tour+%26+Travels,26.3899338,80.3581066&output=embed"
+                      width="100%"
+                      height="100%"
+                      style={{ border: 0 }}
+                      allowFullScreen
+                      loading="lazy"
+                      referrerPolicy="no-referrer-when-downgrade"
+                      title="Rudra Tour & Travels Location"
+                    />
+                  </div>
+                </motion.div>
               </div>
             ))}
           </div>
