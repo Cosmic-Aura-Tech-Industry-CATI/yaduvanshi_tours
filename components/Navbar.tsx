@@ -24,7 +24,7 @@ const INFO_ITEMS = [
   { icon: Phone,         text: "+91 81279 29551",              href: "tel:+918127929551"                  },
   { icon: WhatsAppIcon,  text: "+91 81279 29551",              href: "https://wa.me/918127929551"         },
   { icon: Mail,          text: "manojyadav20101993@gmail.com", href: "mailto:manojyadav20101993@gmail.com" },
-  { icon: MapPin,        text: "Kanpur, UP",                  href: null                                 },
+  { icon: MapPin,        text: "Ramadevi Chauraha, Kanpur, UP", href: null                                 },
 ];
 
 const NAV_LINKS = [

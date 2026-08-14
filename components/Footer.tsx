@@ -156,7 +156,7 @@ export function Footer() {
               {[
                 { Icon: Phone,  text: "+91 81279 29551" },
                 { Icon: Mail,   text: "manojyadav20101993@gmail.com" },
-                { Icon: MapPin, text: "Kanpur, Uttar Pradesh, India" },
+                { Icon: MapPin, text: "Ramadevi Chauraha, Kanpur, UP" },
               ].map(({ Icon, text }) => (
                 <div key={text} className="flex items-start gap-2 text-[#D8CFC7]/50 text-xs">
                   <Icon size={13} className="mt-0.5 flex-shrink-0" style={{ color: BRASS }} />

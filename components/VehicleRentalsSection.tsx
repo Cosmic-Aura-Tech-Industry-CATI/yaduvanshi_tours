@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "motion/react";
 import { ArrowRight } from "lucide-react";
 import { VEHICLES } from "@/data/vehicles";
@@ -32,10 +33,15 @@ export function VehicleRentalsSection() {
       {/* ── Hero Header ── */}
       <section className="relative pt-28 sm:pt-32 md:pt-40 pb-12 md:pb-16 min-h-[280px] sm:min-h-[320px] md:min-h-[420px] flex flex-col justify-end px-6 lg:px-12 overflow-hidden z-10" style={{ background: "#0C1519" }}>
         {/* Hero Background Image - High Visibility */}
-        <div 
-          className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-85"
-          style={{ backgroundImage: "url('/images/vehicle-hero-bg.webp')" }}
-        />
+        <div className="absolute inset-0 z-0 opacity-85">
+          <Image
+            src="/images/vehicle-hero-bg.webp"
+            alt="Vehicle Rentals Background"
+            fill
+            sizes="100vw"
+            className="object-cover object-center"
+          />
+        </div>
         
         {/* Balanced gradient overlay for maximum car visibility without text glare */}
         <div 

@@ -194,7 +194,7 @@ export default function AboutPage() {
                 From comfortable local transportation to complete holiday packages, pilgrimage tours, family vacations, group tours, vehicle rentals, and customized travel planning, we make every journey smooth from the beginning until the end. Our focus is always on providing clean vehicles, reliable service, transparent pricing, and friendly customer support.
               </p>
               <p>
-                Although our business is operated from our home, we proudly serve travelers across Kanpur and nearby regions. For the convenience of our customers, our service location is near Ramadevi Chauraha, Kanpur, Uttar Pradesh, making it easy for travelers to connect with us whenever they need assistance.
+                Although our business is operated from our home, we proudly serve travelers across Kanpur and nearby regions. For the convenience of our customers, our service location is Ramadevi Chauraha, Kanpur, UP, making it easy for travelers to connect with us whenever they need assistance.
               </p>
               <p>
                 As the years passed, our family business continued to grow with the support and trust of our customers. Today, the next generation, including Anirudh Yadav, is also contributing to the business by bringing fresh ideas while continuing the values and dedication on which Yaduvanshi Tours & Travels was built.

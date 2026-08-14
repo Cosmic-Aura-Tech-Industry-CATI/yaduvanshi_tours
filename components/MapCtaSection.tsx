@@ -427,11 +427,10 @@ export function MapCtaSection() {
                     if (!coords) return null;
                     const [cx, cy] = coords;
                     const mapsUrl = "https://maps.app.goo.gl/7DFN9oMZv8Uixd466";
-                    const lx = 160;
+                    const lx = 120;
                     const ly = 240;
-                    const labelWidth = 156;
+                    const labelWidth = 220;
                     const labelHeight = 18;
-
                     return (
                       <a
                         href={mapsUrl}
@@ -500,7 +499,7 @@ export function MapCtaSection() {
                         {/* Office Label - moved outside the map graphic as a callout box */}
                         <g className="transition-all duration-300">
                           {(() => {
-                            const labelText = "KANPUR, UP — OUR OFFICE";
+                            const labelText = "RAMADEVI CHAURAHA, KANPUR, UP — OUR OFFICE";
                             return (
                               <g>
                                 <rect
