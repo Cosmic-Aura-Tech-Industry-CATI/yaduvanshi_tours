@@ -210,12 +210,16 @@ export default function WeddingsPage() {
       {/* Immersive Header / Hero with Full-Bleed Background Image */}
       <section className="relative py-28 md:py-36 px-6 lg:px-12 overflow-hidden z-10 text-center flex items-center justify-center min-h-[400px] md:min-h-[500px]">
         {/* Full-Bleed Background Image — Yaduvanshi Branded Wedding Car */}
-        <div 
-          className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-80"
-          style={{
-            backgroundImage: "url('/weddings/yaduvanshi-wedding-car.webp')",
-          }}
-        />
+        <div className="absolute inset-0 z-0 opacity-80">
+          <Image
+            src="/weddings/yaduvanshi-wedding-car.webp"
+            alt="Yaduvanshi Branded Wedding Car"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-center"
+          />
+        </div>
         {/* Balanced gradient overlay — lets the car shine through while keeping text legible */}
         <div 
           className="absolute inset-0 z-10 bg-gradient-to-b from-[#0C1519]/55 via-[#0C1519]/40 to-[#0C1519]"
