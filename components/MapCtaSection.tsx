@@ -426,7 +426,7 @@ export function MapCtaSection() {
                     const coords = projection([80.3319, 26.4499]); // Kanpur, UP coordinates
                     if (!coords) return null;
                     const [cx, cy] = coords;
-                    const mapsUrl = "https://maps.app.goo.gl/7DFN9oMZv8Uixd466";
+                    const mapsUrl = "https://maps.app.goo.gl/CbiQsrW5uPdcPUE59";
                     const lx = 120;
                     const ly = 240;
                     const labelWidth = 220;

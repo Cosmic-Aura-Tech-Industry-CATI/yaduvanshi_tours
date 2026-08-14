@@ -136,7 +136,7 @@ export default function ContactPage() {
                 phone: "+91 81279 29551",
                 email: "manojyadav20101993@gmail.com",
                 hours: "9:00 AM – 9:00 PM (Daily)",
-                mapsUrl: "https://maps.app.goo.gl/7DFN9oMZv8Uixd466",
+                mapsUrl: "https://www.google.com/maps/place/Rama+Devi+Chauraha,+Jajmau+Sub+Metro+City,+Kanpur,+Uttar+Pradesh+208007/@26.4115254,80.3867627,17z/data=!4m6!3m5!1s0x399c413d6d4c2ad9:0x51d8569068c3e80b!8m2!3d26.4115254!4d80.3867627!16s%2Fg%2F11csdc1rl6",
               },
             ].map((branch, idx) => (
               <div 
@@ -214,14 +214,14 @@ export default function ContactPage() {
                     }}
                   >
                     <iframe
-                      src="https://www.google.com/maps?q=Rudra+Tour+%26+Travels,26.3899338,80.3581066&output=embed"
+                      src="https://www.google.com/maps?q=26.4115254,80.3867627&z=16&output=embed"
                       width="100%"
                       height="100%"
                       style={{ border: 0 }}
                       allowFullScreen
                       loading="lazy"
                       referrerPolicy="no-referrer-when-downgrade"
-                      title="Rudra Tour & Travels Location"
+                      title="Ramadevi Chauraha, Kanpur Location"
                     />
                   </div>
                 </motion.div>
