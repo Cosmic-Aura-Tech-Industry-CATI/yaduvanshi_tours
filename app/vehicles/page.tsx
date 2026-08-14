@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo, memo } from "react";
+import Image from "next/image";
 import { VEHICLES } from "@/data/vehicles";
 import { RentalCard } from "@/components/cards/RentalCard";
 import { WhyOurFleetSection } from "@/components/WhyOurFleetSection";
@@ -71,10 +72,16 @@ export default function VehiclesPage() {
       {/* Header / Hero */}
       <section className="relative py-24 md:py-32 px-6 lg:px-12 overflow-hidden z-10 text-center flex items-center justify-center">
         {/* Hero Background Image - High Visibility */}
-        <div
-          className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-85"
-          style={{ backgroundImage: "url('/images/vehicle-hero-bg.webp')" }}
-        />
+        <div className="absolute inset-0 z-0 opacity-85">
+          <Image
+            src="/images/vehicle-hero-bg.webp"
+            alt="Vehicle Rentals Hero Background"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-center"
+          />
+        </div>
 
         {/* Balanced gradient overlay for maximum car visibility without text glare */}
         <div
