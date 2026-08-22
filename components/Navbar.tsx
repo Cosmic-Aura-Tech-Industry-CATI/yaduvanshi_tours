@@ -59,25 +59,29 @@ function MagneticBtn({ children, href }: { children: React.ReactNode; href: stri
   const handleLeave = useCallback(() => { mx.set(0); my.set(0); }, [mx, my]);
 
   return (
-    <motion.a
-      ref={ref}
-      href={href}
+    <motion.div
       style={{ x: mx, y: my }}
       onMouseMove={handleMove}
       onMouseLeave={handleLeave}
-      className="hidden lg:flex items-center gap-2 px-6 py-2.5 text-xs font-bold font-accent tracking-widest rounded-full cursor-pointer select-none btn-glow relative overflow-hidden text-[#0C1519]"
+      className="hidden lg:flex"
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
     >
-      <span className="relative z-10 flex items-center gap-2" style={{ color: "#0C1519" }}>
-        {children}
-      </span>
-      {/* Solid gold fill */}
-      <span
-        className="absolute inset-0 rounded-full"
-        style={{ background: GOLD }}
-      />
-    </motion.a>
+      <Link
+        ref={ref}
+        href={href}
+        className="flex items-center gap-2 px-6 py-2.5 text-xs font-bold font-accent tracking-widest rounded-full cursor-pointer select-none btn-glow relative overflow-hidden text-[#0C1519]"
+      >
+        <span className="relative z-10 flex items-center gap-2" style={{ color: "#0C1519" }}>
+          {children}
+        </span>
+        {/* Solid gold fill */}
+        <span
+          className="absolute inset-0 rounded-full"
+          style={{ background: GOLD }}
+        />
+      </Link>
+    </motion.div>
   );
 }
 
