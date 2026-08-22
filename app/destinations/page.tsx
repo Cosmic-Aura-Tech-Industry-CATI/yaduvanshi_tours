@@ -1,9 +1,17 @@
-"use client";
-
+import type { Metadata } from "next";
 import { IllustratedMap } from "@/components/IllustratedMap";
 import { PACKAGES } from "@/data/packages";
 import Link from "next/link";
 import { ArrowRight, MapPin } from "lucide-react";
+
+export const metadata: Metadata = {
+  title: "Top Destinations & Sacred Pilgrimage Circuits",
+  description: "Explore interactive maps and vetted travel itineraries across Ayodhya, Kashi, Char Dham, Mathura, Kashmir, Himachal, and Rajasthan.",
+  openGraph: {
+    title: "Top Destinations | Yaduvanshi Tours & Travels",
+    description: "Interactive guide to India's sacred paths and hill stations.",
+  },
+};
 
 const BRASS = "#CF9D7B";
 const COFFEE = "#724B39";

@@ -16,15 +16,15 @@ import { buildImageUrl, handleImageError } from "@/lib/imageUtils";
 export const resolveImg = (src: string, w: number, h: number) => buildImageUrl(src, w, h);
 
 // Region Badge with premium themed colors
-export function RegionBadge({ region }: { region: TourPackage["region"] }) {
-  const configs = {
+export function RegionBadge({ region }: { region?: string }) {
+  const configs: Record<string, { bg: string; border: string; text: string; label: string }> = {
     pilgrimage: { bg: "rgba(224,130,38,0.12)", border: "rgba(224,130,38,0.3)", text: "#E08226", label: "Pilgrimage" },
     north: { bg: "rgba(14,116,144,0.12)", border: "rgba(14,116,144,0.3)", text: "#0E7490", label: "North India" },
     west: { bg: "rgba(217,119,6,0.12)", border: "rgba(217,119,6,0.3)", text: "#D97706", label: "West India" },
     south: { bg: "rgba(22,163,74,0.12)", border: "rgba(22,163,74,0.3)", text: "#16A34A", label: "South India" },
   };
 
-  const current = configs[region] || configs.north;
+  const current = (region && configs[region]) ? configs[region] : configs.north;
 
   return (
     <span 

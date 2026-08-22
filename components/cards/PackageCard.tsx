@@ -6,24 +6,12 @@ import Image from "next/image";
 import { motion } from "motion/react";
 import { MapPin, Clock, Users, ArrowRight, Heart } from "lucide-react";
 import type { TourPackage } from "@/types";
-
+import { TOUR_PRICING } from "@/data/tours";
 import { buildImageUrl, handleImageError } from "@/lib/imageUtils";
 
 const BRASS = "#CF9D7B";
 const GOLD = "#E8B96A";
 const IVORY = "#F5F0EA";
-
-// Pricing data per spec
-const PKG_PRICING: Record<string, { fiveSeater?: string; sevenSeater?: string; special?: { label: string; price: string }[] }> = {
-  "ayodhya-darshan":        { fiveSeater: "₹5,500–6,200",  sevenSeater: "₹7,500–8,200" },
-  "mathura-vrindavan":      { fiveSeater: "₹11,000–11,700", sevenSeater: "₹15,000–15,700" },
-  "kashi-vishwanath":       { fiveSeater: "₹10,500–11,200", sevenSeater: "₹12,500–13,200" },
-  "neem-karoli-kainchi-dham": { fiveSeater: "₹11,500–13,000", sevenSeater: "₹14,500–16,500" },
-  "mahakal-omkareshwar":    { fiveSeater: "₹20,000–21,000", sevenSeater: "₹26,000–27,000" },
-  "kullu-manali":           { fiveSeater: "₹32,000–33,800", sevenSeater: "₹42,000–43,800" },
-  "vaishno-devi-kashmir":   { fiveSeater: "₹40,000–43,500", sevenSeater: "₹50,000–53,500" },
-  "char-dham-yatra":        { special: [{ label: "17-Seater Tempo", price: "₹1,40,000" }, { label: "26-Seater Bus", price: "₹1,90,000" }] },
-};
 
 interface PackageCardProps {
   pkg: TourPackage;
@@ -33,7 +21,7 @@ interface PackageCardProps {
 export function PackageCard({ pkg, index = 0 }: PackageCardProps) {
   const [liked, setLiked] = useState(false);
   const [hovered, setHovered] = useState(false);
-  const pricing = PKG_PRICING[pkg.slug];
+  const pricing = TOUR_PRICING[pkg.slug] || (pkg.startingPrice ? { fiveSeater: `₹${pkg.startingPrice.toLocaleString("en-IN")}` } : undefined);
 
   return (
     <motion.div
