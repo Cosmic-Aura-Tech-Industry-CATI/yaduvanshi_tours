@@ -1,35 +1,45 @@
 // ─── Core data types for Yaduvanshi Tours ────────────────────────────────────
 
+export interface TourItineraryDay {
+  day: number;
+  title: string;
+  description: string;
+  meals?: ("Breakfast" | "Lunch" | "Dinner")[];
+  accommodation?: string;
+}
+
+export type ItineraryDay = TourItineraryDay;
+
 export interface TourPackage {
   slug: string;
-  title: string;
-  subtitle: string;
-  category: "mountains" | "beach" | "heritage" | "wildlife" | "spiritual";
-  destinations: string[];          // ["Shimla", "Manali", "Solang Valley"]
+  name: string;
+  title: string;                   // Guaranteed alias for name
+  subtitle: string;                // Subtitle / tagline
+  tagline: string;                 // Short punchy phrase
+  description: string;             // Detailed description
+  category: "mountains" | "beach" | "heritage" | "wildlife" | "spiritual" | string;
+  region: "pilgrimage" | "north" | "west" | "south" | string;
+  destinations: string[];          // ["Ayodhya", "Hanuman Garhi", "Saryu River"]
+  durationDays: number;
   duration: { days: number; nights: number };
   groupSize: { min: number; max: number };
-  image: string;                   // Main photo URL / ID
-  images?: string[];               // Array of 3 WebP image paths for auto-rotating carousel
-  gallery: string[];               // Additional Unsplash IDs
+  image: string;                   // Main photo URL / path
+  images?: string[];               // Array of WebP image paths
+  gallery: string[];               // Additional image paths or IDs
+  startingPrice: number;           // INR starting price
   pricePerPerson: number;          // INR
   packagePrice: number;            // INR (group base price)
+  pricingType?: "per-vehicle" | "fixed-fleet";
   rating: number;                  // 1–5
-  reviewCount: number;
+  reviewsCount: number;
+  reviewCount: number;             // Alias for reviewsCount
   popular: boolean;
   wishlistCount: number;
   highlights: string[];
   inclusions: string[];
   exclusions: string[];
-  itinerary: ItineraryDay[];
+  itinerary: TourItineraryDay[];
   faqs: FAQ[];
-}
-
-export interface ItineraryDay {
-  day: number;
-  title: string;
-  description: string;
-  meals: ("Breakfast" | "Lunch" | "Dinner")[];
-  accommodation: string;
 }
 
 // ─── Vehicle / Rental ─────────────────────────────────────────────────────────

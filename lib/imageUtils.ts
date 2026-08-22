@@ -1,4 +1,4 @@
-export const DEFAULT_FALLBACK_IMAGE = "https://source.unsplash.com/random/80x80?profile";
+export const DEFAULT_FALLBACK_IMAGE = "https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=600&auto=format&fit=crop&q=80";
 
 const BROKEN_UNSPLASH_IDS: Record<string, string> = {
   "photo-1608958416715-4a5f36e4f35e": "photo-1544735716-392fe2489ffa",
