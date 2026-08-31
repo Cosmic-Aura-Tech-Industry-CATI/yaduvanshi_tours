@@ -3,7 +3,6 @@
 import { useState, useTransition } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "motion/react";
-import emailjs from "@emailjs/browser";
 import { 
   MapPin, Star, Check, X, 
   ChevronDown, Send, Loader2, Info
@@ -55,36 +54,44 @@ export function TourDetailClient({ tour, relatedTours }: ClientProps) {
 
     setFormStatus("idle");
     
-    const templateParams = {
-      form_type: "Package Booking",
-      name: formData.name || "",
-      phone: formData.phone || "",
-      email: formData.email || "",
-      package: tour.name || "",
-      vehicle: "",
-      dates: formData.travelDate || "",
-      travelers: formData.travelers || "",
-      budget: "",
-      message: formData.message || "",
+    const payload = {
+      type: "tour",
+      packageSlug: tour.slug,
+      packageName: tour.name,
+      startDate: formData.travelDate || "Flexible / Not decided",
+      passengers: formData.travelers || "2",
+      name: formData.name,
+      phone: formData.phone,
+      email: formData.email || undefined,
+      notes: formData.message,
+      website,
     };
     
     startTransition(async () => {
       try {
-        await emailjs.send(
-          process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
-          process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
-          templateParams,
-          process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
-        );
-        setFormStatus("success");
-        setFormData({
-          name: "",
-          phone: "",
-          email: "",
-          travelDate: "",
-          travelers: "2",
-          message: ""
+        const response = await fetch("/api/inquiry", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
         });
+
+        const result = await response.json();
+
+        if (response.ok && result.success) {
+          setFormStatus("success");
+          setFormData({
+            name: "",
+            phone: "",
+            email: "",
+            travelDate: "",
+            travelers: "2",
+            message: ""
+          });
+        } else {
+          setFormStatus("error");
+        }
       } catch (err) {
         console.error("Inquiry error:", err);
         setFormStatus("error");

@@ -6,7 +6,6 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "motion/react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import emailjs from "@emailjs/browser";
 import { z } from "zod";
 import {
   CheckCircle2,
@@ -354,6 +353,7 @@ function InquiryForm() {
   const [direction, setDirection] = useState(1);
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [inquiryId, setInquiryId] = useState<string | null>(null);
   const [website, setWebsite] = useState("");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -426,51 +426,62 @@ function InquiryForm() {
     setSubmitting(true);
     setErrorMessage(null);
 
-    let form_type: "Package Booking" | "Wedding Travel" | "Vehicle Rental";
-    if (data.type === "wedding") {
-      form_type = "Wedding Travel";
-    } else if (data.type === "vehicle") {
-      form_type = "Vehicle Rental";
-    } else {
-      form_type = "Package Booking";
-    }
-
     const pkg = PACKAGES.find((p) => p.slug === data.packageSlug);
     const packageName = data.type === "tour"
-      ? (pkg ? pkg.title : "")
+      ? (pkg ? pkg.title : data.packageSlug)
       : (data.type === "custom" ? (data.customDestination ? `Custom: ${data.customDestination}` : "") : "");
 
     const veh = VEHICLES.find((v) => v.slug === data.vehicleSlug);
     const vehicleName = data.type === "wedding"
       ? (data.weddingVehicle || (veh ? veh.name : ""))
-      : (data.type === "vehicle" ? (veh ? veh.name : "") : "");
+      : (data.type === "vehicle" ? (veh ? veh.name : data.vehicleSlug) : "");
 
-    const templateParams = {
-      form_type,
-      name: data.name || "",
-      phone: data.phone || "",
-      email: data.email || "",
-      package: packageName,
-      vehicle: vehicleName,
-      dates: data.startDate || "",
-      travelers: data.passengers || "",
-      budget: data.budget || "",
-      message: data.notes || "",
+    const payload = {
+      type: data.type,
+      packageSlug: data.packageSlug,
+      packageName,
+      vehicleSlug: data.vehicleSlug,
+      vehicleName,
+      rentalType: data.rentalType,
+      weddingVehicle: data.weddingVehicle,
+      guestShuttle: data.guestShuttle,
+      customDestination: data.customDestination,
+      startDate: data.startDate,
+      passengers: data.passengers,
+      budget: data.budget,
+      name: data.name,
+      phone: data.phone,
+      email: data.email || undefined,
+      notes: data.notes,
+      website,
     };
 
     try {
-      await emailjs.send(
-        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
-        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
-        templateParams,
-        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
-      );
-      setDirection(1);
-      setStep(4);
-      setSubmitted(true);
+      const response = await fetch("/api/inquiry", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const result = await response.json();
+
+      if (response.ok && result.success) {
+        setInquiryId(result.inquiryId || null);
+        setDirection(1);
+        setStep(4);
+        setSubmitted(true);
+      } else {
+        setErrorMessage(
+          result.message || "We couldn't submit your inquiry right now. Please try again or contact us directly by phone or WhatsApp."
+        );
+      }
     } catch (err) {
-      console.error("EmailJS submission error:", err);
-      setErrorMessage("Failed to send inquiry via email. Please try again or contact us directly.");
+      console.error("Inquiry submission error:", err);
+      setErrorMessage(
+        "We couldn't submit your inquiry right now. Please check your connection or contact us directly on WhatsApp or phone."
+      );
     } finally {
       setSubmitting(false);
     }
@@ -484,6 +495,7 @@ function InquiryForm() {
     const pkg = PACKAGES.find((p) => p.slug === v.packageSlug);
     const veh = VEHICLES.find((ve) => ve.slug === v.vehicleSlug);
     let details = `Hi Yaduvanshi Tours and Travels! I just submitted an inquiry:\n\n`;
+    if (inquiryId) details += `🔖 Reference: ${inquiryId}\n`;
     details += `📌 Type: ${typeLabel}\n`;
     if (v.type === "tour" && pkg) details += `📦 Package: ${pkg.title}\n`;
     if ((v.type === "vehicle" || v.type === "tour") && veh) details += `🚗 Vehicle: ${veh.name}\n`;
@@ -1111,6 +1123,12 @@ function InquiryForm() {
                           <Sparkles size={10} style={{ color: GOLD }} /> Booking Summary
                         </div>
                         <div className="space-y-1.5 text-xs">
+                          {inquiryId && (
+                            <div className="flex justify-between pb-1 border-b border-white/[0.06]">
+                              <span className="text-[#D8CFC7]/50">Reference ID</span>
+                              <span className="text-[#E8B96A] font-mono font-semibold">{inquiryId}</span>
+                            </div>
+                          )}
                           <div className="flex justify-between">
                             <span className="text-[#D8CFC7]/50">Type</span>
                             <span className="text-white font-medium">
