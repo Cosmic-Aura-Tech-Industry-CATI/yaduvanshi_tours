@@ -19,7 +19,7 @@ const FEATURED_SLUGS = [
   "ayodhya-darshan",
   "mathura-vrindavan",
   "kashi-vishwanath",
-  "neem-karoli-baba",
+  "neem-karoli-kainchi-dham",
   "mahakal-omkareshwar",
   "char-dham-yatra",
 ];
@@ -28,13 +28,19 @@ export function PackagesSection() {
   const [pkgFilter, setPkgFilter] = useState("All");
 
   const featuredPkgs = FEATURED_SLUGS.map((slug) =>
-    PACKAGES.find((p) => p.slug === slug)
+    PACKAGES.find((p) => p.slug === slug || (slug === "neem-karoli-baba" && p.slug === "neem-karoli-kainchi-dham"))
   ).filter(Boolean) as typeof PACKAGES;
 
   const filteredPkgs =
     pkgFilter === "All"
       ? featuredPkgs
-      : featuredPkgs.filter((p) => p.category === pkgFilter.toLowerCase());
+      : featuredPkgs.filter((p) => {
+          const filterLower = pkgFilter.toLowerCase();
+          const cat = (p.category || p.region || "").toLowerCase();
+          if (filterLower === "spiritual" && (cat === "spiritual" || cat === "pilgrimage")) return true;
+          if (filterLower === "mountains" && (cat === "mountains" || cat === "north")) return true;
+          return cat === filterLower;
+        });
 
   return (
     <div id="tours-section">

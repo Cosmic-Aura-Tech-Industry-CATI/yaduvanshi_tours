@@ -6,6 +6,7 @@ import Link from "next/link";
 import { motion, AnimatePresence, useScroll, useTransform, useSpring } from "motion/react";
 import { useRouter } from "next/navigation";
 import { Search, MapPin, Calendar as CalendarIcon, Clock, Users, ChevronDown, Minus, Plus, Loader2 } from "lucide-react";
+import { TOURS_DATA } from "@/data/tours";
 
 const BRASS = "#CF9D7B";
 const COFFEE = "#724B39";
@@ -18,34 +19,7 @@ const TRUST_STATS = [
   { value: "24/7", label: "Support", emoji: "🛡️" },
 ];
 
-const TOUR_PACKAGES = [
-  { name: "Ayodhya Darshan Tour", slug: "ayodhya-darshan" },
-  { name: "Mathura-Vrindavan Pilgrimage", slug: "mathura-vrindavan" },
-  { name: "Chitrakoot Pilgrimage Tour", slug: "chitrakoot-tour" },
-  { name: "Khatu Shyam Ji - Salasar Balaji", slug: "khatu-shyam-ji" },
-  { name: "Mahakal - Omkareshwar - Bhairav", slug: "mahakal-omkareshwar" },
-  { name: "Kashi Vishwanath & Ganga Aarti", slug: "kashi-vishwanath" },
-  { name: "Prayagraj Sangam Tour", slug: "prayagraj-sangam" },
-  { name: "Haridwar - Rishikesh Spiritual Getaway", slug: "haridwar-rishikesh" },
-  { name: "Nainital Lake Escapade", slug: "nainital-tour" },
-  { name: "Mussoorie - Queen of Hills", slug: "mussoorie-tour" },
-  { name: "Neem Karoli Baba Kainchi Dham", slug: "neem-karoli-kainchi-dham" },
-  { name: "Kullu Manali Valley Explorer", slug: "kullu-manali" },
-  { name: "Shimla Hill Station Retreat", slug: "shimla-tour" },
-  { name: "Vaishno Devi - Gulmarg - Sonmarg", slug: "vaishno-devi" },
-  { name: "Jaipur Royal Pink City Tour", slug: "jaipur-tour" },
-  { name: "Rajasthan Heritage Grand Tour", slug: "rajasthan-heritage" },
-  { name: "Goa Beach & Heritage Tour", slug: "goa-tour" },
-  { name: "Kerala Backwaters & Hills", slug: "kerala-tour" },
-  { name: "Amritsar Golden Temple Tour", slug: "amritsar-wagah" },
-  { name: "Ujjain - Indore Weekend Tour", slug: "ujjain-indore" },
-  { name: "Dwarka - Somnath Pilgrimage", slug: "dwarka-somnath" },
-  { name: "Rameshwaram - Madurai Temple Tour", slug: "rameshwaram-madurai" },
-  { name: "Leh Ladakh Adventure Yatra", slug: "leh-ladakh" },
-  { name: "Mumbai City Showcase", slug: "mumbai-tour" },
-  { name: "Kashmir Paradise Valley Tour", slug: "kashmir-paradise" },
-  { name: "Char Dham Yatra (Uttarakhand)", slug: "char-dham-yatra" },
-];
+const TOUR_PACKAGES = TOURS_DATA.map((t) => ({ name: t.name, slug: t.slug }));
 
 const QUICK_DESTS = ["Kashmir", "Himachal", "Rajasthan", "Kerala", "Goa", "Ladakh"];
 
@@ -86,9 +60,9 @@ export function Hero() {
   // Dropdown UI states: "dest" | "date" | "duration" | "trav" | null
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
 
-  // Custom Calendar state (initialized to July 2026 based on current metadata date)
-  const [calMonth, setCalMonth] = useState(6); // July
-  const [calYear, setCalYear] = useState(2026);
+  // Custom Calendar state (initialized dynamically to current month & year)
+  const [calMonth, setCalMonth] = useState(() => new Date().getMonth());
+  const [calYear, setCalYear] = useState(() => new Date().getFullYear());
 
   // Match viewport size for video sources
   useEffect(() => {

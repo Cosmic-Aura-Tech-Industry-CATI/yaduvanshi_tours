@@ -1,14 +1,12 @@
-export interface TourItineraryDay {
-  day: number;
-  title: string;
-  description: string;
-}
+import type { TourPackage, TourItineraryDay, FAQ } from "@/types";
 
-export interface TourPackage {
+export type { TourPackage, TourItineraryDay };
+
+interface RawTour {
   slug: string;
   name: string;
   durationDays: number;
-  region: "pilgrimage" | "north" | "west" | "south";
+  region: "pilgrimage" | "north" | "west" | "south" | string;
   startingPrice: number;
   pricingType: "per-vehicle" | "fixed-fleet";
   tagline: string;
@@ -23,7 +21,7 @@ export interface TourPackage {
   itinerary: TourItineraryDay[];
 }
 
-export const TOURS_DATA: TourPackage[] = [
+const RAW_TOURS: RawTour[] = [
   {
     slug: "ayodhya-darshan",
     name: "Ayodhya Darshan Tour",
@@ -627,6 +625,38 @@ export const TOURS_DATA: TourPackage[] = [
     ]
   }
 ];
+
+export const TOURS_DATA: TourPackage[] = RAW_TOURS.map((tour) => ({
+  ...tour,
+  title: tour.name,
+  subtitle: tour.tagline,
+  tagline: tour.tagline,
+  description: tour.description,
+  category: tour.region,
+  durationDays: tour.durationDays,
+  duration: { days: tour.durationDays, nights: Math.max(1, tour.durationDays - 1) },
+  groupSize: { min: 2, max: 8 },
+  packagePrice: tour.startingPrice,
+  pricePerPerson: tour.startingPrice,
+  reviewsCount: tour.reviewsCount,
+  reviewCount: tour.reviewsCount,
+  popular: true,
+  wishlistCount: Math.round(tour.reviewsCount * 5.5),
+  highlights: tour.destinations.map((d) => `Explore ${d}`),
+  faqs: [
+    { question: `What is included in ${tour.name}?`, answer: "Dedicated AC vehicle, experienced chauffeur, hotel accommodation assistance, fuel, tolls, and temple guidance." }
+  ],
+}));
+
+export const PACKAGES: TourPackage[] = TOURS_DATA;
+
+export function getTourBySlug(slug: string): TourPackage | undefined {
+  return TOURS_DATA.find((t) => t.slug === slug);
+}
+
+export function getToursByRegion(region: string): TourPackage[] {
+  return TOURS_DATA.filter((t) => t.region === region);
+}
 
 export const TOUR_PRICING: Record<string, { fiveSeater?: string; sevenSeater?: string; special?: { label: string; price: string }[] }> = {
   "ayodhya-darshan": { fiveSeater: "₹5,500–6,200", sevenSeater: "₹7,500–8,200" },

@@ -27,7 +27,7 @@ const PINS: MapPinData[] = [
     y: 18,
     price: "₹40,000",
     duration: "10 Days",
-    slug: "vaishno-devi-kashmir",
+    slug: "vaishno-devi",
   },
   {
     id: "manali",
