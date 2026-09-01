@@ -194,7 +194,7 @@ export function Chatbot() {
           animate={{ opacity: 1, x: 0, scale: 1 }}
           exit={{ opacity: 0, x: 20, scale: 0.9 }}
           transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-          className="fixed right-[5.5rem] top-[60%] -translate-y-1/2 w-80 sm:w-96 rounded-2xl overflow-hidden shadow-2xl z-[80] flex flex-col"
+          className="fixed right-3 sm:right-[5.5rem] left-3 sm:left-auto max-w-[calc(100vw-1.5rem)] sm:w-96 top-[60%] -translate-y-1/2 rounded-2xl overflow-hidden shadow-2xl z-[80] flex flex-col"
           style={{
             maxHeight: "75vh",
             background: "#0C1519",

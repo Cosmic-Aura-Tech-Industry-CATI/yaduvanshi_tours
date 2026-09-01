@@ -63,6 +63,7 @@ export function Hero() {
   // Custom Calendar state (initialized dynamically to current month & year)
   const [calMonth, setCalMonth] = useState(() => new Date().getMonth());
   const [calYear, setCalYear] = useState(() => new Date().getFullYear());
+  const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
 
   // Match viewport size for video sources
   useEffect(() => {
@@ -73,6 +74,24 @@ export function Hero() {
     m.addEventListener("change", handler);
     return () => m.removeEventListener("change", handler);
   }, []);
+
+  // Connection and device awareness for video loading
+  useEffect(() => {
+    const nav = typeof navigator !== "undefined" ? (navigator as unknown as { connection?: { saveData?: boolean; effectiveType?: string } }) : null;
+    const conn = nav?.connection;
+    const isSaveData = conn?.saveData === true;
+    const isSlowConn = conn?.effectiveType === "2g" || conn?.effectiveType === "3g";
+
+    if (isSaveData || isSlowConn || prefersReducedMotion) {
+      setShouldLoadVideo(false);
+    } else {
+      // Defer video loading until after hero critical render completes
+      const timer = setTimeout(() => {
+        setShouldLoadVideo(true);
+      }, 600);
+      return () => clearTimeout(timer);
+    }
+  }, [prefersReducedMotion]);
 
   // Recalculate popup trigger coordinates on layout changes
   const updateCoords = () => {
@@ -320,34 +339,44 @@ export function Hero() {
   return (
     <section 
       ref={sectionRef} 
-      className="relative w-[100vw] min-h-[calc(100vh-76px)] md:min-h-[calc(100vh-112px)] flex items-center justify-center overflow-hidden select-none z-10"
+      className="relative w-full max-w-full min-h-[calc(100vh-76px)] md:min-h-[calc(100vh-112px)] flex items-center justify-center overflow-hidden select-none z-10"
       style={{ background: "#0C1519" }}
     >
       {/* ── Video Background Container (extends behind glass navbar to top-0) ── */}
       <motion.div 
         className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0" 
-        style={{ y: bgY, transform: "scale(1.05)" }}
+        style={{ y: isMobile ? 0 : bgY, transform: "scale(1.05)" }}
       >
         <motion.div
-          initial={{ opacity: 0, filter: "blur(8px)" }}
+          initial={{ opacity: 0, filter: "blur(4px)" }}
           animate={{ opacity: 1, filter: "blur(0px)" }}
-          transition={{ duration: 1.8, ease: "easeOut" }}
+          transition={{ duration: 1.2, ease: "easeOut" }}
           className="w-full h-full relative"
         >
-          <video
-            ref={videoRef}
-            key={isMobile ? "mobile" : "desktop"}
-            autoPlay={!prefersReducedMotion}
-            muted 
-            loop 
-            playsInline 
-            preload="auto"
-            poster="/images/hero-poster.webp"
-            className="absolute top-1/2 left-1/2 min-w-full min-h-full w-full h-full object-cover object-center"
-            style={{ transform: "translate(-50%, -50%)" }}
-          >
-            <source src="/videos/india-cinematic-loop-4k-compressed.webm" type="video/webm" />
-          </video>
+          {shouldLoadVideo ? (
+            <video
+              ref={videoRef}
+              key={isMobile ? "mobile" : "desktop"}
+              autoPlay={!prefersReducedMotion}
+              muted 
+              loop 
+              playsInline 
+              preload="metadata"
+              poster="/images/hero-poster.webp"
+              className="absolute top-1/2 left-1/2 min-w-full min-h-full w-full h-full object-cover object-center"
+              style={{ transform: "translate(-50%, -50%)" }}
+            >
+              <source src="/videos/india-cinematic-loop-4k-compressed.webm" type="video/webm" />
+            </video>
+          ) : (
+            <img
+              src="/images/hero-poster.webp"
+              alt="Yaduvanshi Tours & Travels Hero"
+              fetchPriority="high"
+              className="absolute top-1/2 left-1/2 min-w-full min-h-full w-full h-full object-cover object-center"
+              style={{ transform: "translate(-50%, -50%)" }}
+            />
+          )}
         </motion.div>
 
         {/* Darker cinematic overlays (Rudra-style) */}

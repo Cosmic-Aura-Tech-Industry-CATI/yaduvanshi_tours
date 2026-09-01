@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion } from "motion/react";
 import { X, ChevronLeft, ChevronRight, ZoomIn } from "lucide-react";
@@ -40,9 +40,9 @@ function getBalancedColumns(items: typeof GALLERY_ITEMS, numCols: number): Index
 export function GallerySection() {
   const [lightbox, setLightbox] = useState<number | null>(null);
 
-  const desktopCols = getBalancedColumns(GALLERY_ITEMS, 4);
-  const tabletCols = getBalancedColumns(GALLERY_ITEMS, 3);
-  const mobileCols = getBalancedColumns(GALLERY_ITEMS, 2);
+  const desktopCols = useMemo(() => getBalancedColumns(GALLERY_ITEMS, 4), []);
+  const tabletCols = useMemo(() => getBalancedColumns(GALLERY_ITEMS, 3), []);
+  const mobileCols = useMemo(() => getBalancedColumns(GALLERY_ITEMS, 2), []);
 
   const renderCard = ({ item, originalIndex }: IndexedGalleryItem) => (
     <motion.div

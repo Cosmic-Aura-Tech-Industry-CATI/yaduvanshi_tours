@@ -162,10 +162,19 @@ export function Navbar() {
   const isHome = pathname === "/";
 
   useEffect(() => {
+    let ticking = false;
     const fn = () => {
-      setScrolled(window.scrollY > 60);
-      setInfoVisible(window.scrollY < 40);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const sy = window.scrollY;
+          setScrolled(sy > 60);
+          setInfoVisible(sy < 40);
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
+    fn();
     window.addEventListener("scroll", fn, { passive: true });
     return () => window.removeEventListener("scroll", fn);
   }, []);
