@@ -4,7 +4,6 @@ import { useState } from "react";
 import Image from "next/image";
 import { motion } from "motion/react";
 import { Phone, Mail, MapPin, CheckCircle, Send, Clock, Navigation, Loader2 } from "lucide-react";
-import emailjs from "@emailjs/browser";
 
 const BRASS = "#CF9D7B";
 const COFFEE = "#724B39";
@@ -30,30 +29,33 @@ export function ContactClient() {
     setIsSubmitting(true);
     setErrorMessage(null);
 
-    const templateParams = {
-      form_type: "Contact",
-      name: formData.name || "",
-      phone: formData.phone || "",
-      email: formData.email || "",
-      package: "",
-      vehicle: "",
-      dates: "",
-      travelers: "",
-      budget: "",
-      message: formData.message || "",
-    };
-
     try {
-      await emailjs.send(
-        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
-        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
-        templateParams,
-        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
-      );
-      setSubmitted(true);
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          phone: formData.phone,
+          email: formData.email,
+          message: formData.message,
+          website,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (response.ok && result.success) {
+        setSubmitted(true);
+      } else {
+        setErrorMessage(
+          result.message || "Failed to send message. Please try again or contact us directly."
+        );
+      }
     } catch (err) {
-      console.error("EmailJS error:", err);
-      setErrorMessage("Failed to send message. Please try again or contact us directly.");
+      console.error("Contact API error:", err);
+      setErrorMessage("Failed to send message. Please try again or contact us directly by phone or WhatsApp.");
     } finally {
       setIsSubmitting(false);
     }
