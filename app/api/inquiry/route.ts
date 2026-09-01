@@ -1,4 +1,4 @@
-﻿import { NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { z } from "zod";
 import { Resend } from "resend";
 import {
@@ -61,7 +61,7 @@ export async function POST(request: Request) {
     // Check environment variables
     const resendApiKey = process.env.RESEND_API_KEY;
     const toEmail = process.env.INQUIRY_TO_EMAIL || "manojyadav20101993@gmail.com";
-    const fromEmail = process.env.INQUIRY_FROM_EMAIL || "Yaduvanshi Tours <onboarding@resend.dev>";
+    const fromEmail = process.env.INQUIRY_FROM_EMAIL || "Yaduvanshi Tours <booking@yadhuvanshitours.com>";
 
     if (!resendApiKey || resendApiKey.includes("placeholder") || resendApiKey.startsWith("re_xxx")) {
       console.error(`Resend API configuration missing or placeholder: ${inquiryId}`);
