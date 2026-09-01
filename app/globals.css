@@ -376,6 +376,37 @@
   }
 }
 
+/* ── Mobile and Low-End Device Optimizations ───────────────── */
+@media (max-width: 768px) {
+  .glass-panel {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+  .glass-panel-strong {
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
+  .ambient-blob-coffee,
+  .ambient-blob-brass {
+    display: none !important;
+  }
+}
+
+/* ── Save Data & Low Bandwidth Optimizations ───────────────── */
+@media (prefers-reduced-data: reduce) {
+  .ambient-blob-coffee,
+  .ambient-blob-brass {
+    display: none !important;
+  }
+  .glow-border::before {
+    animation: none !important;
+  }
+}
+
+.marquee-track {
+  will-change: transform;
+}
+
 /* ── Pulse Glow Animations ─────────────────────────────────── */
 @keyframes pulse-gold {
   0% {

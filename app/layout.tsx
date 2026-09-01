@@ -11,28 +11,28 @@ const FloatingWidgets = dynamic(() => import("@/components/FloatingWidgets").the
 const cormorant = Cormorant_Garamond({
   variable: "--font-display",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["600", "700"],
   display: "swap",
 });
 
 const poppins = Poppins({
   variable: "--font-body",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: ["400", "500", "600"],
   display: "swap",
 });
 
 const cinzel = Cinzel({
   variable: "--font-accent",
   subsets: ["latin"],
-  weight: ["500", "600", "700"],
+  weight: ["600", "700"],
   display: "swap",
 });
 
 const dancingScript = Dancing_Script({
   variable: "--font-script",
   subsets: ["latin"],
-  weight: ["500", "600", "700"],
+  weight: ["600"],
   display: "swap",
 });
 
@@ -83,9 +83,9 @@ export default function RootLayout({
     <html
       lang="en"
       data-scroll-behavior="smooth"
-      className={`${cormorant.variable} ${poppins.variable} ${cinzel.variable} ${dancingScript.variable} ${dmMono.variable} h-full antialiased`}
+      className={`${cormorant.variable} ${poppins.variable} ${cinzel.variable} ${dancingScript.variable} ${dmMono.variable} h-full antialiased overflow-x-hidden max-w-full`}
     >
-      <body className="min-h-full flex flex-col bg-[#0C1519] text-[#D8CFC7] font-sans">
+      <body className="min-h-full flex flex-col bg-[#0C1519] text-[#D8CFC7] font-sans overflow-x-hidden max-w-full">
         <Navbar />
         <main className="flex-1 flex flex-col">{children}</main>
         <Footer />
