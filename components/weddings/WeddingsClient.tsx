@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion } from "motion/react";
 import { ArrowRight, Heart, UserCheck, Sparkles } from "lucide-react";
+import { WhatsAppBookButton } from "@/components/ui/WhatsAppBookButton";
 
 const BRASS = "#CF9D7B";
 const COFFEE = "#724B39";
@@ -129,18 +130,13 @@ function WeddingFleetCard({ car, idx }: { car: typeof WEDDING_FLEET[0]; idx: num
             {car.price}
           </div>
           
-          {/* Reserve Car button: outline/ghost style, full-width, links to prefilled inquiry */}
-          <Link
-            href={`/inquiry?type=wedding&vehicle=${encodeURIComponent(car.name)}`}
-            className="w-full py-2 rounded-lg border flex items-center justify-center gap-1 text-[9px] font-accent tracking-widest uppercase font-bold transition-all duration-200"
-            style={{
-              borderColor: hovered ? GOLD : "rgba(232, 185, 106, 0.3)",
-              color: hovered ? "#0C1519" : GOLD,
-              background: hovered ? GOLD : "transparent"
-            }}
-          >
-            Reserve Car <ArrowRight size={10} />
-          </Link>
+          {/* WhatsApp Book Now button — wedding fleet */}
+          <WhatsAppBookButton
+            itemType="wedding"
+            vehicleName={car.name}
+            fullWidth
+            label="Reserve Car"
+          />
         </div>
       </div>
 

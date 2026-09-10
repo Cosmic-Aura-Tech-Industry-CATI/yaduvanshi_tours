@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { ArrowRight, Info } from "lucide-react";
+import { Info } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import type { Vehicle } from "@/types";
+import { WhatsAppBookButton } from "@/components/ui/WhatsAppBookButton";
 
 const BRASS = "#CF9D7B";
 const COFFEE = "#724B39";
@@ -17,14 +17,7 @@ interface VehicleDetailClientProps {
 }
 
 export function VehicleDetailClient({ vehicle: v, similarVehicles }: VehicleDetailClientProps) {
-  const router = useRouter();
   const [activeTab, setActiveTab] = useState<"pricing" | "specs" | "terms">("pricing");
-
-  const handleBookRedirect = (mode: "local" | "outstation") => {
-    router.push(
-      `/inquiry?type=vehicle&vehicle=${v.slug}&rental=${mode}`
-    );
-  };
 
   return (
     <div className="bg-[#0C1519] min-h-screen pt-20 pb-20 text-[#D8CFC7] overflow-hidden relative">
@@ -114,12 +107,13 @@ export function VehicleDetailClient({ vehicle: v, similarVehicles }: VehicleDeta
                           <span className="text-xs text-[#D8CFC7]/50 font-sans font-normal"> /day</span>
                         </div>
                       </div>
-                      <button
-                        onClick={() => handleBookRedirect("local")}
-                        className="mt-6 w-full text-center text-xs font-bold font-accent tracking-wider py-2.5 rounded-full border border-[#E8B96A] text-[#E8B96A] hover:bg-[#E8B96A] hover:text-[#0C1519] transition-all cursor-pointer bg-[#E8B96A]/5"
-                      >
-                        Enquire Local Daily
-                      </button>
+                      <WhatsAppBookButton
+                        itemType="vehicle"
+                        vehicleName={v.name}
+                        vehicleCategory={v.category.charAt(0).toUpperCase() + v.category.slice(1)}
+                        fullWidth
+                        label="Enquire Local Daily"
+                      />
                     </div>
 
                     {/* Outstation package card */}
@@ -143,16 +137,13 @@ export function VehicleDetailClient({ vehicle: v, similarVehicles }: VehicleDeta
                             <li>� Driver allowance: ?{v.driverAllowancePerDay}/day</li>
                           </ul>
                         </div>
-                        <button
-                          onClick={() => handleBookRedirect("outstation")}
-                          className="mt-6 w-full text-center text-xs font-bold font-accent tracking-wider py-3 rounded-full transition-all cursor-pointer text-[#0C1519]"
-                          style={{
-                            background: `linear-gradient(135deg, ${GOLD}, ${BRASS})`,
-                            boxShadow: `0 4px 15px rgba(232,185,106,0.15)`
-                          }}
-                        >
-                          Enquire Outstation
-                        </button>
+                        <WhatsAppBookButton
+                          itemType="vehicle"
+                          vehicleName={v.name}
+                          vehicleCategory={v.category.charAt(0).toUpperCase() + v.category.slice(1)}
+                          fullWidth
+                          label="Enquire Outstation"
+                        />
                       </div>
                     )}
                   </div>
@@ -264,16 +255,13 @@ export function VehicleDetailClient({ vehicle: v, similarVehicles }: VehicleDeta
               </div>
             </div>
 
-            <button
-              onClick={() => handleBookRedirect(v.category === "luxury" ? "local" : "outstation")}
-              className="w-full py-3.5 rounded-full font-bold font-accent tracking-widest text-xs flex items-center justify-center gap-2 cursor-pointer transition-all hover:brightness-110 mt-4 text-[#0C1519]"
-              style={{
-                background: `linear-gradient(135deg, ${GOLD}, ${BRASS})`,
-                boxShadow: `0 4px 15px rgba(232,185,106,0.2)`
-              }}
-            >
-              {v.category === "luxury" ? "PLAN CHAUFFEUR BOOKING" : "PLAN OUTSTATION BOOKING"} <ArrowRight size={13} />
-            </button>
+            <WhatsAppBookButton
+              itemType="vehicle"
+              vehicleName={v.name}
+              vehicleCategory={v.category.charAt(0).toUpperCase() + v.category.slice(1)}
+              fullWidth
+              label={v.category === "luxury" ? "Plan Chauffeur Booking" : "Plan Outstation Booking"}
+            />
           </div>
         </div>
       </div>
