@@ -12,6 +12,7 @@ import {
   RegionBadge, formatIndianCurrency, 
   TourCard, resolveImg 
 } from "@/components/tours/SharedComponents";
+import { WhatsAppBookButton } from "@/components/ui/WhatsAppBookButton";
 
 const BRASS = "#CF9D7B";
 const COFFEE = "#724B39";
@@ -535,19 +536,13 @@ export function TourDetailClient({ tour, relatedTours }: ClientProps) {
             </span>
           </div>
           
-          <button
-            onClick={() => {
-              const formEl = document.querySelector("form");
-              if (formEl) formEl.scrollIntoView({ behavior: "smooth" });
-            }}
-            className="px-5 py-3 rounded-full text-xs font-bold font-accent tracking-widest cursor-pointer shadow-md"
-            style={{
-              background: `linear-gradient(135deg, ${GOLD}, ${BRASS})`,
-              color: "#0C1519",
-            }}
-          >
-            ENQUIRE NOW
-          </button>
+          <WhatsAppBookButton
+            itemType="tour"
+            tourName={tour.name}
+            tourDays={tour.durationDays}
+            tourPrice={formatIndianCurrency(tour.startingPrice)}
+            label="Enquire Now"
+          />
         </div>
       </div>
 

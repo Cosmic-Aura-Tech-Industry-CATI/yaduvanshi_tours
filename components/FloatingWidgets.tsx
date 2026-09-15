@@ -71,7 +71,7 @@ export function FloatingWidgets() {
             initial={{ opacity: 0, x: 10, scale: 0.9 }}
             animate={{ opacity: 1, x: 0, scale: 1 }}
             exit={{ opacity: 0, x: 10, scale: 0.9 }}
-            className="fixed right-3 sm:right-[5.5rem] left-3 sm:left-auto max-w-[calc(100vw-1.5rem)] sm:w-[230px] top-[50%] -translate-y-1/2 rounded-xl p-4 shadow-2xl z-[80] glass-panel-strong"
+            className="fixed right-3 sm:right-[5.5rem] left-3 sm:left-auto max-w-[calc(100vw-1.5rem)] sm:w-[230px] top-[62%] -translate-y-1/2 rounded-xl p-4 shadow-2xl z-[80] glass-panel-strong"
           >
             <button
               onClick={() => setShowCall(false)}
@@ -95,9 +95,9 @@ export function FloatingWidgets() {
         )}
       </AnimatePresence>
 
-      {/* Floating Buttons — stacked vertically on the right side at top: 60% */}
+      {/* Floating Buttons — stacked vertically on the right side at top: 72% */}
       <div 
-        className="fixed right-3 sm:right-5 top-[60%] -translate-y-1/2 z-[80] flex flex-col items-center gap-3.5"
+        className="fixed right-3 sm:right-5 top-[72%] -translate-y-1/2 z-[80] flex flex-col items-center gap-3.5"
         style={{ pointerEvents: "auto" }}
       >
         {/* Phone button (gold with radar pulse glow) */}
