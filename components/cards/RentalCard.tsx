@@ -4,8 +4,9 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "motion/react";
-import { Users, ArrowRight, Sparkles } from "lucide-react";
+import { Users, Sparkles } from "lucide-react";
 import type { Vehicle, RentalType } from "@/types";
+import { WhatsAppBookButton } from "@/components/ui/WhatsAppBookButton";
 
 const BRASS = "#CF9D7B";
 const GOLD = "#E8B96A";
@@ -220,13 +221,11 @@ export function RentalCard({ vehicle: v, index = 0 }: RentalCardProps) {
           >
             Details
           </Link>
-          <Link
-            href={`/inquiry?type=vehicle&vehicle=${v.slug}`}
-            className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-lg transition-all duration-200 hover:brightness-110"
-            style={{ background: `linear-gradient(135deg, ${GOLD}, ${BRASS})`, color: "#0C1519" }}
-          >
-            {v.category === "luxury" ? "Check Vehicle" : "Book Now"} <ArrowRight size={10} />
-          </Link>
+          <WhatsAppBookButton
+            itemType="vehicle"
+            vehicleName={v.name}
+            vehicleCategory={CATEGORY_LABELS[v.category] ?? v.category}
+          />
         </div>
       </div>
 

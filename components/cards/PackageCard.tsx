@@ -4,7 +4,8 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "motion/react";
-import { MapPin, Clock, Users, ArrowRight, Heart } from "lucide-react";
+import { MapPin, Clock, Users, Heart } from "lucide-react";
+import { WhatsAppBookButton } from "@/components/ui/WhatsAppBookButton";
 import type { TourPackage } from "@/types";
 import { TOUR_PRICING } from "@/data/tours";
 import { buildImageUrl, handleImageError } from "@/lib/imageUtils";
@@ -166,14 +167,12 @@ export function PackageCard({ pkg, index = 0 }: PackageCardProps) {
             >
               Details
             </Link>
-            <Link
-              href={`/inquiry?package=${pkg.slug}`}
-              className="flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-lg transition-all duration-200 hover:brightness-110"
-              style={{ background: `linear-gradient(135deg, ${GOLD}, ${BRASS})`, color: "#0C1519" }}
-              onClick={(e) => e.stopPropagation()}
-            >
-              Book <ArrowRight size={10} />
-            </Link>
+            <WhatsAppBookButton
+              itemType="tour"
+              tourName={pkg.title}
+              tourDays={pkg.duration.days}
+              tourPrice={pricing?.fiveSeater || `₹${pkg.startingPrice.toLocaleString("en-IN")}`}
+            />
           </div>
         </div>
       </div>

@@ -3,9 +3,10 @@
 import Link from "next/link";
 import Image from "next/image";
 import { motion, useInView } from "motion/react";
-import { Star, Clock, ArrowRight } from "lucide-react";
+import { Star, Clock } from "lucide-react";
 import { useEffect, useState, useRef } from "react";
 import { type TourPackage, TOUR_PRICING } from "@/data/tours";
+import { WhatsAppBookButton } from "@/components/ui/WhatsAppBookButton";
 
 const GOLD = "#E8B96A";
 const BRASS = "#CF9D7B";
@@ -189,13 +190,15 @@ export function TourCard({ tour }: { tour: TourPackage }) {
             >
               Details
             </Link>
-            <Link
-              href={`/inquiry?package=${tour.slug}`}
-              className="flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-lg transition-all duration-200 hover:brightness-110"
-              style={{ background: `linear-gradient(135deg, ${GOLD}, ${BRASS})`, color: "#0C1519" }}
-            >
-              Book <ArrowRight size={10} />
-            </Link>
+            <WhatsAppBookButton
+              itemType="tour"
+              tourName={tour.name}
+              tourDays={tour.durationDays}
+              tourPrice={(() => {
+                const pricing = TOUR_PRICING[tour.slug];
+                return pricing?.fiveSeater || `₹${tour.startingPrice.toLocaleString("en-IN")}`;
+              })()}
+            />
           </div>
         </div>
       </div>
