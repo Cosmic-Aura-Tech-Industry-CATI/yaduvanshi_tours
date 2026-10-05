@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Info } from "lucide-react";
+import { Info, Users, Fuel, Settings2, Wind, ArrowRight, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import type { Vehicle } from "@/types";
@@ -16,22 +16,50 @@ interface VehicleDetailClientProps {
   similarVehicles: Vehicle[];
 }
 
+const FEATURED_TOURS_CROSS_LINK = [
+  {
+    name: "Ayodhya Ram Mandir Darshan",
+    slug: "ayodhya-darshan",
+    duration: "2 Days",
+    tagline: "Sacred pilgrimage to Ram Janmabhoomi & Saryu Ghats",
+    price: "₹5,500",
+  },
+  {
+    name: "Kashi Vishwanath Tour",
+    slug: "kashi-vishwanath",
+    duration: "3 Days",
+    tagline: "Spiritual yatra to Varanasi corridor & Ganga Aarti",
+    price: "₹8,500",
+  },
+  {
+    name: "Char Dham Yatra",
+    slug: "char-dham-yatra",
+    duration: "10 Days",
+    tagline: "Sacred Himalayan pilgrimage to Kedarnath & Badrinath",
+    price: "₹38,000",
+  },
+];
+
 export function VehicleDetailClient({ vehicle: v, similarVehicles }: VehicleDetailClientProps) {
   const [activeTab, setActiveTab] = useState<"pricing" | "specs" | "terms">("pricing");
 
   return (
     <div className="bg-[#0C1519] min-h-screen pt-20 pb-20 text-[#D8CFC7] overflow-hidden relative">
       {/* Background blobs for firelight depth */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full pointer-events-none z-0 opacity-10"
-        style={{ background: `radial-gradient(circle, ${BRASS}, transparent 70%)` }} />
-      <div className="absolute bottom-1/4 left-0 w-[600px] h-[600px] rounded-full pointer-events-none z-0 opacity-5"
-        style={{ background: `radial-gradient(circle, ${COFFEE}, transparent 70%)` }} />
+      <div
+        className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full pointer-events-none z-0 opacity-10"
+        style={{ background: `radial-gradient(circle, ${BRASS}, transparent 70%)` }}
+      />
+      <div
+        className="absolute bottom-1/4 left-0 w-[600px] h-[600px] rounded-full pointer-events-none z-0 opacity-5"
+        style={{ background: `radial-gradient(circle, ${COFFEE}, transparent 70%)` }}
+      />
 
       {/* Hero Showcase */}
       <div className="relative h-[300px] md:h-[450px] bg-black/80 text-white overflow-hidden z-10">
         <Image
           src={v.image}
-          alt={v.name}
+          alt={`${v.name} rental in Kanpur with driver`}
           fill
           priority
           sizes="100vw"
@@ -41,16 +69,24 @@ export function VehicleDetailClient({ vehicle: v, similarVehicles }: VehicleDeta
         <div className="absolute inset-0 bg-gradient-to-t from-[#0C1519] to-transparent" />
         <div className="absolute bottom-10 left-0 right-0 px-6 max-w-7xl mx-auto">
           <span className="text-[#E8B96A] font-accent text-[10px] font-bold uppercase tracking-widest block mb-2">
-            {v.brand} � {v.category}
+            {v.brand} · {v.category.toUpperCase()} RENTAL IN KANPUR
           </span>
           <h1 className="font-display text-3xl md:text-5xl font-bold tracking-wide leading-tight text-white">
             {v.name}
           </h1>
-          <div className="flex gap-4 mt-3 text-xs text-[#D8CFC7]/80 font-mono">
-            <span>?? {v.seats} Seats</span>
-            <span>? {v.fuel}</span>
-            <span>?? {v.transmission}</span>
-            <span>?? {v.ac ? "AC Cabin" : "Non-AC"}</span>
+          <div className="flex flex-wrap gap-4 mt-3 text-xs text-[#D8CFC7]/80 font-mono items-center">
+            <span className="flex items-center gap-1.5">
+              <Users className="w-3.5 h-3.5 text-[#E8B96A]" /> {v.seats} Seats
+            </span>
+            <span className="flex items-center gap-1.5">
+              <Fuel className="w-3.5 h-3.5 text-[#E8B96A]" /> {v.fuel}
+            </span>
+            <span className="flex items-center gap-1.5">
+              <Settings2 className="w-3.5 h-3.5 text-[#E8B96A]" /> {v.transmission}
+            </span>
+            <span className="flex items-center gap-1.5">
+              <Wind className="w-3.5 h-3.5 text-[#E8B96A]" /> {v.ac ? "AC Cabin" : "Non-AC"}
+            </span>
           </div>
         </div>
       </div>
@@ -59,7 +95,7 @@ export function VehicleDetailClient({ vehicle: v, similarVehicles }: VehicleDeta
         {/* Left Column: Details, Specs, Inclusions */}
         <div className="lg:col-span-2 space-y-8">
           {/* Tabs Selector */}
-          <div 
+          <div
             className="rounded-xl border overflow-hidden glass-panel"
             style={{
               background: "rgba(58, 53, 52, 0.25)",
@@ -92,7 +128,7 @@ export function VehicleDetailClient({ vehicle: v, similarVehicles }: VehicleDeta
                 <div className="space-y-6">
                   <div className={`grid grid-cols-1 ${v.category === "luxury" ? "" : "md:grid-cols-2"} gap-4`}>
                     {/* Local package card */}
-                    <div 
+                    <div
                       className="p-5 rounded-lg border flex flex-col justify-between"
                       style={{
                         background: "rgba(22, 33, 39, 0.35)",
@@ -100,10 +136,10 @@ export function VehicleDetailClient({ vehicle: v, similarVehicles }: VehicleDeta
                       }}
                     >
                       <div>
-                        <h4 className="font-display font-bold text-white text-base">Local Daily Package</h4>
+                        <h4 className="font-display font-bold text-white text-base">Local Kanpur Daily Package</h4>
                         <p className="text-[10px] text-[#D8CFC7]/50 font-mono mt-1">Standard (8 Hours / 80 Km limit)</p>
                         <div className="text-xl font-mono font-bold text-[#E8B96A] mt-4">
-                          ?{v.localPriceDay.min.toLocaleString("en-IN")} - ?{v.localPriceDay.max.toLocaleString("en-IN")}
+                          ₹{v.localPriceDay.min.toLocaleString("en-IN")} - ₹{v.localPriceDay.max.toLocaleString("en-IN")}
                           <span className="text-xs text-[#D8CFC7]/50 font-sans font-normal"> /day</span>
                         </div>
                       </div>
@@ -118,7 +154,7 @@ export function VehicleDetailClient({ vehicle: v, similarVehicles }: VehicleDeta
 
                     {/* Outstation package card */}
                     {v.category !== "luxury" && (
-                      <div 
+                      <div
                         className="p-5 rounded-lg border flex flex-col justify-between"
                         style={{
                           background: "rgba(22, 33, 39, 0.35)",
@@ -127,14 +163,14 @@ export function VehicleDetailClient({ vehicle: v, similarVehicles }: VehicleDeta
                       >
                         <div>
                           <h4 className="font-display font-bold text-white text-base">Outstation Highway Travel</h4>
-                          <p className="text-[10px] text-[#D8CFC7]/50 font-mono mt-1">Charged per kilometer run</p>
+                          <p className="text-[10px] text-[#D8CFC7]/50 font-mono mt-1">Charged per kilometer run from Kanpur</p>
                           <div className="text-xl font-mono font-bold text-[#E8B96A] mt-4">
-                            ?{v.outstationPriceKm.min} - ?{v.outstationPriceKm.max}
+                            ₹{v.outstationPriceKm.min} - ₹{v.outstationPriceKm.max}
                             <span className="text-xs text-[#D8CFC7]/50 font-sans font-normal"> /km</span>
                           </div>
                           <ul className="text-[10px] text-[#D8CFC7]/60 font-sans mt-3.5 space-y-1.5">
-                            <li>� Minimum billable run: {v.outstationMinKm} km/day</li>
-                            <li>� Driver allowance: ?{v.driverAllowancePerDay}/day</li>
+                            <li>• Minimum billable run: {v.outstationMinKm} km/day</li>
+                            <li>• Driver allowance: ₹{v.driverAllowancePerDay}/day</li>
                           </ul>
                         </div>
                         <WhatsAppBookButton
@@ -149,7 +185,7 @@ export function VehicleDetailClient({ vehicle: v, similarVehicles }: VehicleDeta
                   </div>
 
                   {/* Notes */}
-                  <div 
+                  <div
                     className="p-4 rounded-lg border text-xs text-[#D8CFC7]/70 font-sans leading-relaxed flex gap-2.5 items-start"
                     style={{
                       background: "rgba(58, 53, 52, 0.15)",
@@ -200,23 +236,23 @@ export function VehicleDetailClient({ vehicle: v, similarVehicles }: VehicleDeta
                   <div>
                     <h4 className="font-display font-bold text-white text-xs uppercase tracking-wider mb-2">Driver-driven details</h4>
                     <p className="text-[#D8CFC7]/70 text-xs leading-relaxed">
-                      All outstation rentals include an experienced highway chauffeur. Travel routes are mapped prior to departure. Drivers require a night boarding allowance of ?{v.driverAllowancePerDay} for stays on multi-day journeys.
+                      All outstation rentals include an experienced highway chauffeur. Travel routes are mapped prior to departure. Drivers require a night boarding allowance of ₹{v.driverAllowancePerDay} for stays on multi-day journeys.
                     </p>
                   </div>
                   {v.selfDriveAvailable && (
                     <div>
                       <h4 className="font-display font-bold text-white text-xs uppercase tracking-wider mb-2">Self-drive terms</h4>
                       <p className="text-[#D8CFC7]/70 text-xs leading-relaxed">
-                        To claim self-drive: must present a valid, non-learner driving license, Aadhaar card, and submit a security deposit of ?5,000. Fuel is calculated on a full-to-full tank policy.
+                        To claim self-drive: must present a valid, non-learner driving license, Aadhaar card, and submit a security deposit of ₹5,000. Fuel is calculated on a full-to-full tank policy.
                       </p>
                     </div>
                   )}
                   <div>
                     <h4 className="font-display font-bold text-red-500 text-xs uppercase tracking-wider mb-2">Cancellation Policy</h4>
                     <p className="text-[#D8CFC7]/70 text-xs leading-relaxed">
-                      * Cancel up to 48 hours prior to journey start: 90% refund of deposit.<br />
-                      * Cancel inside 24-48 hours: 50% refund.<br />
-                      * Cancel inside 24 hours: No refund of initial reservation booking amount.
+                      • Cancel up to 48 hours prior to journey start: 90% refund of deposit.<br />
+                      • Cancel inside 24-48 hours: 50% refund.<br />
+                      • Cancel inside 24 hours: No refund of initial reservation booking amount.
                     </p>
                   </div>
                 </div>
@@ -227,7 +263,7 @@ export function VehicleDetailClient({ vehicle: v, similarVehicles }: VehicleDeta
 
         {/* Right Column: Dynamic summary/quick booking */}
         <div>
-          <div 
+          <div
             className="p-6 rounded-xl border sticky top-24 space-y-5 shadow-2xl backdrop-blur-md glass-panel"
             style={{
               background: "rgba(58, 53, 52, 0.25)",
@@ -237,7 +273,7 @@ export function VehicleDetailClient({ vehicle: v, similarVehicles }: VehicleDeta
             <span className="text-[#E8B96A] text-[10px] font-accent uppercase tracking-widest block font-semibold">Quick Quote Inquiry</span>
             <div className="space-y-1">
               <h3 className="font-display font-bold text-xl text-white">{v.name}</h3>
-              <div className="text-[10px] text-[#D8CFC7]/50 font-mono">Premium {v.category.toUpperCase()} Rental</div>
+              <div className="text-[10px] text-[#D8CFC7]/50 font-mono">Premium {v.category.toUpperCase()} Rental in Kanpur</div>
             </div>
 
             <div className="border-t border-white/5 pt-4 space-y-3.5 font-sans">
@@ -253,6 +289,10 @@ export function VehicleDetailClient({ vehicle: v, similarVehicles }: VehicleDeta
                 <span className="text-[#D8CFC7]/60">Transmission:</span>
                 <span className="font-semibold text-white">{v.transmission}</span>
               </div>
+              <div className="flex items-center gap-2 text-[11px] text-emerald-400 pt-2 border-t border-white/5">
+                <ShieldCheck className="w-3.5 h-3.5" />
+                <span>Verified commercial vehicle &amp; driver</span>
+              </div>
             </div>
 
             <WhatsAppBookButton
@@ -263,6 +303,54 @@ export function VehicleDetailClient({ vehicle: v, similarVehicles }: VehicleDeta
               label={v.category === "luxury" ? "Plan Chauffeur Booking" : "Plan Outstation Booking"}
             />
           </div>
+        </div>
+      </div>
+
+      {/* Internal Cross-Linking: Tour Packages for this Vehicle */}
+      <div className="max-w-7xl mx-auto px-6 mt-20 relative z-10">
+        <div className="flex items-center justify-between mb-8">
+          <div>
+            <span className="text-[#E8B96A] font-accent text-[10px] font-bold uppercase tracking-widest block mb-1">
+              Plan Your Journey
+            </span>
+            <h2 className="font-display text-2xl font-bold tracking-wide text-white">
+              Recommended <span className="text-[#E8B96A]">Tour Packages</span> for {v.name}
+            </h2>
+          </div>
+          <Link
+            href="/tours"
+            className="text-xs font-semibold text-[#E8B96A] hover:text-white transition-colors inline-flex items-center gap-1 font-sans"
+          >
+            All 26 Packages <ArrowRight size={14} />
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          {FEATURED_TOURS_CROSS_LINK.map((tour) => (
+            <Link
+              key={tour.slug}
+              href={`/tours/${tour.slug}`}
+              className="group p-5 rounded-2xl glass-panel border border-white/10 hover:border-[#CF9D7B]/40 transition-all flex flex-col justify-between"
+            >
+              <div>
+                <span className="text-[10px] font-mono text-[#E8B96A] uppercase tracking-wider block mb-1.5">
+                  {tour.duration} · From Kanpur
+                </span>
+                <h3 className="font-display font-bold text-base text-white group-hover:text-[#E8B96A] transition-colors mb-2">
+                  {tour.name}
+                </h3>
+                <p className="text-xs text-[#D8CFC7]/70 font-sans leading-relaxed">
+                  {tour.tagline}
+                </p>
+              </div>
+              <div className="mt-4 pt-3 border-t border-white/5 flex items-center justify-between">
+                <span className="text-xs font-mono font-semibold text-[#E8B96A]">Starts {tour.price}</span>
+                <span className="text-xs font-medium text-white group-hover:translate-x-1 transition-transform">
+                  View Tour →
+                </span>
+              </div>
+            </Link>
+          ))}
         </div>
       </div>
 
@@ -294,7 +382,7 @@ export function VehicleDetailClient({ vehicle: v, similarVehicles }: VehicleDeta
                       <div className="bg-white w-full h-full flex items-center justify-center p-3">
                         <Image
                           src={similarVehicle.image}
-                          alt={similarVehicle.name}
+                          alt={`${similarVehicle.name} cab rental in Kanpur`}
                           fill
                           sizes="(max-width: 768px) 100vw, 250px"
                           className="object-contain p-3 transition-transform duration-500 group-hover:scale-105"
@@ -302,8 +390,7 @@ export function VehicleDetailClient({ vehicle: v, similarVehicles }: VehicleDeta
                       </div>
                     ) : (
                       <div className="bg-black/40 w-full h-full flex flex-col items-center justify-center text-center p-3">
-                        <span className="text-2xl">??</span>
-                        <span className="text-[8px] font-bold text-[#E8B96A] mt-1 font-mono uppercase tracking-wider block">
+                        <span className="text-xs font-bold text-[#E8B96A] font-mono uppercase tracking-wider block">
                           Premium Fleet
                         </span>
                       </div>
@@ -319,11 +406,11 @@ export function VehicleDetailClient({ vehicle: v, similarVehicles }: VehicleDeta
 
                 <div className="mt-4 pt-3 border-t border-white/5 flex items-center justify-between">
                   <div className="font-mono text-xs font-bold text-[#E8B96A]">
-                    ?{similarVehicle.localPriceDay.min.toLocaleString("en-IN")}
+                    ₹{similarVehicle.localPriceDay.min.toLocaleString("en-IN")}
                     <span className="text-[9px] text-[#D8CFC7]/50 font-sans font-normal">/day</span>
                   </div>
                   <span className="text-[9px] font-mono text-[#D8CFC7]/50">
-                    ?? {similarVehicle.seats} Seats
+                    {similarVehicle.seats} Seats
                   </span>
                 </div>
               </Link>

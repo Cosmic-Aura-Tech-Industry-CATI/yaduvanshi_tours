@@ -1,10 +1,10 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
-import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import { motion, AnimatePresence, useInView } from "motion/react";
-import { Star, ChevronLeft, ChevronRight, Quote } from "lucide-react";
+import { motion } from "motion/react";
+import { Star, Quote } from "lucide-react";
 import { REVIEWS } from "@/data/reviews";
 
 import { buildImageUrl, handleImageError } from "@/lib/imageUtils";
@@ -12,7 +12,6 @@ import { buildImageUrl, handleImageError } from "@/lib/imageUtils";
 const BRASS = "#CF9D7B";
 const COFFEE = "#724B39";
 const GOLD = "#E8B96A";
-const IVORY = "#F5F0EA";
 
 /* Duplicate reviews once for seamless infinite looping */
 const ROW_ITEMS = [...REVIEWS, ...REVIEWS];

@@ -1,10 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
-import { ShieldCheck, Car, IndianRupee, Headphones, Lock } from "lucide-react";
-
-const BRASS = "#CF9D7B";
-const COFFEE = "#724B39";
+import { ShieldCheck, Car, IndianRupee, Headphones } from "lucide-react";
 
 const FEATURES = [
   {

@@ -153,7 +153,13 @@ function WeddingFleetCard({ car, idx }: { car: typeof WEDDING_FLEET[0]; idx: num
   );
 }
 
-function WeddingSpecialityCard({ srv, idx }: { srv: any; idx: number }) {
+interface WeddingSpeciality {
+  Icon: React.ComponentType<{ size?: number; style?: React.CSSProperties }>;
+  title: string;
+  desc: string;
+}
+
+function WeddingSpecialityCard({ srv, idx }: { srv: WeddingSpeciality; idx: number }) {
   const [hovered, setHovered] = useState(false);
   const Icon = srv.Icon;
 

@@ -8,7 +8,6 @@ import { X, Send, Bot, User } from "lucide-react";
 const BRASS = "#CF9D7B";
 const COFFEE = "#724B39";
 const GOLD = "#E8B96A";
-const IVORY = "#F5F0EA";
 
 interface Msg {
   id: number;
@@ -67,6 +66,7 @@ export function Chatbot() {
   ]);
   const [input, setInput] = useState("");
   const endRef = useRef<HTMLDivElement>(null);
+  const nextId = useRef(1);
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -95,7 +95,7 @@ export function Chatbot() {
 
   const send = (text: string) => {
     if (!text.trim()) return;
-    const userMsg: Msg = { id: Date.now(), from: "user", text };
+    const userMsg: Msg = { id: nextId.current++, from: "user", text };
     setMsgs((p) => [...p, userMsg]);
     setInput("");
 
@@ -182,7 +182,7 @@ export function Chatbot() {
         reply = "Thank you for your question! Our team will get back to you shortly. Meanwhile, you can call us at +91 94157 63552 or WhatsApp for instant help.";
       }
 
-      setMsgs((p) => [...p, { id: Date.now() + 1, from: "bot", text: reply }]);
+      setMsgs((p) => [...p, { id: nextId.current++, from: "bot", text: reply }]);
     }, 800);
   };
 

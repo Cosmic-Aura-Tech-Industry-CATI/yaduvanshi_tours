@@ -81,35 +81,50 @@ export function Footer() {
               Crafting legendary journeys across India&apos;s royal heritage and scenic horizons since 2010.
             </p>
             <div className="flex gap-2.5">
+              {/* WhatsApp */}
+              <a
+                href="https://wa.me/918127929551?text=Hi%20Yaduvanshi%20Tours,%20I%20would%20like%20to%20enquire%20about%20a%20booking"
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Chat on WhatsApp"
+                className="w-8 h-8 rounded-full flex items-center justify-center glass-panel text-white/40 hover:text-[#E8B96A] transition-all duration-300 hover:shadow-[0_0_15px_rgba(232,185,106,0.3)] hover:scale-105"
+              >
+                <Phone className="w-3.5 h-3.5" />
+              </a>
+              {/* Google Maps / Reviews */}
+              <a
+                href="https://maps.google.com/?q=Ramadevi+Chauraha+Kanpur"
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Visit our Office on Google Maps"
+                className="w-8 h-8 rounded-full flex items-center justify-center glass-panel text-white/40 hover:text-[#E8B96A] transition-all duration-300 hover:shadow-[0_0_15px_rgba(232,185,106,0.3)] hover:scale-105"
+              >
+                <MapPin className="w-3.5 h-3.5" />
+              </a>
               {/* Facebook */}
-              {/* TODO: Replace with real Facebook profile URL */}
-              <a href="https://www.facebook.com/yaduvanshitourandtravels" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full flex items-center justify-center glass-panel text-white/40 hover:text-[#E8B96A] transition-all duration-300 hover:shadow-[0_0_15px_rgba(232,185,106,0.3)] hover:scale-105">
+              <a
+                href="https://www.facebook.com/yaduvanshitourandtravels"
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Facebook"
+                className="w-8 h-8 rounded-full flex items-center justify-center glass-panel text-white/40 hover:text-[#E8B96A] transition-all duration-300 hover:shadow-[0_0_15px_rgba(232,185,106,0.3)] hover:scale-105"
+              >
                 <svg className="w-3.5 h-3.5 fill-none stroke-current" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
                 </svg>
               </a>
               {/* Instagram */}
-              {/* TODO: Replace with real Instagram profile URL */}
-              <a href="https://www.instagram.com/yaduvanshitourandtravels" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full flex items-center justify-center glass-panel text-white/40 hover:text-[#E8B96A] transition-all duration-300 hover:shadow-[0_0_15px_rgba(232,185,106,0.3)] hover:scale-105">
+              <a
+                href="https://www.instagram.com/yaduvanshitourandtravels"
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Instagram"
+                className="w-8 h-8 rounded-full flex items-center justify-center glass-panel text-white/40 hover:text-[#E8B96A] transition-all duration-300 hover:shadow-[0_0_15px_rgba(232,185,106,0.3)] hover:scale-105"
+              >
                 <svg className="w-3.5 h-3.5 fill-none stroke-current" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
                   <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
                   <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
-                </svg>
-              </a>
-              {/* Twitter */}
-              {/* TODO: Replace with real Twitter/X profile URL */}
-              <a href="https://x.com/" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full flex items-center justify-center glass-panel text-white/40 hover:text-[#E8B96A] transition-all duration-300 hover:shadow-[0_0_15px_rgba(232,185,106,0.3)] hover:scale-105">
-                <svg className="w-3.5 h-3.5 fill-none stroke-current" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z" />
-                </svg>
-              </a>
-              {/* Youtube */}
-              {/* TODO: Replace with real YouTube channel URL */}
-              <a href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full flex items-center justify-center glass-panel text-white/40 hover:text-[#E8B96A] transition-all duration-300 hover:shadow-[0_0_15px_rgba(232,185,106,0.3)] hover:scale-105">
-                <svg className="w-3.5 h-3.5 fill-none stroke-current" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z" />
-                  <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" />
                 </svg>
               </a>
             </div>
@@ -154,14 +169,20 @@ export function Footer() {
             <h4 className="text-white font-semibold text-sm mb-5 font-display">Contact Info</h4>
             <div className="space-y-3 font-sans">
               {[
-                { Icon: Phone,  text: "+91 81279 29551" },
-                { Icon: Mail,   text: "manojyadav20101993@gmail.com" },
-                { Icon: MapPin, text: "Ramadevi Chauraha, Kanpur, UP" },
-              ].map(({ Icon, text }) => (
-                <div key={text} className="flex items-start gap-2 text-[#D8CFC7]/50 text-xs">
+                { Icon: Phone,  text: "+91 81279 29551", href: "tel:+918127929551" },
+                { Icon: Mail,   text: "manojyadav20101993@gmail.com", href: "mailto:manojyadav20101993@gmail.com" },
+                { Icon: MapPin, text: "Ramadevi Chauraha, Kanpur, UP", href: "https://maps.google.com/?q=Ramadevi+Chauraha+Kanpur" },
+              ].map(({ Icon, text, href }) => (
+                <a
+                  key={text}
+                  href={href}
+                  target={href.startsWith("http") ? "_blank" : undefined}
+                  rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
+                  className="flex items-start gap-2 text-[#D8CFC7]/50 text-xs hover:text-[#E8B96A] transition-colors"
+                >
                   <Icon size={13} className="mt-0.5 flex-shrink-0" style={{ color: BRASS }} />
                   {text}
-                </div>
+                </a>
               ))}
             </div>
           </div>

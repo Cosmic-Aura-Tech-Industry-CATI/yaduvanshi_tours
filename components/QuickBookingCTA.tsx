@@ -6,7 +6,6 @@ import { Phone, MessageSquare, ArrowRight, Zap } from "lucide-react";
 
 const BRASS = "#CF9D7B";
 const GOLD = "#E8B96A";
-const IVORY = "#F5F0EA";
 
 // Replace with client's actual contact number/link details
 const CONTACT_PHONE = "+918127929551";

@@ -10,9 +10,7 @@ import { GALLERY_ITEMS } from "@/data/gallery";
 import { buildImageUrl, handleImageError } from "@/lib/imageUtils";
 
 const BRASS = "#CF9D7B";
-const COFFEE = "#724B39";
 const GOLD = "#E8B96A";
-const IVORY = "#F5F0EA";
 
 interface IndexedGalleryItem {
   item: (typeof GALLERY_ITEMS)[0];

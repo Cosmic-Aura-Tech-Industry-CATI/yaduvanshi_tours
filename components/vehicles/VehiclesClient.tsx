@@ -1,13 +1,11 @@
 "use client";
 
 import { useState, useMemo, memo } from "react";
-import Image from "next/image";
 import { VEHICLES } from "@/data/vehicles";
 import { RentalCard } from "@/components/cards/RentalCard";
 import { Info } from "lucide-react";
 import type { Vehicle, RentalType } from "@/types";
 
-const BRASS = "#CF9D7B";
 const GOLD = "#E8B96A";
 
 const CATEGORIES = ["All", "Hatchback", "Sedan", "SUV", "MPV", "Luxury", "Tempo-Traveller", "Urbania", "Bus"];

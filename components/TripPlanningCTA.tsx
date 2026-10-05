@@ -3,7 +3,7 @@
 import { motion } from "motion/react";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, MessageSquare, Compass } from "lucide-react";
+import { ArrowRight, MessageSquare } from "lucide-react";
 
 const BRASS = "#CF9D7B";
 const GOLD = "#E8B96A";
