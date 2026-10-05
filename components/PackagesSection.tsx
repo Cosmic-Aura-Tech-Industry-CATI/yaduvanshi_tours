@@ -1,17 +1,15 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { motion, AnimatePresence, useInView } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import { ArrowRight } from "lucide-react";
 import { PACKAGES } from "@/data/packages";
 import { PackageCard } from "@/components/cards/PackageCard";
 
 const BRASS = "#CF9D7B";
-const COFFEE = "#724B39";
 const GOLD = "#E8B96A";
-const IVORY = "#F5F0EA";
 
 const PKG_FILTERS = ["All", "Spiritual", "Mountains"];
 

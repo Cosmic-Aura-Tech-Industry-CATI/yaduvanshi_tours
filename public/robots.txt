@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+
+Sitemap: https://yaduvanshitours.com/sitemap.xml
+Host: https://yaduvanshitours.com

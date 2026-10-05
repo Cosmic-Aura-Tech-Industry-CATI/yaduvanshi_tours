@@ -7,9 +7,7 @@ import { Phone, X, MessageCircle } from "lucide-react";
 import { TOURS_DATA } from "@/data/tours";
 
 const BRASS = "#CF9D7B";
-const COFFEE = "#724B39";
 const GOLD = "#E8B96A";
-const IVORY = "#F5F0EA";
 
 export function FloatingWidgets() {
   const [showCall, setShowCall] = useState(false);

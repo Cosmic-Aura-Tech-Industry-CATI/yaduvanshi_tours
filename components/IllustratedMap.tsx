@@ -5,9 +5,7 @@ import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "motion/react";
 import { MapPin } from "lucide-react";
 
-const BRASS = "#CF9D7B";
 const GOLD = "#E8B96A";
-const DARK = "#0C1519";
 
 interface MapPinData {
   id: string;

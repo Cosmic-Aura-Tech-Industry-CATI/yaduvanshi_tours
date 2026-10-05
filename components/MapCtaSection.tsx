@@ -1,11 +1,11 @@
 "use client";
 
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useState, useEffect, useRef, useMemo, useSyncExternalStore } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence, useInView } from "motion/react";
 import { ArrowRight, Calendar, Clock, MapPin, Compass } from "lucide-react";
-import { geoMercator, geoPath } from "d3-geo";
+import { geoMercator, geoPath, type GeoPermissibleObjects } from "d3-geo";
 import { TOURS_DATA } from "@/data/tours";
 
 const BG_DEEP = "#0C1519";
@@ -138,18 +138,38 @@ const getLabelOffset = (id: string, labelWidth: number) => {
   }
 };
 
+interface GeoJsonFeature {
+  type: string;
+  properties?: { name?: string; [key: string]: unknown };
+  geometry: unknown;
+}
+
+interface GeoJsonDoc {
+  type: string;
+  features: GeoJsonFeature[];
+}
+
+interface StatePathItem {
+  path: string;
+  name: string;
+}
+
+const subscribeTouch = (callback: () => void) => {
+  const mq = window.matchMedia("(hover: none)");
+  mq.addEventListener("change", callback);
+  return () => mq.removeEventListener("change", callback);
+};
+const getTouchSnapshot = () => window.matchMedia("(hover: none)").matches;
+const getTouchServerSnapshot = () => false;
+
 export function MapCtaSection() {
-  const [geoData, setGeoData] = useState<any>(null);
+  const [geoData, setGeoData] = useState<GeoJsonDoc | null>(null);
   const [selectedId, setSelectedId] = useState<string>("ayodhya-darshan");
   const [hoveredId, setHoveredId] = useState<string | null>(null);
-  const [isTouchDevice, setIsTouchDevice] = useState(false);
+  const isTouchDevice = useSyncExternalStore(subscribeTouch, getTouchSnapshot, getTouchServerSnapshot);
 
   const containerRef = useRef<HTMLElement>(null);
   const isSectionInView = useInView(containerRef, { once: false, margin: "-80px" });
-
-  useEffect(() => {
-    setIsTouchDevice(window.matchMedia("(hover: none)").matches);
-  }, []);
 
   const width = 600;
   const height = 700;
@@ -164,25 +184,25 @@ export function MapCtaSection() {
   const pathGenerator = useMemo(() => geoPath().projection(projection), [projection]);
 
   useEffect(() => {
-    if (!isSectionInView && geoData) return;
+    if (!isSectionInView || geoData) return;
 
     fetch("/india_state.geojson")
       .then((res) => res.json())
-      .then((data) => setGeoData(data))
+      .then((data: GeoJsonDoc) => setGeoData(data))
       .catch((err) => console.error("Error loading India GeoJSON map:", err));
   }, [isSectionInView, geoData]);
 
-  const computedStatePaths = useMemo(() => {
+  const computedStatePaths = useMemo<StatePathItem[]>(() => {
     if (!geoData) return [];
     return geoData.features
-      .map((feature: any, idx: number) => {
-        const path = pathGenerator(feature);
+      .map((feature, idx) => {
+        const path = pathGenerator(feature as unknown as GeoPermissibleObjects);
         return {
-          path,
+          path: path || "",
           name: feature.properties?.name || `State ${idx}`,
         };
       })
-      .filter((f: any) => f.path);
+      .filter((f): f is StatePathItem => Boolean(f.path));
   }, [geoData, pathGenerator]);
 
   const activeDest = useMemo(() => {
@@ -265,7 +285,7 @@ export function MapCtaSection() {
                 >
                   {/* Clean India Map Silhouette (No internal state border lines) */}
                   <g>
-                    {computedStatePaths.map((item: any, idx: number) => {
+                    {computedStatePaths.map((item, idx) => {
                       const matchingPin = PINS_DATA.find(
                         (p) => p.stateName.toLowerCase() === item.name.toLowerCase()
                       );
@@ -290,7 +310,7 @@ export function MapCtaSection() {
 
                   {/* Outer Silhouette Accent Stroke */}
                   <g filter="drop-shadow(0 0 6px rgba(232, 185, 106, 0.4))">
-                    {computedStatePaths.map((item: any, idx: number) => (
+                    {computedStatePaths.map((item, idx) => (
                       <path
                         key={`outer-${idx}`}
                         d={item.path}

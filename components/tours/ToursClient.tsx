@@ -1,17 +1,17 @@
 "use client";
 
-import { useState, useEffect, useMemo, Suspense } from "react";
+import { useState, useMemo, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import { motion, AnimatePresence } from "motion/react";
 import { 
-  Search, Check, X, MapPin, 
-  ShieldCheck, PhoneCall, HelpCircle, Heart, ArrowRight
+  Search, X, MapPin, 
+  ShieldCheck, PhoneCall, HelpCircle, Heart
 } from "lucide-react";
 import { TOURS_DATA } from "@/data/tours";
 import { 
   TourCard, 
-  formatIndianCurrency, resolveImg 
+  formatIndianCurrency 
 } from "@/components/tours/SharedComponents";
 
 const BRASS = "#CF9D7B";
@@ -22,31 +22,35 @@ function ToursContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   
-  // Filter States
-  const [selectedRegion, setSelectedRegion] = useState<string>("all");
-  const [selectedDurations, setSelectedDurations] = useState<string[]>([]);
+  const regionParam = searchParams?.get("region") || "all";
+  const destinationParam = searchParams?.get("destination") || "";
+  const durationParam = searchParams?.get("duration");
+
+  // Filter States initialized directly from URL
+  const [selectedRegion, setSelectedRegion] = useState<string>(regionParam);
+  const [selectedDurations, setSelectedDurations] = useState<string[]>(durationParam ? [durationParam] : []);
   const [maxPrice, setMaxPrice] = useState<number>(190000);
   const [sortBy, setSortBy] = useState<string>("default");
   
   // Search bar
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState(destinationParam);
   const [priceInput, setPriceInput] = useState<number>(190000);
 
-  // Sync filter states with URL search params
-  useEffect(() => {
-    const regionParam = searchParams?.get("region");
-    if (regionParam) {
-      setSelectedRegion(regionParam);
+  // Sync state during render when URL query changes without cascading renders
+  const currentParams = searchParams?.toString();
+  const [prevParams, setPrevParams] = useState(currentParams);
+  if (prevParams !== currentParams) {
+    setPrevParams(currentParams);
+    if (searchParams?.get("region")) {
+      setSelectedRegion(searchParams.get("region")!);
     }
-    const destinationParam = searchParams?.get("destination");
-    if (destinationParam) {
-      setSearchQuery(destinationParam);
+    if (searchParams?.get("destination")) {
+      setSearchQuery(searchParams.get("destination")!);
     }
-    const durationParam = searchParams?.get("duration");
-    if (durationParam) {
-      setSelectedDurations([durationParam]);
+    if (searchParams?.get("duration")) {
+      setSelectedDurations([searchParams.get("duration")!]);
     }
-  }, [searchParams]);
+  }
 
   // Filter & Sort Logic
   const filteredTours = useMemo(() => {
@@ -88,12 +92,6 @@ function ToursContent() {
       return 0; // default order
     });
   }, [selectedRegion, selectedDurations, maxPrice, sortBy, searchQuery]);
-
-  const handleDurationToggle = (range: string) => {
-    setSelectedDurations((prev) =>
-      prev.includes(range) ? prev.filter((r) => r !== range) : [...prev, range]
-    );
-  };
 
   const handleResetFilters = () => {
     setSelectedRegion("all");

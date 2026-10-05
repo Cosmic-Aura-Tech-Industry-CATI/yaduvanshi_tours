@@ -9,7 +9,6 @@ import { type TourPackage, TOUR_PRICING } from "@/data/tours";
 import { WhatsAppBookButton } from "@/components/ui/WhatsAppBookButton";
 
 const GOLD = "#E8B96A";
-const BRASS = "#CF9D7B";
 
 import { buildImageUrl, handleImageError } from "@/lib/imageUtils";
 

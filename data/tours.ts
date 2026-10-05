@@ -1,4 +1,4 @@
-import type { TourPackage, TourItineraryDay, FAQ } from "@/types";
+import type { TourPackage, TourItineraryDay } from "@/types";
 
 export type { TourPackage, TourItineraryDay };
 

@@ -8,9 +8,7 @@ import { ArrowRight, Flower2, MessageCircle, Crown } from "lucide-react";
 import { buildImageUrl, handleImageError } from "@/lib/imageUtils";
 
 const BRASS = "#CF9D7B";
-const COFFEE = "#724B39";
 const GOLD = "#E8B96A";
-const IVORY = "#F5F0EA";
 
 const FEATURES = [
   "Flower decorated luxury groom & bride cars",

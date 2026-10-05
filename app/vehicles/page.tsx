@@ -5,11 +5,22 @@ import { WhyOurFleetSection } from "@/components/WhyOurFleetSection";
 import { QuickBookingCTA } from "@/components/QuickBookingCTA";
 
 export const metadata: Metadata = {
-  title: "Vehicle Rentals & Fleet | Chauffeur & Self-Drive",
-  description: "Explore our premium fleet of sedans, SUVs, Tempo Travellers, Force Urbanias, and luxury buses for local, outstation, and wedding travel across India.",
+  title: "Vehicle Rentals & Taxi Fleet in Kanpur | Chauffeur & Outstation Cabs",
+  description: "Explore our premium fleet of sedans, Innova Crysta, Fortuner, Tempo Travellers, Force Urbanias, and luxury buses for local Kanpur travel, outstation trips, and weddings.",
+  alternates: {
+    canonical: "/vehicles",
+  },
   openGraph: {
-    title: "Premium Vehicle Fleet Rentals | Yaduvanshi Tours",
-    description: "Chauffeur-driven sedans, SUVs, and luxury buses with transparent pricing.",
+    title: "Car Rental & Taxi Fleet in Kanpur | Yaduvanshi Tours",
+    description: "Chauffeur-driven sedans, SUVs, Tempo Travellers, and luxury buses in Kanpur with transparent per-km pricing.",
+    url: "https://yaduvanshitours.com/vehicles",
+    images: ["/vehicles/toyota-innova-crysta.webp"],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Vehicle Rentals in Kanpur | Yaduvanshi Tours",
+    description: "Rent sedans, SUVs, Tempo Travellers & Force Urbania in Kanpur.",
+    images: ["/vehicles/toyota-innova-crysta.webp"],
   },
 };
 
