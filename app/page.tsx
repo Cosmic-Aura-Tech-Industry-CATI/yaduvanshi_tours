@@ -10,6 +10,8 @@ const GallerySection = dynamic(() => import("@/components/GallerySection").then(
 const TestimonialsSection = dynamic(() => import("@/components/TestimonialsSection").then((mod) => mod.TestimonialsSection));
 const StatsSection = dynamic(() => import("@/components/StatsSection").then((mod) => mod.StatsSection));
 const MapCtaSection = dynamic(() => import("@/components/MapCtaSection").then((mod) => mod.MapCtaSection));
+const KanpurRoutesSection = dynamic(() => import("@/components/KanpurRoutesSection").then((mod) => mod.KanpurRoutesSection));
+const KanpurSeoSection = dynamic(() => import("@/components/KanpurSeoSection").then((mod) => mod.KanpurSeoSection));
 const TripPlanningCTA = dynamic(() => import("@/components/TripPlanningCTA").then((mod) => mod.TripPlanningCTA));
 
 export default function Home() {
@@ -24,7 +26,10 @@ export default function Home() {
       <TestimonialsSection />
       <StatsSection />
       <MapCtaSection />
+      <KanpurRoutesSection />
+      <KanpurSeoSection />
       <TripPlanningCTA />
     </div>
   );
 }
+

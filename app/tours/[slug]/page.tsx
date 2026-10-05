@@ -7,6 +7,8 @@ interface Props {
   params: Promise<{ slug: string }>;
 }
 
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://yaduvanshitours.com";
+
 // Generate metadata dynamically for proper SEO structure
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const resolvedParams = await params;
@@ -14,18 +16,32 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   if (!tour) {
     return {
-      title: "Package Not Found | Yaduvanshi Tours",
+      title: "Package Not Found | Yaduvanshi Tours Kanpur",
       description: "Explore premium pilgrimage, mountain, and desert tours in India with Yaduvanshi Tours & Travels."
     };
   }
 
+  const canonicalUrl = `/tours/${tour.slug}`;
+  const fullTitle = `${tour.name} - ${tour.durationDays} Days Tour from Kanpur | Yaduvanshi Tours`;
+  const metaDesc = `${tour.tagline} Book ${tour.name} with dedicated AC vehicle, verified chauffeurs, and customized itineraries from Kanpur. Starts ₹${tour.startingPrice.toLocaleString("en-IN")}.`;
+
   return {
-    title: `${tour.name} - ${tour.durationDays} Days Tour | Yaduvanshi Tours`,
-    description: tour.tagline + " " + tour.description.substring(0, 120) + "...",
+    title: fullTitle,
+    description: metaDesc,
+    alternates: {
+      canonical: canonicalUrl,
+    },
     openGraph: {
+      title: `${tour.name} | Yaduvanshi Tours & Travels Kanpur`,
+      description: tour.tagline,
+      url: `${BASE_URL}${canonicalUrl}`,
+      images: [{ url: tour.image, width: 1200, height: 630, alt: tour.name }]
+    },
+    twitter: {
+      card: "summary_large_image",
       title: `${tour.name} | Yaduvanshi Tours`,
       description: tour.tagline,
-      images: [{ url: tour.image }]
+      images: [tour.image]
     }
   };
 }
@@ -50,10 +66,86 @@ export default async function TourDetailPage({ params }: Props) {
     (t) => t.region === tour.region && t.slug !== tour.slug
   ).slice(0, 3);
 
+  // Structured Data Schema for TouristTrip and BreadcrumbList
+  const tourTripSchema = {
+    "@context": "https://schema.org",
+    "@type": "TouristTrip",
+    "@id": `${BASE_URL}/tours/${tour.slug}#trip`,
+    name: `${tour.name} from Kanpur`,
+    description: tour.description,
+    touristType: tour.region === "pilgrimage" ? "Spiritual Pilgrimage" : "Holiday Tour",
+    itinerary: {
+      "@type": "ItemList",
+      numberOfItems: tour.itinerary?.length || 0,
+      itemListElement: tour.itinerary?.map((day, idx) => ({
+        "@type": "ListItem",
+        position: idx + 1,
+        item: {
+          "@type": "TouristAttraction",
+          name: `Day ${day.day}: ${day.title}`,
+          description: day.description
+        }
+      }))
+    },
+    offers: {
+      "@type": "Offer",
+      price: tour.startingPrice,
+      priceCurrency: "INR",
+      availability: "https://schema.org/InStock",
+      url: `${BASE_URL}/tours/${tour.slug}`
+    },
+    provider: {
+      "@type": "TravelAgency",
+      name: "Yaduvanshi Tours & Travels",
+      url: BASE_URL,
+      telephone: "+918127929551"
+    },
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: tour.rating || 4.9,
+      reviewCount: tour.reviewsCount || 120
+    }
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: BASE_URL
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Tour Packages",
+        item: `${BASE_URL}/tours`
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: tour.name,
+        item: `${BASE_URL}/tours/${tour.slug}`
+      }
+    ]
+  };
+
   return (
-    <TourDetailClient 
-      tour={tour} 
-      relatedTours={relatedTours} 
-    />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(tourTripSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <TourDetailClient 
+        tour={tour} 
+        relatedTours={relatedTours} 
+      />
+    </>
   );
 }

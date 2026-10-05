@@ -223,21 +223,32 @@
   to   { transform: translateX(0); }
 }
 
-/* ── Glass Panel ───────────────────────────────────────────── */
+/* ── Glass Panel (Hardware-accelerated) ───────────────────── */
 .glass-panel {
-  background: rgba(58, 53, 52, 0.25);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: rgba(30, 36, 38, 0.45);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   border: 1px solid rgba(207, 157, 123, 0.18);
-  box-shadow: 0 0 25px rgba(207, 157, 123, 0.25), 0 8px 32px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+  transform: translateZ(0);
+}
+
+@media (max-width: 768px) {
+  .glass-panel {
+    background: rgba(18, 27, 32, 0.85);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+  }
 }
 
 .glass-panel-strong {
-  background: rgba(10, 16, 20, 0.92);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
+  background: rgba(10, 16, 20, 0.94);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(207, 157, 123, 0.25);
-  box-shadow: 0 0 30px rgba(207, 157, 123, 0.35), 0 8px 32px rgba(0, 0, 0, 0.55);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+  transform: translateZ(0);
 }
 
 /* ── Glow Border (animated shimmer) ────────────────────────── */

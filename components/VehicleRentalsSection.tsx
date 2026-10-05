@@ -1,6 +1,5 @@
 "use client";
 
-import { useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "motion/react";
@@ -11,7 +10,6 @@ import { RentalCard } from "@/components/cards/RentalCard";
 const BRASS = "#CF9D7B";
 const COFFEE = "#724B39";
 const GOLD = "#E8B96A";
-const IVORY = "#F5F0EA";
 
 // The 6 featured vehicles per spec
 const FEATURED_SLUGS = [

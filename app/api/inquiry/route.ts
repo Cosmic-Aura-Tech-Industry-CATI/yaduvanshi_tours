@@ -32,7 +32,7 @@ const inquirySchema = z.object({
 });
 
 export async function POST(request: Request) {
-  let inquiryId = "INQ-" + Date.now().toString(36).toUpperCase() + "-" + Math.random().toString(36).substring(2, 6).toUpperCase();
+  const inquiryId = "INQ-" + Date.now().toString(36).toUpperCase() + "-" + Math.random().toString(36).substring(2, 6).toUpperCase();
 
   try {
     const rawBody = await request.json();

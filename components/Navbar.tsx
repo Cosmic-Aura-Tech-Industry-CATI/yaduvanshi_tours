@@ -9,7 +9,6 @@ import { Menu, X, ChevronDown, Phone, Mail, MapPin, ArrowRight } from "lucide-re
 import { TOURS_DATA } from "@/data/tours";
 
 const GOLD = "#E8B96A";
-const IVORY = "#F5F0EA";
 
 // WhatsApp icon SVG component
 function WhatsAppIcon(props: React.SVGProps<SVGSVGElement>) {
@@ -127,6 +126,14 @@ export function Navbar() {
   const [infoVisible, setInfoVisible] = useState(true);
   const [toursExpanded, setToursExpanded] = useState(false);
   const pathname = usePathname();
+  const [prevPath, setPrevPath] = useState(pathname);
+
+  // Sync state during render when route changes without cascading render effects
+  if (prevPath !== pathname) {
+    setPrevPath(pathname);
+    setMobileOpen(false);
+    setToursExpanded(false);
+  }
 
   const getWhatsAppUrl = () => {
     let msg = "Hello Yaduvanshi Tours and Travels, I have a query.";
@@ -155,13 +162,6 @@ export function Navbar() {
   };
 
   useEffect(() => {
-    if (!mobileOpen) {
-      setToursExpanded(false);
-    }
-  }, [mobileOpen]);
-  const isHome = pathname === "/";
-
-  useEffect(() => {
     let ticking = false;
     const fn = () => {
       if (!ticking) {
@@ -178,8 +178,6 @@ export function Navbar() {
     window.addEventListener("scroll", fn, { passive: true });
     return () => window.removeEventListener("scroll", fn);
   }, []);
-
-  useEffect(() => setMobileOpen(false), [pathname]);
 
   return (
     <>

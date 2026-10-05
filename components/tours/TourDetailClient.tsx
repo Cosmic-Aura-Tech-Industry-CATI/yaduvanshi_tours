@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "motion/react";
 import { 
@@ -522,6 +523,85 @@ export function TourDetailClient({ tour, relatedTours }: ClientProps) {
           </div>
         </section>
       )}
+
+      {/* ── Recommended Fleet for this Tour ── */}
+      <section className="max-w-7xl mx-auto px-6 mt-16 border-t border-white/5 pt-16 space-y-6 relative z-10">
+        <div className="flex items-center justify-between">
+          <div>
+            <span className="text-[#E8B96A] font-accent text-[10px] font-bold uppercase tracking-widest block mb-1">
+              Chauffeur Fleet in Kanpur
+            </span>
+            <h3 className="font-display text-2xl font-bold tracking-wide text-white">
+              Recommended <span className="text-[#E8B96A]">Vehicles</span> for this Journey
+            </h3>
+          </div>
+          <Link
+            href="/vehicles"
+            className="text-xs font-semibold text-[#E8B96A] hover:text-white transition-colors inline-flex items-center gap-1 font-sans"
+          >
+            View All 43 Vehicles →
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          <Link
+            href="/vehicles/toyota-innova-crysta"
+            className="glass-panel p-5 rounded-2xl border border-white/10 hover:border-[#CF9D7B]/40 transition-all group flex flex-col justify-between"
+          >
+            <div>
+              <span className="text-[10px] uppercase font-mono text-[#E8B96A] block mb-1">7 Seater Premium SUV</span>
+              <h4 className="font-display font-bold text-base text-white group-hover:text-[#E8B96A] transition-colors mb-2">
+                Toyota Innova Crysta
+              </h4>
+              <p className="text-xs text-[#D8CFC7]/70 font-sans leading-relaxed">
+                Most popular choice for family yatras and long highway journeys from Kanpur with captain recliners and dual AC.
+              </p>
+            </div>
+            <div className="mt-4 pt-3 border-t border-white/5 flex items-center justify-between text-xs font-mono">
+              <span className="text-[#E8B96A] font-bold">From ₹17/km</span>
+              <span className="text-white group-hover:translate-x-1 transition-transform">Book Vehicle →</span>
+            </div>
+          </Link>
+
+          <Link
+            href="/vehicles/maruti-dzire"
+            className="glass-panel p-5 rounded-2xl border border-white/10 hover:border-[#CF9D7B]/40 transition-all group flex flex-col justify-between"
+          >
+            <div>
+              <span className="text-[10px] uppercase font-mono text-[#E8B96A] block mb-1">5 Seater Sedan</span>
+              <h4 className="font-display font-bold text-base text-white group-hover:text-[#E8B96A] transition-colors mb-2">
+                Maruti Suzuki Dzire
+              </h4>
+              <p className="text-xs text-[#D8CFC7]/70 font-sans leading-relaxed">
+                Economical, comfortable AC sedan ideal for couples or small families visiting Ayodhya, Kashi, or local shrines.
+              </p>
+            </div>
+            <div className="mt-4 pt-3 border-t border-white/5 flex items-center justify-between text-xs font-mono">
+              <span className="text-[#E8B96A] font-bold">From ₹12/km</span>
+              <span className="text-white group-hover:translate-x-1 transition-transform">Book Vehicle →</span>
+            </div>
+          </Link>
+
+          <Link
+            href="/vehicles/force-urbania-17-seater"
+            className="glass-panel p-5 rounded-2xl border border-white/10 hover:border-[#CF9D7B]/40 transition-all group flex flex-col justify-between"
+          >
+            <div>
+              <span className="text-[10px] uppercase font-mono text-[#E8B96A] block mb-1">17 Seater Luxury Van</span>
+              <h4 className="font-display font-bold text-base text-white group-hover:text-[#E8B96A] transition-colors mb-2">
+                Force Urbania (17 Seater)
+              </h4>
+              <p className="text-xs text-[#D8CFC7]/70 font-sans leading-relaxed">
+                Ultimate luxury for large group yatras, Char Dham trips, and corporate teams with individual AC vents and charging ports.
+              </p>
+            </div>
+            <div className="mt-4 pt-3 border-t border-white/5 flex items-center justify-between text-xs font-mono">
+              <span className="text-[#E8B96A] font-bold">From ₹28/km</span>
+              <span className="text-white group-hover:translate-x-1 transition-transform">Book Vehicle →</span>
+            </div>
+          </Link>
+        </div>
+      </section>
 
       {/* ── Sticky Mobile CTA ── */}
       <div 

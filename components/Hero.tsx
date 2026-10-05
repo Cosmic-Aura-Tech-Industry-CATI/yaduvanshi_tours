@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useState, useEffect, useRef, useMemo, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
-import { motion, AnimatePresence, useScroll, useTransform, useSpring } from "motion/react";
+import { motion, AnimatePresence, useScroll, useTransform } from "motion/react";
 import { useRouter } from "next/navigation";
 import { Search, MapPin, Calendar as CalendarIcon, Clock, Users, ChevronDown, Minus, Plus, Loader2 } from "lucide-react";
 import { TOURS_DATA } from "@/data/tours";
@@ -11,6 +11,26 @@ import { TOURS_DATA } from "@/data/tours";
 const BRASS = "#CF9D7B";
 const COFFEE = "#724B39";
 const GOLD = "#E8B96A";
+
+const subscribeMobile = (cb: () => void) => {
+  const m = window.matchMedia("(max-width: 767px)");
+  m.addEventListener("change", cb);
+  return () => m.removeEventListener("change", cb);
+};
+const getMobileSnapshot = () => window.matchMedia("(max-width: 767px)").matches;
+const getMobileServerSnapshot = () => false;
+
+const subscribeReducedMotion = (cb: () => void) => {
+  const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+  mq.addEventListener("change", cb);
+  return () => mq.removeEventListener("change", cb);
+};
+const getReducedMotionSnapshot = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const getReducedMotionServerSnapshot = () => false;
+
+const emptySubscribe = () => () => {};
+const getClientSnapshot = () => true;
+const getClientServerSnapshot = () => false;
 
 const TRUST_STATS = [
   { value: "1000+", label: "Happy Travelers", emoji: "✈️" },
@@ -29,9 +49,9 @@ const MONTH_NAMES = [
 ];
 
 export function Hero() {
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-  const [isClient, setIsClient] = useState(false);
+  const prefersReducedMotion = useSyncExternalStore(subscribeReducedMotion, getReducedMotionSnapshot, getReducedMotionServerSnapshot);
+  const isMobile = useSyncExternalStore(subscribeMobile, getMobileSnapshot, getMobileServerSnapshot);
+  const isClient = useSyncExternalStore(emptySubscribe, getClientSnapshot, getClientServerSnapshot);
   const videoRef = useRef<HTMLVideoElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
   const searchBarRef = useRef<HTMLDivElement>(null);
@@ -63,35 +83,27 @@ export function Hero() {
   // Custom Calendar state (initialized dynamically to current month & year)
   const [calMonth, setCalMonth] = useState(() => new Date().getMonth());
   const [calYear, setCalYear] = useState(() => new Date().getFullYear());
-  const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
 
-  // Match viewport size for video sources
+  // Ensure background video plays automatically and fallback on user gesture if browser restricts
   useEffect(() => {
-    setIsClient(true);
-    const m = window.matchMedia("(max-width: 767px)");
-    setIsMobile(m.matches);
-    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
-    m.addEventListener("change", handler);
-    return () => m.removeEventListener("change", handler);
-  }, []);
+    const video = videoRef.current;
+    if (!video) return;
 
-  // Connection and device awareness for video loading
-  useEffect(() => {
-    const nav = typeof navigator !== "undefined" ? (navigator as unknown as { connection?: { saveData?: boolean; effectiveType?: string } }) : null;
-    const conn = nav?.connection;
-    const isSaveData = conn?.saveData === true;
-    const isSlowConn = conn?.effectiveType === "2g" || conn?.effectiveType === "3g";
-
-    if (isSaveData || isSlowConn || prefersReducedMotion) {
-      setShouldLoadVideo(false);
-    } else {
-      // Defer video loading until after hero critical render completes
-      const timer = setTimeout(() => {
-        setShouldLoadVideo(true);
-      }, 600);
-      return () => clearTimeout(timer);
+    const playPromise = video.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(() => {
+        const startPlay = () => {
+          video.play().catch(() => {});
+          window.removeEventListener("click", startPlay);
+          window.removeEventListener("scroll", startPlay);
+          window.removeEventListener("touchstart", startPlay);
+        };
+        window.addEventListener("click", startPlay, { once: true });
+        window.addEventListener("scroll", startPlay, { once: true });
+        window.addEventListener("touchstart", startPlay, { once: true });
+      });
     }
-  }, [prefersReducedMotion]);
+  }, []);
 
   // Recalculate popup trigger coordinates on layout changes
   const updateCoords = () => {
@@ -150,42 +162,22 @@ export function Hero() {
     delay: number;
     opacity: number;
   }
-  const [particles, setParticles] = useState<Particle[]>([]);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-    setParticles(
-      Array.from({ length: 14 }, (_, i) => ({
-        id: i,
-        size: Math.random() * 3 + 1.5,
-        x: Math.random() * 100,
-        y: Math.random() * 100,
-        duration: Math.random() * 12 + 8,
-        delay: Math.random() * 6,
-        opacity: Math.random() * 0.35 + 0.1,
-      }))
-    );
-  }, []);
+  const mounted = isClient;
+  const particles = useMemo<Particle[]>(() => {
+    if (!mounted || isMobile) return [];
+    return Array.from({ length: 8 }, (_, i) => ({
+      id: i,
+      size: (i % 3) * 0.8 + 1.5,
+      x: (i * 12.5) % 100,
+      y: ((i * 17) + 5) % 100,
+      duration: (i % 4) + 8,
+      delay: (i % 3) * 1.2,
+      opacity: 0.2,
+    }));
+  }, [mounted, isMobile]);
 
   const { scrollY } = useScroll();
-  const rawBgY = useTransform(scrollY, [0, 800], [0, 180]);
-  const bgY = useSpring(rawBgY, { stiffness: 80, damping: 25 });
-
-  useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setPrefersReducedMotion(mq.matches);
-    const fn = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
-    mq.addEventListener("change", fn);
-    return () => mq.removeEventListener("change", fn);
-  }, []);
-
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-    if (prefersReducedMotion) video.pause();
-    else video.play().catch(() => {});
-  }, [prefersReducedMotion]);
+  const rawBgY = useTransform(scrollY, [0, 800], [0, 140]);
 
   // Autocomplete suggestions based on input
   const filteredPackages = useMemo(() => {
@@ -345,39 +337,28 @@ export function Hero() {
       {/* ── Video Background Container (extends behind glass navbar to top-0) ── */}
       <motion.div 
         className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0" 
-        style={{ y: isMobile ? 0 : bgY, transform: "scale(1.05)" }}
+        style={{ y: isMobile ? 0 : rawBgY, transform: "scale(1.05)", willChange: "transform" }}
       >
-        <motion.div
-          initial={{ opacity: 0, filter: "blur(4px)" }}
-          animate={{ opacity: 1, filter: "blur(0px)" }}
-          transition={{ duration: 1.2, ease: "easeOut" }}
-          className="w-full h-full relative"
-        >
-          {shouldLoadVideo ? (
-            <video
-              ref={videoRef}
-              key={isMobile ? "mobile" : "desktop"}
-              autoPlay={!prefersReducedMotion}
-              muted 
-              loop 
-              playsInline 
-              preload="metadata"
-              poster="/images/hero-poster.webp"
-              className="absolute top-1/2 left-1/2 min-w-full min-h-full w-full h-full object-cover object-center"
-              style={{ transform: "translate(-50%, -50%)" }}
-            >
-              <source src="/videos/india-cinematic-loop-4k-compressed.webm" type="video/webm" />
-            </video>
-          ) : (
-            <img
-              src="/images/hero-poster.webp"
-              alt="Yaduvanshi Tours & Travels Hero"
-              fetchPriority="high"
-              className="absolute top-1/2 left-1/2 min-w-full min-h-full w-full h-full object-cover object-center"
-              style={{ transform: "translate(-50%, -50%)" }}
+        <div className="w-full h-full relative">
+          <video
+            ref={videoRef}
+            key={isMobile ? "mobile" : "desktop"}
+            autoPlay
+            muted 
+            loop 
+            playsInline 
+            preload="auto"
+            poster="/images/hero-poster.webp"
+            className="absolute top-1/2 left-1/2 min-w-full min-h-full w-full h-full object-cover object-center pointer-events-none"
+            style={{ transform: "translate(-50%, -50%)" }}
+          >
+            <source
+              src={isMobile ? "/videos/hero-loop-mobile.mp4" : "/videos/hero-loop.mp4"}
+              type="video/mp4"
             />
-          )}
-        </motion.div>
+            <source src="/videos/india-cinematic-loop-4k-compressed.webm" type="video/webm" />
+          </video>
+        </div>
 
         {/* Darker cinematic overlays (Rudra-style) */}
         <div 

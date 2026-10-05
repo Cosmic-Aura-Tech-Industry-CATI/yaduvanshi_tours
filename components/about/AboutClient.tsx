@@ -11,7 +11,6 @@ import { buildImageUrl, handleImageError } from "@/lib/imageUtils";
 
 const BRASS = "#CF9D7B";
 const COFFEE = "#724B39";
-const GOLD = "#E8B96A";
 
 interface IndexedGalleryItem {
   item: (typeof GALLERY_ITEMS)[0];
@@ -188,7 +187,7 @@ export function AboutClient() {
                 Over the years, we have proudly served 1000+ happy customers, including families, friends, couples, students, business travelers, and groups. Every customer who travels with us becomes a part of our growing family, and their satisfaction is the biggest achievement for us.
               </p>
               <p>
-                We believe that every trip is different. Some journeys are for celebrations, some are for devotion, some are for adventure, and some are simply for spending quality time with loved ones. That is why we carefully understand every travel requirement and provide the best possible plan according to our customers' needs and budget.
+                We believe that every trip is different. Some journeys are for celebrations, some are for devotion, some are for adventure, and some are simply for spending quality time with loved ones. That is why we carefully understand every travel requirement and provide the best possible plan according to our customers&apos; needs and budget.
               </p>
               <p>
                 From comfortable local transportation to complete holiday packages, pilgrimage tours, family vacations, group tours, vehicle rentals, and customized travel planning, we make every journey smooth from the beginning until the end. Our focus is always on providing clean vehicles, reliable service, transparent pricing, and friendly customer support.
