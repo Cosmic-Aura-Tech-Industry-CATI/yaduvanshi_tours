@@ -4,7 +4,9 @@
  * Bing, and AI engines (Perplexity, ChatGPT, Google Gemini / AI Overviews).
  */
 
-export const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://yaduvanshitours.com";
+import { SITE_URL } from "@/lib/siteConfig";
+
+export const BASE_URL = SITE_URL;
 
 export const travelAgencySchema = {
   "@context": "https://schema.org",

@@ -1,9 +1,10 @@
 import type { MetadataRoute } from "next";
 import { TOURS_DATA } from "@/data/tours";
 import { VEHICLES } from "@/data/vehicles";
+import { SITE_URL } from "@/lib/siteConfig";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://yaduvanshitours.com";
+  const baseUrl = SITE_URL;
   const currentDate = new Date().toISOString();
 
   // Core high-priority landing & service pages

@@ -42,9 +42,10 @@ const dmMono = DM_Mono({
 });
 
 import { travelAgencySchema, websiteSchema } from "@/lib/seoSchema";
+import { SITE_URL } from "@/lib/siteConfig";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://yaduvanshitours.com"),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "Yaduvanshi Tours & Travels | Best Tours and Travels in Kanpur | Taxi & Car Rental Service",
     template: "%s | Yaduvanshi Tours & Travels Kanpur",
@@ -95,7 +96,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Yaduvanshi Tours & Travels | Best Tours and Travels in Kanpur",
     description: "Kanpur's #1 travel agency for outstation cabs, luxury car rentals, Ayodhya & Kashi pilgrimage packages, Tempo Travellers, and wedding fleets.",
-    url: "https://yaduvanshitours.com",
+    url: SITE_URL,
     siteName: "Yaduvanshi Tours & Travels Kanpur",
     locale: "en_IN",
     type: "website",
