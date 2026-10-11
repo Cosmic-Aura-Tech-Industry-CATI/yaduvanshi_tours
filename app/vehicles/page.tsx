@@ -3,6 +3,7 @@ import Image from "next/image";
 import { VehiclesClient } from "@/components/vehicles/VehiclesClient";
 import { WhyOurFleetSection } from "@/components/WhyOurFleetSection";
 import { QuickBookingCTA } from "@/components/QuickBookingCTA";
+import { SITE_URL } from "@/lib/siteConfig";
 
 export const metadata: Metadata = {
   title: "Vehicle Rentals & Taxi Fleet in Kanpur | Chauffeur & Outstation Cabs",
@@ -13,7 +14,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Car Rental & Taxi Fleet in Kanpur | Yaduvanshi Tours",
     description: "Chauffeur-driven sedans, SUVs, Tempo Travellers, and luxury buses in Kanpur with transparent per-km pricing.",
-    url: "https://yaduvanshitours.com/vehicles",
+    url: `${SITE_URL}/vehicles`,
     images: ["/vehicles/toyota-innova-crysta.webp"],
   },
   twitter: {

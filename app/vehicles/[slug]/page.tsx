@@ -2,12 +2,13 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { VEHICLES } from "@/data/vehicles";
 import { VehicleDetailClient } from "@/components/vehicles/VehicleDetailClient";
+import { SITE_URL } from "@/lib/siteConfig";
 
 interface Props {
   params: Promise<{ slug: string }>;
 }
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://yaduvanshitours.com";
+const BASE_URL = SITE_URL;
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const resolvedParams = await params;

@@ -3,6 +3,7 @@ import { IllustratedMap } from "@/components/IllustratedMap";
 import { PACKAGES } from "@/data/packages";
 import Link from "next/link";
 import { ArrowRight, MapPin } from "lucide-react";
+import { SITE_URL } from "@/lib/siteConfig";
 
 export const metadata: Metadata = {
   title: "Top Destinations & Sacred Pilgrimage Circuits from Kanpur",
@@ -13,7 +14,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Top Travel Destinations from Kanpur | Yaduvanshi Tours & Travels",
     description: "Interactive guide to India's sacred paths and hill stations starting from Kanpur.",
-    url: "https://yaduvanshitours.com/destinations",
+    url: `${SITE_URL}/destinations`,
     images: ["/images/hero-poster.webp"],
   },
   twitter: {

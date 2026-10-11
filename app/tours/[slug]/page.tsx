@@ -2,12 +2,13 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { TOURS_DATA } from "@/data/tours";
 import { TourDetailClient } from "@/components/tours/TourDetailClient";
+import { SITE_URL } from "@/lib/siteConfig";
 
 interface Props {
   params: Promise<{ slug: string }>;
 }
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://yaduvanshitours.com";
+const BASE_URL = SITE_URL;
 
 // Generate metadata dynamically for proper SEO structure
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
