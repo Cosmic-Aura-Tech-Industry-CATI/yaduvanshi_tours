@@ -28,6 +28,7 @@ const INFO_ITEMS = [
 
 const NAV_LINKS = [
   { label: "Home",          to: "/"                },
+  { label: "Outstation Taxi", to: "/taxi"          },
   {
     label: "Tour Packages", to: "/tours",
     sub: [
@@ -35,10 +36,11 @@ const NAV_LINKS = [
       { label: "Customized Packages",       to: "/inquiry" },
     ],
   },
-  { label: "Vehicle Rentals", to: "/vehicles"    },
-  { label: "Wedding Travel",  to: "/weddings"    },
-  { label: "About Us",        to: "/about"       },
-  { label: "Contact Us",      to: "/contact"     },
+  { label: "Services",        to: "/services"        },
+  { label: "Vehicle Rentals", to: "/vehicles"        },
+  { label: "Wedding Travel",  to: "/weddings"        },
+  { label: "About Us",        to: "/about"           },
+  { label: "Contact Us",      to: "/contact"         },
 ];
 
 /* ── Magnetic CTA Button — solid gold pill ──────────────────── */

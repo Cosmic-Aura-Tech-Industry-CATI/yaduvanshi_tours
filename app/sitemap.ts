@@ -1,19 +1,32 @@
 import type { MetadataRoute } from "next";
 import { TOURS_DATA } from "@/data/tours";
 import { VEHICLES } from "@/data/vehicles";
+import { getAllRoutes, getAllServices } from "@/data/seo-landings";
 import { SITE_URL } from "@/lib/siteConfig";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = SITE_URL;
   const currentDate = new Date().toISOString();
 
-  // Core high-priority landing & service pages
+  // Core high-priority landing & directory pages
   const staticPages: MetadataRoute.Sitemap = [
     {
       url: `${baseUrl}`,
       lastModified: currentDate,
       changeFrequency: "daily",
       priority: 1.0,
+    },
+    {
+      url: `${baseUrl}/taxi`,
+      lastModified: currentDate,
+      changeFrequency: "daily",
+      priority: 0.98,
+    },
+    {
+      url: `${baseUrl}/services`,
+      lastModified: currentDate,
+      changeFrequency: "daily",
+      priority: 0.95,
     },
     {
       url: `${baseUrl}/tours`,
@@ -59,6 +72,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ];
 
+  // Dynamic Outstation Taxi Route pages (Kanpur to Ayodhya, Lucknow, Varanasi, etc.)
+  const taxiRoutePages: MetadataRoute.Sitemap = getAllRoutes().map((route) => ({
+    url: `${baseUrl}/taxi/${route.slug}`,
+    lastModified: currentDate,
+    changeFrequency: "daily",
+    priority: 0.9,
+  }));
+
+  // Dynamic Local Service pages (Taxi Service in Kanpur, Tempo Traveller, etc.)
+  const servicePages: MetadataRoute.Sitemap = getAllServices().map((service) => ({
+    url: `${baseUrl}/services/${service.slug}`,
+    lastModified: currentDate,
+    changeFrequency: "weekly",
+    priority: 0.9,
+  }));
+
   // Dynamic Tour Package pages (Ayodhya, Kashi, Char Dham, etc.)
   const tourPages: MetadataRoute.Sitemap = TOURS_DATA.map((tour) => ({
     url: `${baseUrl}/tours/${tour.slug}`,
@@ -75,5 +104,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }));
 
-  return [...staticPages, ...tourPages, ...vehiclePages];
+  return [
+    ...staticPages,
+    ...taxiRoutePages,
+    ...servicePages,
+    ...tourPages,
+    ...vehiclePages,
+  ];
 }

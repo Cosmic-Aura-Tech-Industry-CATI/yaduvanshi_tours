@@ -188,6 +188,133 @@ export function Footer() {
           </div>
         </div>
 
+        {/* SEO Mesh Link Silos for High Google Authority */}
+        <div className="py-8 my-8 border-t border-b border-[#CF9D7B]/15 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 text-xs font-sans">
+          <div>
+            <h5 className="text-white font-semibold text-xs mb-3 font-display uppercase tracking-wider text-[#E8B96A]">
+              Top Outstation Cab Routes
+            </h5>
+            <ul className="space-y-1.5 text-[#D8CFC7]/60">
+              <li>
+                <Link href="/taxi/kanpur-to-ayodhya-cab" className="hover:text-[#E8B96A] transition-colors">
+                  Kanpur to Ayodhya Cab (Ram Mandir)
+                </Link>
+              </li>
+              <li>
+                <Link href="/taxi/kanpur-to-lucknow-cab" className="hover:text-[#E8B96A] transition-colors">
+                  Kanpur to Lucknow Cab (Airport & Charbagh)
+                </Link>
+              </li>
+              <li>
+                <Link href="/taxi/kanpur-to-varanasi-cab" className="hover:text-[#E8B96A] transition-colors">
+                  Kanpur to Varanasi Cab (Kashi Vishwanath)
+                </Link>
+              </li>
+              <li>
+                <Link href="/taxi/kanpur-to-prayagraj-cab" className="hover:text-[#E8B96A] transition-colors">
+                  Kanpur to Prayagraj Cab (Triveni Sangam)
+                </Link>
+              </li>
+              <li>
+                <Link href="/taxi/kanpur-to-delhi-cab" className="hover:text-[#E8B96A] transition-colors">
+                  Kanpur to Delhi NCR / Noida Cab
+                </Link>
+              </li>
+              <li>
+                <Link href="/taxi/lucknow-to-ayodhya-cab" className="hover:text-[#E8B96A] transition-colors">
+                  Lucknow to Ayodhya Cab Service
+                </Link>
+              </li>
+              <li>
+                <Link href="/taxi" className="text-[#E8B96A] hover:underline font-medium">
+                  View All Outstation Taxi Routes →
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h5 className="text-white font-semibold text-xs mb-3 font-display uppercase tracking-wider text-[#E8B96A]">
+              Cab, Taxi & Rental Services
+            </h5>
+            <ul className="space-y-1.5 text-[#D8CFC7]/60">
+              <li>
+                <Link href="/services/taxi-service-in-kanpur" className="hover:text-[#E8B96A] transition-colors">
+                  Taxi Service in Kanpur (24/7 Cabs)
+                </Link>
+              </li>
+              <li>
+                <Link href="/services/tempo-traveller-rental-kanpur" className="hover:text-[#E8B96A] transition-colors">
+                  Tempo Traveller in Kanpur (9-26 Seater)
+                </Link>
+              </li>
+              <li>
+                <Link href="/services/car-rental-in-kanpur" className="hover:text-[#E8B96A] transition-colors">
+                  Car Rental in Kanpur (Self/Chauffeur)
+                </Link>
+              </li>
+              <li>
+                <Link href="/vehicles/toyota-innova-crysta" className="hover:text-[#E8B96A] transition-colors">
+                  Toyota Innova Crysta Rental Kanpur
+                </Link>
+              </li>
+              <li>
+                <Link href="/vehicles/force-urbania-17-seater" className="hover:text-[#E8B96A] transition-colors">
+                  Force Urbania Luxury Van on Rent
+                </Link>
+              </li>
+              <li>
+                <Link href="/weddings" className="hover:text-[#E8B96A] transition-colors">
+                  Wedding Luxury Car Rental (Audi / Fortuner)
+                </Link>
+              </li>
+              <li>
+                <Link href="/services" className="text-[#E8B96A] hover:underline font-medium">
+                  View All Travel Services →
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h5 className="text-white font-semibold text-xs mb-3 font-display uppercase tracking-wider text-[#E8B96A]">
+              Spiritual & Pilgrimage Tours
+            </h5>
+            <ul className="space-y-1.5 text-[#D8CFC7]/60">
+              <li>
+                <Link href="/tours/ayodhya-darshan" className="hover:text-[#E8B96A] transition-colors">
+                  Ayodhya Ram Janmabhoomi Darshan Package
+                </Link>
+              </li>
+              <li>
+                <Link href="/tours/kashi-vishwanath" className="hover:text-[#E8B96A] transition-colors">
+                  Kashi Vishwanath Varanasi Tour Package
+                </Link>
+              </li>
+              <li>
+                <Link href="/tours/mathura-vrindavan" className="hover:text-[#E8B96A] transition-colors">
+                  Mathura Vrindavan Gokul Pilgrimage
+                </Link>
+              </li>
+              <li>
+                <Link href="/tours/prayagraj-sangam" className="hover:text-[#E8B96A] transition-colors">
+                  Prayagraj Triveni Sangam Snan Tour
+                </Link>
+              </li>
+              <li>
+                <Link href="/tours/char-dham-yatra" className="hover:text-[#E8B96A] transition-colors">
+                  Char Dham Yatra from Kanpur by Car
+                </Link>
+              </li>
+              <li>
+                <Link href="/tours" className="text-[#E8B96A] hover:underline font-medium">
+                  Explore All 26 Tour Packages →
+                </Link>
+              </li>
+            </ul>
+          </div>
+        </div>
+
         {/* Bottom bar */}
         <div className="pt-6 flex flex-col md:flex-row justify-between items-center gap-4" style={{ borderTop: `1px solid rgba(207, 157, 123, 0.15)` }}>
           <p className="text-xs text-[#D8CFC7]/25 font-sans">© {new Date().getFullYear()} Yaduvanshi Tours & Travels. All rights reserved.</p>
