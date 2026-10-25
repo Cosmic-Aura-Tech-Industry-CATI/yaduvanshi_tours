@@ -342,32 +342,39 @@ export function Hero() {
         <div className="w-full h-full relative">
           <video
             ref={videoRef}
-            key={isMobile ? "mobile" : "desktop"}
             autoPlay
             muted 
             loop 
             playsInline 
             preload="auto"
-            poster="/images/hero-poster.webp"
+            poster="/images/hero-poster.jpg"
+            suppressHydrationWarning
             className="absolute top-1/2 left-1/2 min-w-full min-h-full w-full h-full object-cover object-center pointer-events-none"
             style={{ transform: "translate(-50%, -50%)" }}
           >
             <source
-              src={isMobile ? "/videos/hero-loop-mobile.mp4" : "/videos/hero-loop.mp4"}
+              media="(max-width: 767px)"
+              src="/videos/hero-new-mobile.mp4"
               type="video/mp4"
             />
-            <source src="/videos/india-cinematic-loop-4k-compressed.webm" type="video/webm" />
+            <source
+              src="/videos/hero-new.mp4"
+              type="video/mp4"
+            />
+            <source src="/videos/hero-new.webm" type="video/webm" />
           </video>
         </div>
 
         {/* Darker cinematic overlays (Rudra-style) */}
         <div 
           className="absolute inset-0 z-[2]"
-          style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0.65), rgba(0,0,0,0.35), rgba(0,0,0,0.75))" }} 
+          suppressHydrationWarning
+          style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0.72), rgba(0,0,0,0.42), rgba(0,0,0,0.82))" }} 
         />
         <div
           className="absolute inset-0 z-[2]"
-          style={{ background: "radial-gradient(circle at center, transparent 30%, rgba(0,0,0,0.4) 70%, rgba(0,0,0,0.85) 100%)" }}
+          suppressHydrationWarning
+          style={{ background: "radial-gradient(circle at center, transparent 30%, rgba(0,0,0,0.45) 70%, rgba(0,0,0,0.88) 100%)" }}
         />
 
         {/* Ambient glow blobs */}
